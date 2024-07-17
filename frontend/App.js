@@ -1,9 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
+import { View } from "react-native";
+import Router from './navigation/Router';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
   return (
-    <View>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar style="light" />
+      <Router />
+      <Toast />
+    </>
   );
 }
