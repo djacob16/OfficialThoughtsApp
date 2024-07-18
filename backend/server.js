@@ -6,7 +6,6 @@ const port = process.env.PORT;
 
 // middleware
 server.use(express.json());
-
 server.use((req, res, next) => {
     console.log("path:", req.path, "method:", req.method);
     next();
@@ -15,5 +14,4 @@ server.use((req, res, next) => {
 server.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
-
 

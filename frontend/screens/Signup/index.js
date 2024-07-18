@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
-import styles from "./styles";
+import styles from "./styles"
 
-const Signin = () => {
+const Signup = () => {
     return (
         <View style={styles.container}>
 
@@ -9,4 +9,4 @@ const Signin = () => {
     )
 }
 
-export default Signin;
+export default Signup;
