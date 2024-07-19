@@ -4,16 +4,15 @@ import { Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import homeIcon from "../assets/homeIcon.png";
 import homeFocused from "../assets/home-focused.png"
+import Home from "../screens/Home";
 
 const Tab = createBottomTabNavigator()
 
 const HomeTabNavigator = () => {
-    const route = useRoute();
-    const { userId, username } = route.params;
-
+    const route = useRoute()
     return (
         <Tab.Navigator screenOptions={{ tabBarStyle: { backgroundColor: "#211F1F", paddingVertical: 15 } }}>
-            <Tab.Screen name={"Home"} component={Home} initialParams={{ userId, username }} options={{
+            <Tab.Screen name={"Home"} component={Home} options={{
                 headerShown: false,
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused, size }) => (<Image source={focused ? homeFocused : homeIcon} style={{ width: 28, height: 26 }} />)

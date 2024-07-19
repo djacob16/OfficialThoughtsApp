@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-thoughtsapp-staging-4c583-authRole",
+      "UnauthRoleArn": "arn:aws:iam::992382609736:role/amplify-thoughtsapp-staging-4c583-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::992382609736:role/amplify-thoughtsapp-staging-4c583-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-thoughtsapp-staging-4c583-deployment",
+      "UnauthRoleName": "amplify-thoughtsapp-staging-4c583-unauthRole",
+      "StackName": "amplify-thoughtsapp-staging-4c583",
+      "StackId": "arn:aws:cloudformation:us-east-2:992382609736:stack/amplify-thoughtsapp-staging-4c583/c4077540-45f2-11ef-bb33-02a2eae9089f",
+      "AmplifyAppId": "d3htfevyigslw5"
+    },
+    "categories": {
+      "auth": {
+        "ThoughtsApp": {}
+      }
+    }
+  }
+}
