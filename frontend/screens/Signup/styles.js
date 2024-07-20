@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 16,
-        paddingTop: 50,
+        paddingTop: 70,
         backgroundColor: Colors.backgroundColor,
     },
     buttonText: {
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         alignItems: "center",
         paddingLeft: 15,
+        justifyContent: "center"
     },
     input: {
         width: "100%",
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
     alreadyContainer: {
         marginTop: 15,
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        color: Colors.whiteFont,
     }
 })
 
