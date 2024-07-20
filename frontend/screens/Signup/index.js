@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import styles from "./styles";
 import { signUp } from 'aws-amplify/auth';
+import LogoHeader from "../../components/LogoHeader";
 
 const Signup = () => {
     const [email, setEmail] = useState("");
@@ -34,6 +35,7 @@ const Signup = () => {
 
     return (
         <View style={styles.container}>
+            <LogoHeader />
             <View style={styles.inputContainer}>
                 <TextInput
                     autoCapitalize={"none"}
@@ -76,6 +78,9 @@ const Signup = () => {
             </View>
             <TouchableOpacity style={styles.inputContainer} onPress={handleSignup}>
                 <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Signin")}>
+                <Text style={styles.buttonText}>Already have an account? Sign in</Text>
             </TouchableOpacity>
         </View>
     );

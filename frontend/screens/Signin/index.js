@@ -4,6 +4,7 @@ import styles from "./styles";
 import { signInWithRedirect, signUp, getCurrentUser, signIn, resendSignUpCode } from "aws-amplify/auth";
 import { Hub } from "@aws-amplify/core";
 import { useNavigation } from "@react-navigation/native";
+import LogoHeader from "../../components/LogoHeader";
 
 const Signin = () => {
     const [error, setError] = useState("");
@@ -69,6 +70,7 @@ const Signin = () => {
 
     return (
         <View style={styles.container}>
+            <LogoHeader />
             <View style={styles.inputContainer}>
                 <TextInput
                     autoCapitalize={"none"}
@@ -93,13 +95,14 @@ const Signin = () => {
             <TouchableOpacity onPress={login} style={styles.inputContainer}>
                 <Text style={styles.buttonText}>Sign in</Text>
             </TouchableOpacity>
-            <View style={styl}>
-            </View>
+            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.navigate("ForgotPassword")}>
+                <Text style={styles.buttonText}>Forgot password?</Text>
+            </TouchableOpacity>
             <View style={styles.line}>
 
             </View>
             <TouchableOpacity onPress={() => signInWithGoogle()} style={styles.inputContainer}>
-                <Text style={styles.buttonText}>Contunie on with google</Text>
+                <Text style={styles.buttonText}>Continue on with google</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Signup")} style={styles.buttonText}>
                 <Text style={styles.buttonText}>Create an account?</Text>

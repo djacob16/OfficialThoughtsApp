@@ -6,15 +6,14 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "baseline"
+        alignItems: "baseline",
+        width: "100%",
+        justifyContent: "center"
     },
-    prototypeText: {
-        color: "white",
-        fontSize: 14,
-    },
+
     logo: {
-        width: 157.21,
-        height: 47.5
+        width: 70,
+        height: 55
     }
 })
 

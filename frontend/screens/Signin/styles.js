@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 16,
-        paddingTop: 70,
+        paddingTop: 40,
         backgroundColor: Colors.backgroundColor,
     },
     buttonText: {
@@ -50,7 +50,13 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: 8,
         marginBottom: 8
-    }
+    },
+    forgotPasswordContainer: {
+        marginBottom: 10,
+    },
+    forgotPasswordText: {
+        color: Colors.yellowFont,
+    },
 })
 
 export default styles;
