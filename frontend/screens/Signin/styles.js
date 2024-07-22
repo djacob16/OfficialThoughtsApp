@@ -40,10 +40,9 @@ const styles = StyleSheet.create({
         color: Colors.whiteFont,
     },
     line: {
-        width: "100%",
+        width: "45%",
         borderColor: "white",
-        borderWidth: 1,
-        marginBottom: 25
+        borderWidth: .5,
     },
     error: {
         color: Colors.redFont,
@@ -57,6 +56,10 @@ const styles = StyleSheet.create({
     forgotPasswordText: {
         color: Colors.yellowFont,
     },
+    orText: {
+        paddingHorizontal: 8,
+        color: Colors.whiteFont
+    }
 })
 
 export default styles;

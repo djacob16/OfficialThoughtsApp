@@ -55,7 +55,6 @@ const Signin = () => {
             }
             setEmail("")
             setPassword("")
-            console.log(nextStep.signInStep)
             if (nextStep?.signInStep === "CONFIRM_SIGN_UP") {
                 resendSignUpCode({ username: email })
                 navigation.navigate("Verify", { email })
@@ -98,8 +97,10 @@ const Signin = () => {
             <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.navigate("ForgotPassword")}>
                 <Text style={styles.buttonText}>Forgot password?</Text>
             </TouchableOpacity>
-            <View style={styles.line}>
-
+            <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 17 }}>
+                <View style={styles.line}></View>
+                <Text style={styles.orText}>or</Text>
+                <View style={styles.line}></View>
             </View>
             <TouchableOpacity onPress={() => signInWithGoogle()} style={styles.inputContainer}>
                 <Text style={styles.buttonText}>Continue on with google</Text>

@@ -17,7 +17,9 @@ const Verify = () => {
                 username: email,
                 confirmationCode: code
             });
-            navigation.navigate("Main")
+            if (isSignUpComplete) {
+                navigation.navigate("Main")
+            }
         } catch (err) {
             console.log(err.message)
         }

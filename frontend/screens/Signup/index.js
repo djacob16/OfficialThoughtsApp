@@ -21,10 +21,13 @@ const Signup = () => {
                     username: email,
                     password: password,
                     options: {
-                        "custom:preferred": username
+                        userAttributes: {
+                            email,
+                            name: username // Change this line
+                        }
                     }
-                })
-                navigation.navigate("Verify", { email })
+                });
+                navigation.navigate("Verify", { email });
             } catch (err) {
                 console.log(err.message);
             }
