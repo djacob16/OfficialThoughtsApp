@@ -27,7 +27,7 @@ const Signup = () => {
                         }
                     }
                 });
-                navigation.navigate("Verify", { email });
+                navigation.navigate("Verify", { email, password });
             } catch (err) {
                 console.log(err.message);
             }

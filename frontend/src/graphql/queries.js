@@ -1,6 +1,38 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getPoint = /* GraphQL */ `
+  query GetPoint($id: ID!) {
+    getPoint(id: $id) {
+      longitude
+      latitude
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listPoints = /* GraphQL */ `
+  query ListPoints(
+    $filter: ModelPointFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPoints(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        longitude
+        latitude
+        id
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
@@ -10,7 +42,6 @@ export const getUser = /* GraphQL */ `
       id
       photo
       updatedAt
-      username
       phoneVerified
       totalThoughts
       thoughts {
@@ -36,7 +67,6 @@ export const listUsers = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -50,35 +80,25 @@ export const listUsers = /* GraphQL */ `
 export const getThought = /* GraphQL */ `
   query GetThought($id: ID!) {
     getThought(id: $id) {
-      id
       content
-      author {
-        createdAt
-        darkmode
-        socials
-        id
-        photo
-        updatedAt
-        username
-        phoneVerified
-        totalThoughts
-        about
-        __typename
-      }
+      author
       active
       parked
       location {
         longitude
         latitude
+        id
+        createdAt
+        updatedAt
         __typename
       }
-      expireAt
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
+      id
       createdAt
       updatedAt
       userThoughtsId
@@ -94,13 +114,13 @@ export const listThoughts = /* GraphQL */ `
   ) {
     listThoughts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        id
         content
+        author
         active
         parked
-        expireAt
         likes
         anonymous
+        id
         createdAt
         updatedAt
         userThoughtsId
@@ -114,7 +134,6 @@ export const listThoughts = /* GraphQL */ `
 export const getComment = /* GraphQL */ `
   query GetComment($id: ID!) {
     getComment(id: $id) {
-      id
       content
       author {
         createdAt
@@ -123,7 +142,6 @@ export const getComment = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -135,6 +153,7 @@ export const getComment = /* GraphQL */ `
         nextToken
         __typename
       }
+      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -150,10 +169,10 @@ export const listComments = /* GraphQL */ `
   ) {
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        id
         content
         likes
         anonymous
+        id
         createdAt
         updatedAt
         thoughtCommentsId
@@ -167,7 +186,6 @@ export const listComments = /* GraphQL */ `
 export const getReply = /* GraphQL */ `
   query GetReply($id: ID!) {
     getReply(id: $id) {
-      id
       content
       author {
         createdAt
@@ -176,7 +194,6 @@ export const getReply = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -184,6 +201,7 @@ export const getReply = /* GraphQL */ `
       }
       likes
       anonymous
+      id
       createdAt
       updatedAt
       commentRepliesId
@@ -199,10 +217,10 @@ export const listReplies = /* GraphQL */ `
   ) {
     listReplies(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        id
         content
         likes
         anonymous
+        id
         createdAt
         updatedAt
         commentRepliesId

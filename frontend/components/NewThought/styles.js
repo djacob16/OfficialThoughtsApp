@@ -5,9 +5,6 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.backgroundColor,
         width: "100%",
-        paddingHorizontal: 30,
-        borderColor: Colors.whiteFont,
-        borderWidth: 1
     },
     title: {
         color: "white",
@@ -45,25 +42,44 @@ const styles = StyleSheet.create({
         paddingRight: 10
     },
     inputBottomContainer: {
-        display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "baseline",
         width: "100%",
-        marginBottom: 12
+        marginBottom: 12,
     },
     inputBottomLeftContainer: {
-        display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
         alignItems: "baseline",
         width: "40%",
         marginBottom: 12,
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    inputBottomRightContainer: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        width: "60%",
+        marginBottom: 12,
+        gap: 12
     },
     icon: {
         width: 18,
         height: 18
     },
+    anonymousContainer: {
+        alignItems: "baseline",
+        justifyContent: "center",
+        paddingTop: 2
+    },
+    anonymous: {
+        color: Colors.yellowFont,
+        fontSize: 12
+    },
+    notAnonymous: {
+        color: Colors.whiteFont,
+        fontSize: 12
+    }
 })
 
 export default styles;

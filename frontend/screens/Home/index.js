@@ -8,6 +8,7 @@ import YourThoughts from "../../components/YourThoughts/"
 import styles from "./styles";
 import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
 import NewThought from "../../components/NewThought";
+import * as Location from 'expo-location';
 
 const Home = () => {
     const navigation = useNavigation();
@@ -20,6 +21,7 @@ const Home = () => {
     // user
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("");
+    const [location, setLocation] = useState([]);
 
 
     const handleSignOut = async () => {
@@ -58,15 +60,28 @@ const Home = () => {
         ]
     };
 
+    const getLocationPermission = async () => {
+        try {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                console.log('Permission to access location was denied');
+                return;
+            }
+
+            let currentLocation = await Location.getCurrentPositionAsync({});
+            setLocation([currentLocation.coords.longitude, currentLocation.coords.latitude]);
+        } catch (error) {
+            console.log('Error getting location:', error);
+        }
+    };
+
     useEffect(() => {
         const getUser = async () => {
             try {
-                const user = await getCurrentUser();
                 const attributes = await fetchUserAttributes();
-                console.log("userInfo: ", user);
-                setUserId(user?.userId);
                 console.log("userAttributes: ", attributes);
                 setName(attributes.name);
+                setUserId(attributes.sub);
             } catch (error) {
                 console.log(error);
             }
@@ -92,7 +107,7 @@ const Home = () => {
                         </TouchableOpacity>
                     ))}
                 </View>
-                <NewThought name={name} userdId={userId} />
+                <NewThought />
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {title === "Your Thoughts" && <YourThoughts name={name} userId={userId} />}
                     {title === "Near You" && <NearYou name={name} userId={userId} />}
@@ -100,6 +115,12 @@ const Home = () => {
                 <TouchableOpacity onPress={handleSignOut}>
                     <Text>Go back</Text>
                 </TouchableOpacity>
+                <Text>
+                    {location[0]}
+                </Text>
+                <Text>
+                    {location[1]}
+                </Text>
             </View>
         </View>
     )

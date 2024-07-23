@@ -1,6 +1,51 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createPoint = /* GraphQL */ `
+  mutation CreatePoint(
+    $input: CreatePointInput!
+    $condition: ModelPointConditionInput
+  ) {
+    createPoint(input: $input, condition: $condition) {
+      longitude
+      latitude
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updatePoint = /* GraphQL */ `
+  mutation UpdatePoint(
+    $input: UpdatePointInput!
+    $condition: ModelPointConditionInput
+  ) {
+    updatePoint(input: $input, condition: $condition) {
+      longitude
+      latitude
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deletePoint = /* GraphQL */ `
+  mutation DeletePoint(
+    $input: DeletePointInput!
+    $condition: ModelPointConditionInput
+  ) {
+    deletePoint(input: $input, condition: $condition) {
+      longitude
+      latitude
+      id
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -13,7 +58,6 @@ export const createUser = /* GraphQL */ `
       id
       photo
       updatedAt
-      username
       phoneVerified
       totalThoughts
       thoughts {
@@ -37,7 +81,6 @@ export const updateUser = /* GraphQL */ `
       id
       photo
       updatedAt
-      username
       phoneVerified
       totalThoughts
       thoughts {
@@ -61,7 +104,6 @@ export const deleteUser = /* GraphQL */ `
       id
       photo
       updatedAt
-      username
       phoneVerified
       totalThoughts
       thoughts {
@@ -79,35 +121,25 @@ export const createThought = /* GraphQL */ `
     $condition: ModelThoughtConditionInput
   ) {
     createThought(input: $input, condition: $condition) {
-      id
       content
-      author {
-        createdAt
-        darkmode
-        socials
-        id
-        photo
-        updatedAt
-        username
-        phoneVerified
-        totalThoughts
-        about
-        __typename
-      }
+      author
       active
       parked
       location {
         longitude
         latitude
+        id
+        createdAt
+        updatedAt
         __typename
       }
-      expireAt
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
+      id
       createdAt
       updatedAt
       userThoughtsId
@@ -121,35 +153,25 @@ export const updateThought = /* GraphQL */ `
     $condition: ModelThoughtConditionInput
   ) {
     updateThought(input: $input, condition: $condition) {
-      id
       content
-      author {
-        createdAt
-        darkmode
-        socials
-        id
-        photo
-        updatedAt
-        username
-        phoneVerified
-        totalThoughts
-        about
-        __typename
-      }
+      author
       active
       parked
       location {
         longitude
         latitude
+        id
+        createdAt
+        updatedAt
         __typename
       }
-      expireAt
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
+      id
       createdAt
       updatedAt
       userThoughtsId
@@ -163,35 +185,25 @@ export const deleteThought = /* GraphQL */ `
     $condition: ModelThoughtConditionInput
   ) {
     deleteThought(input: $input, condition: $condition) {
-      id
       content
-      author {
-        createdAt
-        darkmode
-        socials
-        id
-        photo
-        updatedAt
-        username
-        phoneVerified
-        totalThoughts
-        about
-        __typename
-      }
+      author
       active
       parked
       location {
         longitude
         latitude
+        id
+        createdAt
+        updatedAt
         __typename
       }
-      expireAt
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
+      id
       createdAt
       updatedAt
       userThoughtsId
@@ -205,7 +217,6 @@ export const createComment = /* GraphQL */ `
     $condition: ModelCommentConditionInput
   ) {
     createComment(input: $input, condition: $condition) {
-      id
       content
       author {
         createdAt
@@ -214,7 +225,6 @@ export const createComment = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -226,6 +236,7 @@ export const createComment = /* GraphQL */ `
         nextToken
         __typename
       }
+      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -239,7 +250,6 @@ export const updateComment = /* GraphQL */ `
     $condition: ModelCommentConditionInput
   ) {
     updateComment(input: $input, condition: $condition) {
-      id
       content
       author {
         createdAt
@@ -248,7 +258,6 @@ export const updateComment = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -260,6 +269,7 @@ export const updateComment = /* GraphQL */ `
         nextToken
         __typename
       }
+      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -273,7 +283,6 @@ export const deleteComment = /* GraphQL */ `
     $condition: ModelCommentConditionInput
   ) {
     deleteComment(input: $input, condition: $condition) {
-      id
       content
       author {
         createdAt
@@ -282,7 +291,6 @@ export const deleteComment = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -294,6 +302,7 @@ export const deleteComment = /* GraphQL */ `
         nextToken
         __typename
       }
+      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -307,7 +316,6 @@ export const createReply = /* GraphQL */ `
     $condition: ModelReplyConditionInput
   ) {
     createReply(input: $input, condition: $condition) {
-      id
       content
       author {
         createdAt
@@ -316,7 +324,6 @@ export const createReply = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -324,6 +331,7 @@ export const createReply = /* GraphQL */ `
       }
       likes
       anonymous
+      id
       createdAt
       updatedAt
       commentRepliesId
@@ -337,7 +345,6 @@ export const updateReply = /* GraphQL */ `
     $condition: ModelReplyConditionInput
   ) {
     updateReply(input: $input, condition: $condition) {
-      id
       content
       author {
         createdAt
@@ -346,7 +353,6 @@ export const updateReply = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -354,6 +360,7 @@ export const updateReply = /* GraphQL */ `
       }
       likes
       anonymous
+      id
       createdAt
       updatedAt
       commentRepliesId
@@ -367,7 +374,6 @@ export const deleteReply = /* GraphQL */ `
     $condition: ModelReplyConditionInput
   ) {
     deleteReply(input: $input, condition: $condition) {
-      id
       content
       author {
         createdAt
@@ -376,7 +382,6 @@ export const deleteReply = /* GraphQL */ `
         id
         photo
         updatedAt
-        username
         phoneVerified
         totalThoughts
         about
@@ -384,6 +389,7 @@ export const deleteReply = /* GraphQL */ `
       }
       likes
       anonymous
+      id
       createdAt
       updatedAt
       commentRepliesId

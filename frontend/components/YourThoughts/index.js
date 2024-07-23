@@ -8,11 +8,9 @@ import Toast from 'react-native-toast-message';
 import * as Location from 'expo-location';
 
 
-const YourThoughts = ({ name, userId }) => {
+const YourThoughts = () => {
     return (
         <View>
-            <Text style={styles.thoughtText}>{name}</Text>
-            <Text style={styles.thoughtText}>{userId}</Text>
         </View>
     );
 }
