@@ -1,58 +1,22 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePoint = /* GraphQL */ `
-  subscription OnCreatePoint($filter: ModelSubscriptionPointFilterInput) {
-    onCreatePoint(filter: $filter) {
-      longitude
-      latitude
-      id
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdatePoint = /* GraphQL */ `
-  subscription OnUpdatePoint($filter: ModelSubscriptionPointFilterInput) {
-    onUpdatePoint(filter: $filter) {
-      longitude
-      latitude
-      id
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeletePoint = /* GraphQL */ `
-  subscription OnDeletePoint($filter: ModelSubscriptionPointFilterInput) {
-    onDeletePoint(filter: $filter) {
-      longitude
-      latitude
-      id
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
     onCreateUser(filter: $filter) {
-      createdAt
-      darkmode
-      socials
       id
       photo
-      updatedAt
-      phoneVerified
+      name
+      displayName
+      about
       totalThoughts
       thoughts {
         nextToken
         __typename
       }
-      about
+      darkmode
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -60,19 +24,19 @@ export const onCreateUser = /* GraphQL */ `
 export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
     onUpdateUser(filter: $filter) {
-      createdAt
-      darkmode
-      socials
       id
       photo
-      updatedAt
-      phoneVerified
+      name
+      displayName
+      about
       totalThoughts
       thoughts {
         nextToken
         __typename
       }
-      about
+      darkmode
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -80,19 +44,19 @@ export const onUpdateUser = /* GraphQL */ `
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
     onDeleteUser(filter: $filter) {
-      createdAt
-      darkmode
-      socials
       id
       photo
-      updatedAt
-      phoneVerified
+      name
+      displayName
+      about
       totalThoughts
       thoughts {
         nextToken
         __typename
       }
-      about
+      darkmode
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -100,28 +64,34 @@ export const onDeleteUser = /* GraphQL */ `
 export const onCreateThought = /* GraphQL */ `
   subscription OnCreateThought($filter: ModelSubscriptionThoughtFilterInput) {
     onCreateThought(filter: $filter) {
-      content
-      author
-      active
-      parked
-      location {
-        longitude
-        latitude
+      id
+      authorID
+      author {
         id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
         createdAt
         updatedAt
         __typename
       }
+      content
+      active
+      parked
+      longitude
+      latitude
+      geohash
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
-      userThoughtsId
       __typename
     }
   }
@@ -129,28 +99,34 @@ export const onCreateThought = /* GraphQL */ `
 export const onUpdateThought = /* GraphQL */ `
   subscription OnUpdateThought($filter: ModelSubscriptionThoughtFilterInput) {
     onUpdateThought(filter: $filter) {
-      content
-      author
-      active
-      parked
-      location {
-        longitude
-        latitude
+      id
+      authorID
+      author {
         id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
         createdAt
         updatedAt
         __typename
       }
+      content
+      active
+      parked
+      longitude
+      latitude
+      geohash
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
-      userThoughtsId
       __typename
     }
   }
@@ -158,28 +134,34 @@ export const onUpdateThought = /* GraphQL */ `
 export const onDeleteThought = /* GraphQL */ `
   subscription OnDeleteThought($filter: ModelSubscriptionThoughtFilterInput) {
     onDeleteThought(filter: $filter) {
-      content
-      author
-      active
-      parked
-      location {
-        longitude
-        latitude
+      id
+      authorID
+      author {
         id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
         createdAt
         updatedAt
         __typename
       }
+      content
+      active
+      parked
+      longitude
+      latitude
+      geohash
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
-      userThoughtsId
       __typename
     }
   }
@@ -187,26 +169,26 @@ export const onDeleteThought = /* GraphQL */ `
 export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment($filter: ModelSubscriptionCommentFilterInput) {
     onCreateComment(filter: $filter) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
       replies {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -217,26 +199,26 @@ export const onCreateComment = /* GraphQL */ `
 export const onUpdateComment = /* GraphQL */ `
   subscription OnUpdateComment($filter: ModelSubscriptionCommentFilterInput) {
     onUpdateComment(filter: $filter) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
       replies {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -247,26 +229,26 @@ export const onUpdateComment = /* GraphQL */ `
 export const onDeleteComment = /* GraphQL */ `
   subscription OnDeleteComment($filter: ModelSubscriptionCommentFilterInput) {
     onDeleteComment(filter: $filter) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
       replies {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -277,22 +259,22 @@ export const onDeleteComment = /* GraphQL */ `
 export const onCreateReply = /* GraphQL */ `
   subscription OnCreateReply($filter: ModelSubscriptionReplyFilterInput) {
     onCreateReply(filter: $filter) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
-      id
       createdAt
       updatedAt
       commentRepliesId
@@ -303,22 +285,22 @@ export const onCreateReply = /* GraphQL */ `
 export const onUpdateReply = /* GraphQL */ `
   subscription OnUpdateReply($filter: ModelSubscriptionReplyFilterInput) {
     onUpdateReply(filter: $filter) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
-      id
       createdAt
       updatedAt
       commentRepliesId
@@ -329,22 +311,22 @@ export const onUpdateReply = /* GraphQL */ `
 export const onDeleteReply = /* GraphQL */ `
   subscription OnDeleteReply($filter: ModelSubscriptionReplyFilterInput) {
     onDeleteReply(filter: $filter) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
-      id
       createdAt
       updatedAt
       commentRepliesId

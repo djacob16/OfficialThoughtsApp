@@ -1,54 +1,22 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getPoint = /* GraphQL */ `
-  query GetPoint($id: ID!) {
-    getPoint(id: $id) {
-      longitude
-      latitude
-      id
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listPoints = /* GraphQL */ `
-  query ListPoints(
-    $filter: ModelPointFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPoints(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        longitude
-        latitude
-        id
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
-      createdAt
-      darkmode
-      socials
       id
       photo
-      updatedAt
-      phoneVerified
+      name
+      displayName
+      about
       totalThoughts
       thoughts {
         nextToken
         __typename
       }
-      about
+      darkmode
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -61,15 +29,15 @@ export const listUsers = /* GraphQL */ `
   ) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
       nextToken
@@ -80,28 +48,34 @@ export const listUsers = /* GraphQL */ `
 export const getThought = /* GraphQL */ `
   query GetThought($id: ID!) {
     getThought(id: $id) {
-      content
-      author
-      active
-      parked
-      location {
-        longitude
-        latitude
+      id
+      authorID
+      author {
         id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
         createdAt
         updatedAt
         __typename
       }
+      content
+      active
+      parked
+      longitude
+      latitude
+      geohash
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
-      userThoughtsId
       __typename
     }
   }
@@ -114,16 +88,18 @@ export const listThoughts = /* GraphQL */ `
   ) {
     listThoughts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
+        authorID
         content
-        author
         active
         parked
+        longitude
+        latitude
+        geohash
         likes
         anonymous
-        id
         createdAt
         updatedAt
-        userThoughtsId
         __typename
       }
       nextToken
@@ -134,26 +110,26 @@ export const listThoughts = /* GraphQL */ `
 export const getComment = /* GraphQL */ `
   query GetComment($id: ID!) {
     getComment(id: $id) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
       replies {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -169,10 +145,10 @@ export const listComments = /* GraphQL */ `
   ) {
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
         content
         likes
         anonymous
-        id
         createdAt
         updatedAt
         thoughtCommentsId
@@ -186,22 +162,22 @@ export const listComments = /* GraphQL */ `
 export const getReply = /* GraphQL */ `
   query GetReply($id: ID!) {
     getReply(id: $id) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
-      id
       createdAt
       updatedAt
       commentRepliesId
@@ -217,13 +193,48 @@ export const listReplies = /* GraphQL */ `
   ) {
     listReplies(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
         content
         likes
         anonymous
-        id
         createdAt
         updatedAt
         commentRepliesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const thoughtsByAuthorID = /* GraphQL */ `
+  query ThoughtsByAuthorID(
+    $authorID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelThoughtFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    thoughtsByAuthorID(
+      authorID: $authorID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        authorID
+        content
+        active
+        parked
+        longitude
+        latitude
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
         __typename
       }
       nextToken

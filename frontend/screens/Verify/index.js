@@ -10,7 +10,7 @@ const Verify = () => {
     const route = useRoute();
     const [code, setCode] = useState("");
     const [error, setError] = useState("");
-    const { email, password } = route.params;
+    const { email, password, username } = route.params;
     const navigation = useNavigation();
 
     const handleVerify = async () => {
@@ -27,7 +27,7 @@ const Verify = () => {
             // console.log(user)
             try {
                 const { isSignedIn, nextStep } = await signIn({ username: email, password });
-                const user = await createOneUser();
+                const user = await createOneUser(username);
                 if (user) {
                     navigation.navigate("Main");
                 }

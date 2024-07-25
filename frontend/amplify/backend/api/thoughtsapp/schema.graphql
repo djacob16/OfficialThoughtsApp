@@ -2,46 +2,45 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
-type Point @model{
-  longitude: String!
-  latitude: String!
-}
-
 type User @model {
-  createdAt: AWSDateTime!
-  darkmode: Boolean
-  socials: [String]
   id: ID!
   photo: String
-  updatedAt: AWSDateTime!
-  phoneVerified: Boolean!
-  totalThoughts: Int!
-  thoughts: [Thought] @hasMany
+  name: String!
+  displayName: String!
   about: String
+  totalThoughts: Int!
+  thoughts: [Thought] @hasMany(indexName: "byUser", fields: ["id"])
+  darkmode: Boolean
 }
 
 type Thought @model {
+  id: ID!
+  authorID: ID! @index(name: "byUser")
+  author: User! @belongsTo(fields: ["authorID"])
   content: String!
-  author: ID!,
   active: Boolean!
   parked: Boolean!
-  location: [Point]
+  longitude: String!
+  latitude: String!
+  geohash: String!
   likes: Int!
   anonymous: Boolean!
   comments: [Comment] @hasMany
 }
 
 type Comment @model {
-  content: String!
+  id: ID!
   author: User!
+  content: String!
   likes: Int!
   anonymous: Boolean!
   replies: [Reply] @hasMany
 }
 
 type Reply @model {
-  content: String!
+  id: ID!
   author: User!
+  content: String!
   likes: Int!
   anonymous: Boolean!
 }

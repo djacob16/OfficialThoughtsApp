@@ -5,13 +5,17 @@ import Toast from 'react-native-toast-message';
 import { Amplify } from 'aws-amplify';
 import config from './src/amplifyconfiguration.json';
 Amplify.configure(config);
+import { Provider } from 'react-redux';
+import { store } from './store/store'
 
 export default function App() {
   return (
     <>
-      <StatusBar style="light" />
-      <Router />
-      <Toast />
+      <Provider store={store}>
+        <StatusBar style="light" />
+        <Router />
+        <Toast />
+      </Provider>
     </>
   );
 }

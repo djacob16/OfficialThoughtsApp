@@ -10,13 +10,16 @@ import yellowPin from "../../assets/mappinParked.png"
 import whitePin from "../../assets/mappin.png"
 import activeBulb from "../../assets/lightbulbFill.png"
 import inactiveBulb from "../../assets/lightbulbFillinactive.png"
-import { fetchUserAttributes, getCurrentUser } from "@aws-amplify/auth";
 import postThought from "../../data/postOneThought";
 import Toast from 'react-native-toast-message';
 import * as Location from 'expo-location';
-
+import { getOneUser } from "../../slices/getOneUser";
+import { useDispatch, useSelector } from "react-redux";
+import { generateClient } from "aws-amplify/api";
 
 const NewThought = () => {
+    const client = generateClient();
+    const dispatch = useDispatch();
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("")
@@ -36,7 +39,6 @@ const NewThought = () => {
 
     useEffect(() => {
         getLocation();
-
         let locationSubscription;
         const startWatchingLocation = async () => {
             locationSubscription = await Location.watchPositionAsync(
@@ -52,7 +54,6 @@ const NewThought = () => {
         };
 
         startWatchingLocation();
-
         return () => {
             if (locationSubscription) {
                 locationSubscription.remove();
@@ -60,33 +61,26 @@ const NewThought = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (location) {
-            console.log("Location updated:", location);
-        }
-    }, [location]);
+    const { user } = useSelector((state) => state.userSlice);
 
     useEffect(() => {
-        const getUserAttributes = async () => {
-            const user = await fetchUserAttributes();
-            const { userId } = await getCurrentUser();
-            setName(user.name);
-            setUserId(userId);
-        }
-        getUserAttributes()
+        dispatch(getOneUser());
     }, [])
 
     const postNewThought = async () => {
         if (content) {
             const response = await postThought(content, active, parked, location[0], location[1], anonymous);
-            console.log("response:", await response)
+            setContent("");
+            setActive(true);
+            setAnonymous(false);
+            setParked(false);
         }
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.inputTopContainer}>
-                <Text style={styles.name}>Hey, {name}</Text>
+                <Text style={styles.name}>Hey, {user?.displayName}</Text>
                 <TouchableOpacity style={styles.postButton} onPress={postNewThought}>
                     <Text>Post</Text>
                 </TouchableOpacity>

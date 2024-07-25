@@ -10,6 +10,7 @@ import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
 import NewThought from "../../components/NewThought";
 import * as Location from 'expo-location';
 
+
 const Home = () => {
     const navigation = useNavigation();
 
@@ -22,11 +23,21 @@ const Home = () => {
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("");
     const [location, setLocation] = useState([]);
+    const [hash, setHash] = useState();
 
 
     const handleSignOut = async () => {
         await signOut();
         navigation.navigate("Signin");
+    }
+
+    const getLocation = async () => {
+        try {
+            let currentLocation = await Location.getCurrentPositionAsync({});
+            setLocation([currentLocation.coords.longitude, currentLocation.coords.latitude]);
+        } catch (error) {
+            console.error("Error getting location:", error);
+        }
     }
 
     const homeScreens = [
@@ -79,14 +90,19 @@ const Home = () => {
         const getUser = async () => {
             try {
                 const attributes = await fetchUserAttributes();
-                console.log("userAttributes: ", attributes);
+                console.log("userAttributes: ", user);
                 setName(attributes.name);
                 setUserId(attributes.sub);
+
             } catch (error) {
                 console.log(error);
             }
         }
         getUser();
+    }, [])
+
+    useEffect(() => {
+        getLocation()
     }, [])
 
     return (
@@ -107,8 +123,8 @@ const Home = () => {
                         </TouchableOpacity>
                     ))}
                 </View>
-                <NewThought />
                 <ScrollView showsVerticalScrollIndicator={false}>
+                    <NewThought />
                     {title === "Your Thoughts" && <YourThoughts name={name} userId={userId} />}
                     {title === "Near You" && <NearYou name={name} userId={userId} />}
                 </ScrollView>
@@ -120,6 +136,9 @@ const Home = () => {
                 </Text>
                 <Text>
                     {location[1]}
+                </Text>
+                <Text>
+                    {hash}
                 </Text>
             </View>
         </View>

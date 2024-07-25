@@ -1,70 +1,25 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createPoint = /* GraphQL */ `
-  mutation CreatePoint(
-    $input: CreatePointInput!
-    $condition: ModelPointConditionInput
-  ) {
-    createPoint(input: $input, condition: $condition) {
-      longitude
-      latitude
-      id
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updatePoint = /* GraphQL */ `
-  mutation UpdatePoint(
-    $input: UpdatePointInput!
-    $condition: ModelPointConditionInput
-  ) {
-    updatePoint(input: $input, condition: $condition) {
-      longitude
-      latitude
-      id
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deletePoint = /* GraphQL */ `
-  mutation DeletePoint(
-    $input: DeletePointInput!
-    $condition: ModelPointConditionInput
-  ) {
-    deletePoint(input: $input, condition: $condition) {
-      longitude
-      latitude
-      id
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
     $condition: ModelUserConditionInput
   ) {
     createUser(input: $input, condition: $condition) {
-      createdAt
-      darkmode
-      socials
       id
       photo
-      updatedAt
-      phoneVerified
+      name
+      displayName
+      about
       totalThoughts
       thoughts {
         nextToken
         __typename
       }
-      about
+      darkmode
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -75,19 +30,19 @@ export const updateUser = /* GraphQL */ `
     $condition: ModelUserConditionInput
   ) {
     updateUser(input: $input, condition: $condition) {
-      createdAt
-      darkmode
-      socials
       id
       photo
-      updatedAt
-      phoneVerified
+      name
+      displayName
+      about
       totalThoughts
       thoughts {
         nextToken
         __typename
       }
-      about
+      darkmode
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -98,19 +53,19 @@ export const deleteUser = /* GraphQL */ `
     $condition: ModelUserConditionInput
   ) {
     deleteUser(input: $input, condition: $condition) {
-      createdAt
-      darkmode
-      socials
       id
       photo
-      updatedAt
-      phoneVerified
+      name
+      displayName
+      about
       totalThoughts
       thoughts {
         nextToken
         __typename
       }
-      about
+      darkmode
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -121,28 +76,34 @@ export const createThought = /* GraphQL */ `
     $condition: ModelThoughtConditionInput
   ) {
     createThought(input: $input, condition: $condition) {
-      content
-      author
-      active
-      parked
-      location {
-        longitude
-        latitude
+      id
+      authorID
+      author {
         id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
         createdAt
         updatedAt
         __typename
       }
+      content
+      active
+      parked
+      longitude
+      latitude
+      geohash
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
-      userThoughtsId
       __typename
     }
   }
@@ -153,28 +114,34 @@ export const updateThought = /* GraphQL */ `
     $condition: ModelThoughtConditionInput
   ) {
     updateThought(input: $input, condition: $condition) {
-      content
-      author
-      active
-      parked
-      location {
-        longitude
-        latitude
+      id
+      authorID
+      author {
         id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
         createdAt
         updatedAt
         __typename
       }
+      content
+      active
+      parked
+      longitude
+      latitude
+      geohash
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
-      userThoughtsId
       __typename
     }
   }
@@ -185,28 +152,34 @@ export const deleteThought = /* GraphQL */ `
     $condition: ModelThoughtConditionInput
   ) {
     deleteThought(input: $input, condition: $condition) {
-      content
-      author
-      active
-      parked
-      location {
-        longitude
-        latitude
+      id
+      authorID
+      author {
         id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
         createdAt
         updatedAt
         __typename
       }
+      content
+      active
+      parked
+      longitude
+      latitude
+      geohash
       likes
       anonymous
       comments {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
-      userThoughtsId
       __typename
     }
   }
@@ -217,26 +190,26 @@ export const createComment = /* GraphQL */ `
     $condition: ModelCommentConditionInput
   ) {
     createComment(input: $input, condition: $condition) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
       replies {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -250,26 +223,26 @@ export const updateComment = /* GraphQL */ `
     $condition: ModelCommentConditionInput
   ) {
     updateComment(input: $input, condition: $condition) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
       replies {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -283,26 +256,26 @@ export const deleteComment = /* GraphQL */ `
     $condition: ModelCommentConditionInput
   ) {
     deleteComment(input: $input, condition: $condition) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
       replies {
         nextToken
         __typename
       }
-      id
       createdAt
       updatedAt
       thoughtCommentsId
@@ -316,22 +289,22 @@ export const createReply = /* GraphQL */ `
     $condition: ModelReplyConditionInput
   ) {
     createReply(input: $input, condition: $condition) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
-      id
       createdAt
       updatedAt
       commentRepliesId
@@ -345,22 +318,22 @@ export const updateReply = /* GraphQL */ `
     $condition: ModelReplyConditionInput
   ) {
     updateReply(input: $input, condition: $condition) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
-      id
       createdAt
       updatedAt
       commentRepliesId
@@ -374,22 +347,22 @@ export const deleteReply = /* GraphQL */ `
     $condition: ModelReplyConditionInput
   ) {
     deleteReply(input: $input, condition: $condition) {
-      content
+      id
       author {
-        createdAt
-        darkmode
-        socials
         id
         photo
-        updatedAt
-        phoneVerified
-        totalThoughts
+        name
+        displayName
         about
+        totalThoughts
+        darkmode
+        createdAt
+        updatedAt
         __typename
       }
+      content
       likes
       anonymous
-      id
       createdAt
       updatedAt
       commentRepliesId

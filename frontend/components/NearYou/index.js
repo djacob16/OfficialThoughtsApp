@@ -5,7 +5,7 @@ import heart from '../../assets/heartIcon.png';
 import axios from "axios";
 import styles from "./styles";
 
-const NearYou = ({ name, userId }) => {
+const NearYou = () => {
 
     return (
         <View>

@@ -7,6 +7,8 @@ import Signup from "../screens/Signup";
 import Verify from "../screens/Verify";
 import ForgotPassword from "../screens/ForgotPassword";
 import ResetPassword from "../screens/ResetPassword";
+import { useDispatch } from "react-redux";
+import { getOneUser } from "../slices/getOneUser";
 
 const Stack = createNativeStackNavigator();
 

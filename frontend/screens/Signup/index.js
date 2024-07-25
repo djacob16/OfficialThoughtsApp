@@ -7,6 +7,8 @@ import LogoHeader from "../../components/LogoHeader";
 
 const Signup = () => {
     const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
+    const [familyName, setFamilyName] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [username, setUsername] = useState("");
@@ -14,7 +16,7 @@ const Signup = () => {
     const navigation = useNavigation();
 
     const handleSignup = async () => {
-        if (password === confirmPassword) {
+        if (password === confirmPassword && email && name && familyName && username) {
             setError(false);
             try {
                 const { isSignUpComplete, userId, nextStep } = await signUp({
@@ -23,11 +25,12 @@ const Signup = () => {
                     options: {
                         userAttributes: {
                             email,
-                            name: username // Change this line
+                            name,
+                            family_name: familyName,
                         }
                     }
                 });
-                navigation.navigate("Verify", { email, password });
+                navigation.navigate("Verify", { email, password, username });
             } catch (err) {
                 console.log(err.message);
             }
@@ -46,6 +49,26 @@ const Signup = () => {
                     placeholder="Enter email"
                     onChangeText={setEmail}
                     value={email}
+                    placeholderTextColor={"gray"}
+                />
+            </View>
+            <View style={styles.inputContainer}>
+                <TextInput
+                    autoCapitalize={"none"}
+                    style={styles.input}
+                    placeholder="Enter first name"
+                    onChangeText={setName}
+                    value={name}
+                    placeholderTextColor={"gray"}
+                />
+            </View>
+            <View style={styles.inputContainer}>
+                <TextInput
+                    autoCapitalize={"none"}
+                    style={styles.input}
+                    placeholder="Enter last name"
+                    onChangeText={setFamilyName}
+                    value={familyName}
                     placeholderTextColor={"gray"}
                 />
             </View>
