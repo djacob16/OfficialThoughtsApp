@@ -63,10 +63,6 @@ const NewThought = () => {
 
     const { user } = useSelector((state) => state.userSlice);
 
-    useEffect(() => {
-        dispatch(getOneUser());
-    }, [])
-
     const postNewThought = async () => {
         if (content) {
             const response = await postThought(content, active, parked, location[0], location[1], anonymous);

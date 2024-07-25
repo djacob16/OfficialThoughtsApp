@@ -87,21 +87,6 @@ const Home = () => {
     };
 
     useEffect(() => {
-        const getUser = async () => {
-            try {
-                const attributes = await fetchUserAttributes();
-                console.log("userAttributes: ", user);
-                setName(attributes.name);
-                setUserId(attributes.sub);
-
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getUser();
-    }, [])
-
-    useEffect(() => {
         getLocation()
     }, [])
 
@@ -125,21 +110,13 @@ const Home = () => {
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <NewThought />
-                    {title === "Your Thoughts" && <YourThoughts name={name} userId={userId} />}
-                    {title === "Near You" && <NearYou name={name} userId={userId} />}
+                    {title === "Your Thoughts" && <YourThoughts />}
+                    {title === "Near You" && <NearYou />}
                 </ScrollView>
                 <TouchableOpacity onPress={handleSignOut}>
                     <Text>Go back</Text>
                 </TouchableOpacity>
-                <Text>
-                    {location[0]}
-                </Text>
-                <Text>
-                    {location[1]}
-                </Text>
-                <Text>
-                    {hash}
-                </Text>
+                <Text>{location}</Text>
             </View>
         </View>
     )

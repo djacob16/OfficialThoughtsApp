@@ -13,6 +13,11 @@ import { getOneUser } from "../slices/getOneUser";
 const Stack = createNativeStackNavigator();
 
 const Router = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getOneUser())
+    }, [dispatch])
+
     return (
         <NavigationContainer>
             <Stack.Navigator>

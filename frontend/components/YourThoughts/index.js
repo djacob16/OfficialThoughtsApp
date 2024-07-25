@@ -9,62 +9,70 @@ import * as Location from 'expo-location';
 import { generateClient } from 'aws-amplify/api';
 import { listThoughts } from '../../src/graphql/queries';
 import { getCurrentUser } from '@aws-amplify/auth';
+import { useDispatch, useSelector } from "react-redux";
+import { getActiveThoughts } from '../../slices/getActiveThoughts';
 
 
 const YourThoughts = () => {
     const client = generateClient();
-    const [activeThoughts, setActiveThoughts] = useState();
-    const [inactiveThoughts, setInactiveThoughts] = useState();
+    const dispatch = useDispatch();
 
 
-    const getActiveThoughtsByUserId = async () => {
-        const { userId } = await getCurrentUser();
-        try {
-            const response = await client.graphql({
-                query: listThoughts,
-                variables: {
-                    filter: {
-                        authorID: { eq: userId },
-                        and: {
-                            active: { eq: true }
-                        }
-                    }
-                }
-            });
-            const thoughtsList = response.data.listThoughts.items;
-            setActiveThoughts(thoughtsList)
-            console.log("jordan's query: ", thoughtsList)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const getActiveThoughtsByUserId = async () => {
+    //     const { userId } = await getCurrentUser();
+    //     try {
+    //         const response = await client.graphql({
+    //             query: listThoughts,
+    //             variables: {
+    //                 filter: {
+    //                     authorID: { eq: userId },
+    //                     and: {
+    //                         active: { eq: true }
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //         const thoughtsList = response.data.listThoughts.items;
+    //         setActiveThoughts(thoughtsList)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
-    const getInactiveThoughtsByUserId = async () => {
-        const { userId } = await getCurrentUser();
-        try {
-            const response = await client.graphql({
-                query: listThoughts,
-                variables: {
-                    filter: {
-                        authorID: { eq: userId },
-                        and: {
-                            active: { eq: false }
-                        }
-                    }
-                }
-            });
+    // const getInactiveThoughtsByUserId = async () => {
+    //     const { userId } = await getCurrentUser();
+    //     try {
+    //         const response = await client.graphql({
+    //             query: listThoughts,
+    //             variables: {
+    //                 filter: {
+    //                     authorID: { eq: userId },
+    //                     and: {
+    //                         active: { eq: false }
+    //                     }
+    //                 }
+    //             }
+    //         });
 
-            const thoughtsList = response.data.listThoughts.items;
-            setInactiveThoughts(thoughtsList)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //         const thoughtsList = response.data.listThoughts.items;
+    //         setInactiveThoughts(thoughtsList)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
+    // useEffect(() => {
+    //     getActiveThoughtsByUserId();
+    //     getInactiveThoughtsByUserId();
+    // }, [])
+
+    const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
+    console.log("active thoughts: ", activeThoughts);
+    // const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice)
     useEffect(() => {
-        getActiveThoughtsByUserId();
-        getInactiveThoughtsByUserId();
-    }, [])
+        dispatch(getActiveThoughts())
+    }, [dispatch])
+
 
     return (
         <View>
