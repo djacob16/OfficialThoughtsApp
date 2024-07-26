@@ -24,7 +24,7 @@ const YourThoughts = () => {
     return (
         <View style={styles.container}>
             <View style={styles.activeContainer}>
-                <Text style={styles.activeTitle}>Actively Thinking</Text>
+                <Text style={styles.activeTitle}>Actively Think</Text>
                 {activeThoughts.map((activeThought, index) => (
                     <YourActiveThought key={index} activeThought={activeThought} />
                 ))}
