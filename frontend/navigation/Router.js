@@ -9,8 +9,6 @@ import ForgotPassword from "../screens/ForgotPassword";
 import ResetPassword from "../screens/ResetPassword";
 import { useDispatch } from "react-redux";
 import { getOneUser } from "../slices/getOneUser";
-import { getActiveThoughts } from '../slices/getActiveThoughts';
-import { getInactiveThoughts } from '../slices/getInactiveThoughts';
 import onThought from "../subscriptions/subscribeToNewThought";
 import onEditThought from "../subscriptions/subscribeToEditThought";
 import EditThought from "../components/EditThought";
@@ -24,9 +22,8 @@ const Router = () => {
         onThought(dispatch)
         onEditThought(dispatch)
         onRemoveThought(dispatch)
+
         dispatch(getOneUser())
-        // dispatch(getActiveThoughts())
-        dispatch(getInactiveThoughts())
     }, [dispatch])
 
     return (

@@ -19,22 +19,25 @@ export const getInactiveThoughts = createAsyncThunk("data/getInactiveThoughts", 
             }
         });
         const thoughtsList = response.data.listThoughts.items;
-        return thoughtsList
+        const sortedThoughts = thoughtsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        return sortedThoughts
     } catch (error) {
         console.log(error)
         return rejectWithValue(error.message);
     }
 })
 
+const initialState = {
+    inactiveThoughts: [],
+    loading: "idle",
+    error: null
+}
+
 const getInactiveThoughtsSlice = createSlice({
     name: "getInactiveThoughts",
-    initialState: {
-        inactiveThoughts: [],
-        loading: "idle",
-        error: null
-    },
+    initialState,
     reducers: {
-        reset: () => initialState,
+        resetInactiveThoughts: () => initialState,
     },
     extraReducers: (builder) => {
         builder
@@ -53,5 +56,6 @@ const getInactiveThoughtsSlice = createSlice({
 })
 
 export const gettingInactiveThoughts = getInactiveThoughtsSlice.actions;
+export const { resetInactiveThoughts } = getInactiveThoughtsSlice.actions;
 
 export default getInactiveThoughtsSlice.reducer;

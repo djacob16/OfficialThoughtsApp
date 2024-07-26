@@ -8,21 +8,34 @@ import { useDispatch, useSelector } from "react-redux";
 import YourActiveThought from '../YourActiveThought';
 import { getActiveThoughts } from '../../slices/getActiveThoughts';
 import { getInactiveThoughts } from '../../slices/getInactiveThoughts';
+import YourInactiveThought from '../YourInactiveThought';
 
 const YourThoughts = () => {
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getActiveThoughts());
+        dispatch(getInactiveThoughts())
     }, [dispatch])
+
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
     const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.activeTitle}>Actively Thinking</Text>
-            {activeThoughts.map((activeThought, index) => (
-                <YourActiveThought key={index} activeThought={activeThought} />
-            ))}
+            <View style={styles.activeContainer}>
+                <Text style={styles.activeTitle}>Actively Thinking</Text>
+                {activeThoughts.map((activeThought, index) => (
+                    <YourActiveThought key={index} activeThought={activeThought} />
+                ))}
+            </View>
+
+            <View>
+                <Text style={styles.inactiveTitle}>In memory</Text>
+                {inactiveThoughts.map((inactiveThought, index) => (
+                    <YourInactiveThought key={index} inactiveThought={inactiveThought} />
+                ))}
+            </View>
         </View>
     );
 }

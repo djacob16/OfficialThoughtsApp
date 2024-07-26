@@ -1,18 +1,23 @@
 import * as subscriptions from '../src/graphql/subscriptions';
 import { generateClient } from "aws-amplify/api";
 import { getActiveThoughts } from '../slices/getActiveThoughts';
+import { getInactiveThoughts } from '../slices/getInactiveThoughts';
 
 const client = generateClient();
 
 const onRemoveThought = async (dispatch) => {
-    await dispatch(getActiveThoughts())
-    const thoughts = client.graphql({
+    dispatch(getActiveThoughts());
+    dispatch(getInactiveThoughts());
+
+    const thoughtsSubscription = client.graphql({
         query: subscriptions.onDeleteThought,
-    })
-        .subscribe({
-            next: ({ data }) => { dispatch(getActiveThoughts()) },
-            error: (error) => console.warn(error)
-        });
+    }).subscribe({
+        next: async () => {
+            await dispatch(getActiveThoughts());
+            await dispatch(getInactiveThoughts());
+        },
+        error: (error) => console.warn(error)
+    });
 
     return () => {
         thoughtsSubscription.unsubscribe();

@@ -37,7 +37,7 @@ const getActiveThoughtsSlice = createSlice({
     name: "getActiveThoughts",
     initialState,
     reducers: {
-        reset: () => initialState,
+        resetActiveThoughts: () => initialState,
     },
     extraReducers: (builder) => {
         builder
@@ -56,6 +56,6 @@ const getActiveThoughtsSlice = createSlice({
 })
 
 export const gettingActiveThoughts = getActiveThoughtsSlice.actions;
-export const { reset } = getActiveThoughtsSlice.actions;
+export const { resetActiveThoughts } = getActiveThoughtsSlice.actions;
 
 export default getActiveThoughtsSlice.reducer;

@@ -11,7 +11,9 @@ import NewThought from "../../components/NewThought";
 import * as Location from 'expo-location';
 import { useDispatch } from "react-redux";
 import { getOneUser, resetUser } from "../../slices/getOneUser";
-import { getActiveThoughts, reset } from "../../slices/getActiveThoughts";
+import { getActiveThoughts, resetActiveThoughts } from "../../slices/getActiveThoughts";
+import { getInactiveThoughts, resetInactiveThoughts } from "../../slices/getInactiveThoughts";
+import Video from "react-native-video";
 
 
 const Home = () => {
@@ -34,7 +36,8 @@ const Home = () => {
         await signOut();
         navigation.navigate("Signin");
         dispatch(resetUser());
-        dispatch(reset());
+        dispatch(resetActiveThoughts());
+        dispatch(resetInactiveThoughts());
     }
 
     const getLocation = async () => {
@@ -98,32 +101,34 @@ const Home = () => {
 
     return (
         <View style={styles.bigContainer}>
-            <LogoHeader />
-            <View style={styles.container}>
-                <View style={styles.navigator}>
-                    <Animated.View style={[styles.highlight, highlightStyle]} />
-                    {homeScreens.map((data, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            onPress={() => titleIdFunc(data.id, data.title)}
-                            style={styles.navigatorText}
-                        >
-                            <Text style={{ color: data.id == titleId ? "black" : "white" }}>
-                                {data.title}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
+            <Video>
+                <LogoHeader />
+                <View style={styles.container}>
+                    <View style={styles.navigator}>
+                        <Animated.View style={[styles.highlight, highlightStyle]} />
+                        {homeScreens.map((data, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() => titleIdFunc(data.id, data.title)}
+                                style={styles.navigatorText}
+                            >
+                                <Text style={{ color: data.id == titleId ? "black" : "white" }}>
+                                    {data.title}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <NewThought />
+                        {title === "Near You" && <NearYou />}
+                        {title === "Your Thoughts" && <YourThoughts />}
+                    </ScrollView>
+                    <TouchableOpacity onPress={handleSignOut}>
+                        <Text>Go back</Text>
+                    </TouchableOpacity>
+                    <Text>{location}</Text>
                 </View>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <NewThought />
-                    {title === "Near You" && <NearYou />}
-                    {title === "Your Thoughts" && <YourThoughts />}
-                </ScrollView>
-                <TouchableOpacity onPress={handleSignOut}>
-                    <Text>Go back</Text>
-                </TouchableOpacity>
-                <Text>{location}</Text>
-            </View>
+            </Video>
         </View>
     )
 }

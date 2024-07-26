@@ -11,7 +11,16 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "500",
         marginBottom: 5
-    }
+    },
+    activeContainer: {
+        marginBottom: 40
+    },
+    inactiveTitle: {
+        color: Colors.whiteFont,
+        fontSize: 20,
+        fontWeight: "500",
+        marginBottom: 5
+    },
 })
 
 export default styles;
