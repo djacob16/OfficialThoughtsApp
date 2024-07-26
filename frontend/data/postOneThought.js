@@ -25,6 +25,7 @@ const postThought = async (content, active, parked, longitude, latitude, anonymo
                 }
             }
         });
+        console.log(thoughtResult.data.createThought)
         return thoughtResult.data.createThought;
     } catch (error) {
         console.error("Error creating thought:", error.errors);

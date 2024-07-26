@@ -29,7 +29,7 @@ export const getInactiveThoughts = createAsyncThunk("data/getInactiveThoughts", 
 const getInactiveThoughtsSlice = createSlice({
     name: "getInactiveThoughts",
     initialState: {
-        thoughts: [],
+        inactiveThoughts: [],
         loading: "idle",
         error: null
     },
@@ -41,7 +41,7 @@ const getInactiveThoughtsSlice = createSlice({
             })
             .addCase(getInactiveThoughts.fulfilled, (state, action) => {
                 state.loading = "succeeded",
-                    state.thoughts = action.payload
+                    state.inactiveThoughts = action.payload
             })
             .addCase(getInactiveThoughts.rejected, (state, action) => {
                 state.loading = "failed";

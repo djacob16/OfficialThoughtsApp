@@ -10,7 +10,7 @@ import yellowPin from "../../assets/mappinParked.png"
 import whitePin from "../../assets/mappin.png"
 import activeBulb from "../../assets/lightbulbFill.png"
 import inactiveBulb from "../../assets/lightbulbFillinactive.png"
-import postThought from "../../data/postOneThought";
+import postOneThought from "../../data/postOneThought";
 import Toast from 'react-native-toast-message';
 import * as Location from 'expo-location';
 import { getOneUser } from "../../slices/getOneUser";
@@ -65,7 +65,7 @@ const NewThought = () => {
 
     const postNewThought = async () => {
         if (content) {
-            const response = await postThought(content, active, parked, location[0], location[1], anonymous);
+            const response = await postOneThought(content, active, parked, location[0], location[1], anonymous);
             setContent("");
             setActive(true);
             setAnonymous(false);

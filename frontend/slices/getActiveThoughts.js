@@ -29,7 +29,7 @@ export const getActiveThoughts = createAsyncThunk("data/getActiveThoughts", asyn
 const getActiveThoughtsSlice = createSlice({
     name: "getActiveThoughts",
     initialState: {
-        ativeThoughts: [],
+        activeThoughts: [],
         loading: "idle",
         error: null
     },

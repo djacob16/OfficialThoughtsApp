@@ -15,7 +15,7 @@ const Home = () => {
     const navigation = useNavigation();
 
     // navigator
-    const [title, setTitle] = useState("Your Thoughts");
+    const [title, setTitle] = useState("Near You");
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const [titleId, setTitleId] = useState("1");
 
@@ -110,8 +110,8 @@ const Home = () => {
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <NewThought />
-                    {title === "Your Thoughts" && <YourThoughts />}
                     {title === "Near You" && <NearYou />}
+                    {title === "Your Thoughts" && <YourThoughts />}
                 </ScrollView>
                 <TouchableOpacity onPress={handleSignOut}>
                     <Text>Go back</Text>
