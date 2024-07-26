@@ -2,20 +2,24 @@ import { updateThought } from "../src/graphql/mutations";
 import { generateClient } from "aws-amplify/api";
 import { getCurrentUser } from "@aws-amplify/auth";
 
-const editOneThought = async (content, active, parked, anonymous) => {
+const editOneThought = async (id, content, active, parked, anonymous) => {
     const client = generateClient();
     try {
         const edit = (await client.graphql({
             query: updateThought,
             variables: {
+
                 input: {
+                    id: id,
                     ...(content && { content: content }),
-                    ...(active && { active: active }),
-                    ...(parked && { parked: parked }),
-                    ...(anonymous && { anonymous: anonymous })
+                    active,
+                    parked,
+                    anonymous
                 }
             }
         })).data.updateThought
+        console.log(edit)
+        return edit;
     } catch (error) {
         console.log(error);
     }

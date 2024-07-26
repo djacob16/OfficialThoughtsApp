@@ -5,22 +5,41 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingVertical: 8,
-        backgroundColor: Colors.backgroundColor,
-        borderBottomWidth: 1,
+        borderBottomWidth: .5,
         borderBottomColor: Colors.grayFont,
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "space-between"
     },
-    content: {
-        color: Colors.whiteFont
+    thoughtBody: {
+        flexDirection: "column"
     },
-    usernameTimeContainer: {
-        flexDirection: "column",
-        gap: 4
+    userInfo: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 8
+    },
+    userName: {
+        color: Colors.whiteFont,
+        fontWeight: "500"
     },
     time: {
         color: Colors.grayFont,
         fontSize: 10
     },
-    interactionsContainer: {
+    thoughtContent: {
+        paddingVertical: 10
+    },
+    content: {
+        color: Colors.whiteFont
+    },
+    thoughtTags: {
+    },
+    tags: {
+        color: Colors.grayFont,
+        fontSize: 12
+    },
+    thoughtInteractions: {
         flexDirection: "row",
         marginTop: 12,
         gap: 15
@@ -39,6 +58,15 @@ const styles = StyleSheet.create({
     pencilIcon: {
         width: 17,
         height: 16,
+    },
+    thoughtControllers: {
+        flexDirection: "column",
+        justifyContent: "space-between",
+        paddingVertical: 10
+    },
+    controllerIcons: {
+        width: 18,
+        height: 18
     }
 })
 

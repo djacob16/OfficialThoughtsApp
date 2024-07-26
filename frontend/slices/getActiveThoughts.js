@@ -19,7 +19,8 @@ export const getActiveThoughts = createAsyncThunk("data/getActiveThoughts", asyn
             }
         });
         const thoughtsList = response.data.listThoughts.items;
-        return thoughtsList
+        const sortedThoughts = thoughtsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        return sortedThoughts
     } catch (error) {
         console.log(error)
         return rejectWithValue(error.message);

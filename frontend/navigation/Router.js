@@ -12,18 +12,22 @@ import { getOneUser } from "../slices/getOneUser";
 import { getActiveThoughts } from '../slices/getActiveThoughts';
 import { getInactiveThoughts } from '../slices/getInactiveThoughts';
 import onThought from "../subscriptions/subscribeToNewThought";
+import onEditThought from "../subscriptions/subscribeToEditThought";
 import EditThought from "../components/EditThought";
+import onRemoveThought from "../subscriptions/subscribeToDeleteThought";
 const Stack = createNativeStackNavigator();
 
 const Router = () => {
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     onThought(dispatch)
-    //     dispatch(getOneUser())
-    //     // dispatch(getActiveThoughts())
-    //     dispatch(getInactiveThoughts())
-    // }, [dispatch])
+    useEffect(() => {
+        onThought(dispatch)
+        onEditThought(dispatch)
+        onRemoveThought(dispatch)
+        dispatch(getOneUser())
+        // dispatch(getActiveThoughts())
+        dispatch(getInactiveThoughts())
+    }, [dispatch])
 
     return (
         <NavigationContainer>

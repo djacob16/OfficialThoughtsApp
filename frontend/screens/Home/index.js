@@ -31,10 +31,10 @@ const Home = () => {
     const dispatch = useDispatch();
 
     const handleSignOut = async () => {
-        dispatch(resetUser());
-        dispatch(reset());
         await signOut();
         navigation.navigate("Signin");
+        dispatch(resetUser());
+        dispatch(reset());
     }
 
     const getLocation = async () => {

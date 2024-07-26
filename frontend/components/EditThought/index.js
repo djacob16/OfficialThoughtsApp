@@ -7,6 +7,7 @@ import lightBulbFillIcon from "../../assets/lightbulbFill.png";
 import inactiveBulb from "../../assets/lightbulbFillinactive.png"
 import yellowPin from "../../assets/mappinParked.png"
 import whitePin from "../../assets/mappin.png"
+import { useNavigation } from "@react-navigation/native";
 
 const EditThought = () => {
     const route = useRoute();
@@ -15,15 +16,17 @@ const EditThought = () => {
     const [active, setActive] = useState(activeThought.active)
     const [parked, setParked] = useState(activeThought.parked);
     const [anonymous, setAnonymous] = useState(activeThought.anonymous);
+    const navigation = useNavigation();
 
     const edit = () => {
-        editOneThought(content, active, parked, anonymous)
+        editOneThought(activeThought.id, content, active, parked, anonymous)
+        navigation.navigate("Main")
     }
 
     return (
         <View style={styles.container}>
             <Text>Edit Thought</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={edit}>
                 <Text>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setActive(!active)}>

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         color: Colors.whiteFont,
         fontSize: 20,
         fontWeight: "500",
-        marginBottom: 15
+        marginBottom: 5
     }
 })
 
