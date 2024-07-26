@@ -8,7 +8,7 @@ const client = generateClient();
 const onThought = async (dispatch) => {
     await dispatch(getActiveThoughts())
     const thoughts = client.graphql({
-        query: subscriptions.onCreateThought
+        query: subscriptions.onCreateThought,
     })
         .subscribe({
             next: ({ data }) => { dispatch(getActiveThoughts()) },

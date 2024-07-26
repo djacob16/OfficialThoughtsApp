@@ -26,14 +26,18 @@ export const getActiveThoughts = createAsyncThunk("data/getActiveThoughts", asyn
     }
 })
 
+const initialState = {
+    activeThoughts: [],
+    loading: "idle",
+    error: null
+}
+
 const getActiveThoughtsSlice = createSlice({
     name: "getActiveThoughts",
-    initialState: {
-        activeThoughts: [],
-        loading: "idle",
-        error: null
+    initialState,
+    reducers: {
+        reset: () => initialState,
     },
-    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(getActiveThoughts.pending, (state) => {
@@ -51,5 +55,6 @@ const getActiveThoughtsSlice = createSlice({
 })
 
 export const gettingActiveThoughts = getActiveThoughtsSlice.actions;
+export const { reset } = getActiveThoughtsSlice.actions;
 
 export default getActiveThoughtsSlice.reducer;

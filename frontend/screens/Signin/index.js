@@ -5,6 +5,8 @@ import { signInWithRedirect, signUp, getCurrentUser, signIn, resendSignUpCode } 
 import { Hub } from "@aws-amplify/core";
 import { useNavigation } from "@react-navigation/native";
 import LogoHeader from "../../components/LogoHeader";
+import { useDispatch } from "react-redux";
+import { getOneUser } from "../../slices/getOneUser";
 
 const Signin = () => {
     const [error, setError] = useState("");
@@ -12,12 +14,14 @@ const Signin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const signInWithGoogle = () => {
         signInWithRedirect({ provider: "Google" })
         const unsubscribe = Hub.listen("auth", ({ payload }) => {
             if (payload.event == "signedIn") {
-                navigation.navigate("Main")
+                dispatch(getOneUser());
+                navigation.navigate("Main");
             }
             switch (payload.event) {
                 case "signInWithRedirect":

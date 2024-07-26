@@ -12,16 +12,18 @@ import { getOneUser } from "../slices/getOneUser";
 import { getActiveThoughts } from '../slices/getActiveThoughts';
 import { getInactiveThoughts } from '../slices/getInactiveThoughts';
 import onThought from "../subscriptions/subscribeToNewThought";
+import EditThought from "../components/EditThought";
 const Stack = createNativeStackNavigator();
 
 const Router = () => {
     const dispatch = useDispatch();
-    useEffect(() => {
-        onThought(dispatch)
-        dispatch(getOneUser())
-        // dispatch(getActiveThoughts())
-        dispatch(getInactiveThoughts())
-    }, [dispatch])
+
+    // useEffect(() => {
+    //     onThought(dispatch)
+    //     dispatch(getOneUser())
+    //     // dispatch(getActiveThoughts())
+    //     dispatch(getInactiveThoughts())
+    // }, [dispatch])
 
     return (
         <NavigationContainer>
@@ -32,6 +34,7 @@ const Router = () => {
                 <Stack.Screen name={"ForgotPassword"} component={ForgotPassword} options={{ headerShown: false }} />
                 <Stack.Screen name={"ResetPassword"} component={ResetPassword} options={{ headerShown: false }} />
                 <Stack.Screen name={"Main"} component={HomeTabNavigator} options={{ headerShown: false }} />
+                <Stack.Screen name={"EditThought"} component={EditThought} options={{ presentation: 'modal', headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

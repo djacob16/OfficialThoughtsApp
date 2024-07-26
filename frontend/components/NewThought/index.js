@@ -61,7 +61,7 @@ const NewThought = () => {
         };
     }, []);
 
-    const { user } = useSelector((state) => state.userSlice);
+    const user = useSelector((state) => state.userSlice.user);
 
     const postNewThought = async () => {
         if (content) {
@@ -72,6 +72,10 @@ const NewThought = () => {
             setParked(false);
         }
     }
+
+    useEffect(() => {
+        dispatch(getOneUser());
+    }, [dispatch]);
 
     return (
         <View style={styles.container}>

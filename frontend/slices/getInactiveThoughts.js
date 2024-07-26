@@ -33,7 +33,9 @@ const getInactiveThoughtsSlice = createSlice({
         loading: "idle",
         error: null
     },
-    reducers: {},
+    reducers: {
+        reset: () => initialState,
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getInactiveThoughts.pending, (state) => {

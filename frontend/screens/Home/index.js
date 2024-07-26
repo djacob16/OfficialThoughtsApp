@@ -9,6 +9,9 @@ import styles from "./styles";
 import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
 import NewThought from "../../components/NewThought";
 import * as Location from 'expo-location';
+import { useDispatch } from "react-redux";
+import { getOneUser, resetUser } from "../../slices/getOneUser";
+import { getActiveThoughts, reset } from "../../slices/getActiveThoughts";
 
 
 const Home = () => {
@@ -25,8 +28,11 @@ const Home = () => {
     const [location, setLocation] = useState([]);
     const [hash, setHash] = useState();
 
+    const dispatch = useDispatch();
 
     const handleSignOut = async () => {
+        dispatch(resetUser());
+        dispatch(reset());
         await signOut();
         navigation.navigate("Signin");
     }
