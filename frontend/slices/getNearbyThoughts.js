@@ -6,12 +6,15 @@ import geohash from "ngeohash";
 export const getNearbyThoughts = createAsyncThunk(
     "data/nearby", async (latitude, longitude, radius) => {
         const client = generateClient();
-        const hash = geohash.encode(latitude, longitude, radius)
+        const hash = geohash.encode(latitude, longitude, 5)
         try {
             const response = await client.graphql({
                 query: listNearbyThoughtsWithAuthor,
                 filter: {
-                    geohash: { beginsWith: hash }
+                    active: { eq: true },
+                    and: {
+                        geohash: { beginsWith: hash }
+                    }
                 }
             })
             console.log("neay by slice response: ", response.data.listThoughts.items)

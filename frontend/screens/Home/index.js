@@ -14,7 +14,8 @@ import { getInactiveThoughts, resetInactiveThoughts } from "../../slices/getInac
 import * as Location from 'expo-location';
 import getLocation from "../../data/getLocation";
 import getLocationPermission from "../../data/getLocationPermission";
-import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
+import { getNearbyThoughts, resetNearbyThoughts } from "../../slices/getNearbyThoughts";
+import geohash from "ngeohash";
 
 const Home = () => {
     const [title, setTitle] = useState("Near You");
@@ -34,12 +35,14 @@ const Home = () => {
         dispatch(resetUser());
         dispatch(resetActiveThoughts());
         dispatch(resetInactiveThoughts());
+        dispatch(resetNearbyThoughts());
     }
 
     const getLoc = async () => {
         const locPermission = await getLocationPermission();
         const loc = await getLocation();
         setLocation([loc.coords.longitude, loc.coords.latitude]);
+        setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
     };
 
     const homeScreens = [
@@ -86,7 +89,7 @@ const Home = () => {
     const onRefresh = async () => {
         setRefreshing(true);
         getLoc();
-        await dispatch(getNearbyThoughts(location[1], location[0], 5))
+        dispatch(getNearbyThoughts(location[1], location[0], 5))
         setRefreshing(false);
     };
 
@@ -126,6 +129,7 @@ const Home = () => {
                     <Text>Go back</Text>
                 </TouchableOpacity>
                 <Text>{location}</Text>
+                <Text>{hash}</Text>
             </View>
         </View>
     );
