@@ -1,20 +1,17 @@
-import { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated, ScrollView, RefreshControl } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, TouchableOpacity, Animated, ScrollView } from "react-native";
 import { signOut } from "aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
 import LogoHeader from "../../components/LogoHeader";
 import NearYou from "../../components/NearYou";
-import YourThoughts from "../../components/YourThoughts/"
-import styles from "./styles";
-import { getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
+import YourThoughts from "../../components/YourThoughts";
 import NewThought from "../../components/NewThought";
-import * as Location from 'expo-location';
+import styles from "./styles";
 import { useDispatch } from "react-redux";
 import { getOneUser, resetUser } from "../../slices/getOneUser";
 import { getActiveThoughts, resetActiveThoughts } from "../../slices/getActiveThoughts";
 import { getInactiveThoughts, resetInactiveThoughts } from "../../slices/getInactiveThoughts";
-import Video from "react-native-video";
-
+import * as Location from 'expo-location';
 
 const Home = () => {
     const navigation = useNavigation();
@@ -96,41 +93,39 @@ const Home = () => {
     };
 
     useEffect(() => {
-        getLocation()
-    }, [])
+        getLocation();
+    }, []);
 
     return (
         <View style={styles.bigContainer}>
-            <Video>
-                <LogoHeader />
-                <View style={styles.container}>
-                    <View style={styles.navigator}>
-                        <Animated.View style={[styles.highlight, highlightStyle]} />
-                        {homeScreens.map((data, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                onPress={() => titleIdFunc(data.id, data.title)}
-                                style={styles.navigatorText}
-                            >
-                                <Text style={{ color: data.id == titleId ? "black" : "white" }}>
-                                    {data.title}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                        <NewThought />
-                        {title === "Near You" && <NearYou />}
-                        {title === "Your Thoughts" && <YourThoughts />}
-                    </ScrollView>
-                    <TouchableOpacity onPress={handleSignOut}>
-                        <Text>Go back</Text>
-                    </TouchableOpacity>
-                    <Text>{location}</Text>
+            <LogoHeader />
+            <View style={styles.container}>
+                <View style={styles.navigator}>
+                    <Animated.View style={[styles.highlight, highlightStyle]} />
+                    {homeScreens.map((data, index) => (
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => titleIdFunc(data.id, data.title)}
+                            style={styles.navigatorText}
+                        >
+                            <Text style={{ color: data.id === titleId ? "black" : "white" }}>
+                                {data.title}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
                 </View>
-            </Video>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <NewThought />
+                    {title === "Near You" && <NearYou />}
+                    {title === "Your Thoughts" && <YourThoughts />}
+                </ScrollView>
+                <TouchableOpacity onPress={handleSignOut}>
+                    <Text>Go back</Text>
+                </TouchableOpacity>
+                <Text>{location}</Text>
+            </View>
         </View>
-    )
+    );
 }
 
 export default Home;

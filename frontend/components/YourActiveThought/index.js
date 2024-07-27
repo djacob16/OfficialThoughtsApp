@@ -11,6 +11,7 @@ import EditThought from "../EditThought";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import deleteOneThought from "../../data/deleteOneThought";
+import editOneThought from "../../data/editOneThought";
 
 const YourActiveThought = ({ activeThought }) => {
     const navigation = useNavigation();
@@ -23,6 +24,17 @@ const YourActiveThought = ({ activeThought }) => {
 
     const deleteFunc = () => {
         deleteOneThought(activeThought.id);
+    }
+
+    const toggleActiveStatus = () => {
+        const newActiveStatus = !activeThought.active;
+        editOneThought(
+            activeThought.id,
+            activeThought.content,
+            newActiveStatus,
+            activeThought.parked,
+            activeThought.anonymous
+        )
     }
 
     return (
@@ -62,7 +74,7 @@ const YourActiveThought = ({ activeThought }) => {
                 </View>
             </View>
             <View style={styles.thoughtControllers}>
-                <TouchableOpacity onPress={edit}>
+                <TouchableOpacity onPress={toggleActiveStatus}>
                     <Image source={lightBulbFillIcon} style={styles.controllerIcons} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={deleteFunc}>

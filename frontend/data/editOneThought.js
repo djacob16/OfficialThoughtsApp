@@ -8,7 +8,6 @@ const editOneThought = async (id, content, active, parked, anonymous) => {
         const edit = (await client.graphql({
             query: updateThought,
             variables: {
-
                 input: {
                     id: id,
                     ...(content && { content: content }),
