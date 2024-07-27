@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, Animated, ScrollView, RefreshControl } from "react-native";
 import { signOut } from "aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
 import LogoHeader from "../../components/LogoHeader";
@@ -12,22 +12,21 @@ import { getOneUser, resetUser } from "../../slices/getOneUser";
 import { getActiveThoughts, resetActiveThoughts } from "../../slices/getActiveThoughts";
 import { getInactiveThoughts, resetInactiveThoughts } from "../../slices/getInactiveThoughts";
 import * as Location from 'expo-location';
+import getLocation from "../../data/getLocation";
+import getLocationPermission from "../../data/getLocationPermission";
+import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 
 const Home = () => {
-    const navigation = useNavigation();
-
-    // navigator
     const [title, setTitle] = useState("Near You");
-    const highlightPosition = useRef(new Animated.Value(0)).current;
     const [titleId, setTitleId] = useState("1");
-
-    // user
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("");
     const [location, setLocation] = useState([]);
     const [hash, setHash] = useState();
-
+    const [refreshing, setRefreshing] = useState(false);
     const dispatch = useDispatch();
+    const highlightPosition = useRef(new Animated.Value(0)).current;
+    const navigation = useNavigation();
 
     const handleSignOut = async () => {
         await signOut();
@@ -37,14 +36,11 @@ const Home = () => {
         dispatch(resetInactiveThoughts());
     }
 
-    const getLocation = async () => {
-        try {
-            let currentLocation = await Location.getCurrentPositionAsync({});
-            setLocation([currentLocation.coords.longitude, currentLocation.coords.latitude]);
-        } catch (error) {
-            console.error("Error getting location:", error);
-        }
-    }
+    const getLoc = async () => {
+        const locPermission = await getLocationPermission();
+        const loc = await getLocation();
+        setLocation([loc.coords.longitude, loc.coords.latitude]);
+    };
 
     const homeScreens = [
         {
@@ -77,24 +73,23 @@ const Home = () => {
         ]
     };
 
-    const getLocationPermission = async () => {
-        try {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                console.log('Permission to access location was denied');
-                return;
-            }
-
-            let currentLocation = await Location.getCurrentPositionAsync({});
-            setLocation([currentLocation.coords.longitude, currentLocation.coords.latitude]);
-        } catch (error) {
-            console.log('Error getting location:', error);
-        }
-    };
+    useEffect(() => {
+        getLoc();
+    }, []);
 
     useEffect(() => {
-        getLocation();
-    }, []);
+        getLoc();
+        dispatch(getNearbyThoughts(location[1], location[0], 5))
+    }, [dispatch]);
+
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        getLoc();
+        await dispatch(getNearbyThoughts(location[1], location[0], 5))
+        setRefreshing(false);
+    };
+
 
     return (
         <View style={styles.bigContainer}>
@@ -114,7 +109,15 @@ const Home = () => {
                         </TouchableOpacity>
                     ))}
                 </View>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ flexGrow: 1 }} refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                >
                     <NewThought />
                     {title === "Near You" && <NearYou />}
                     {title === "Your Thoughts" && <YourThoughts />}

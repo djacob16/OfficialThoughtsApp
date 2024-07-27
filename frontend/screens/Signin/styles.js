@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 16,
-        paddingTop: 40,
+        paddingTop: 60,
         backgroundColor: Colors.backgroundColor,
     },
     buttonText: {
