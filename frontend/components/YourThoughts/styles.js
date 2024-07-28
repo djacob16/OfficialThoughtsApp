@@ -4,7 +4,12 @@ import { Colors } from "../../constants/colors";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.backgroundColor
+        paddingVertical: 8,
+        borderBottomWidth: .5,
+        borderBottomColor: Colors.grayFont,
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "space-between"
     },
     activeTitle: {
         color: Colors.whiteFont,

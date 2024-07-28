@@ -22,14 +22,50 @@ const NearYou = ({ setRefreshing }) => {
     return (
         <View>
             {nearbyThoughts.map((thought, index) => (
-                <View key={index}>
-                    <Text style={{ color: "red" }}>
-                        {thought.anonymous ? "Anonymous" : (<Text style={{ color: "white" }}>{thought?.author?.displayName}</Text>)}
-                    </Text>
-                    <Text style={{ color: "white" }}>{thought?.content}</Text>
+                <View key={index} style={styles.container}>
 
                 </View>
             ))}
+
+            {/* <View style={styles.container}>
+                <View>
+                    <View style={styles.profileContainer}></View>
+                    <View style={styles.thoughtBody}>
+                        <View style={styles.userInfo}>
+                            {activeThought.anonymous ? (
+                                <Text style={styles.userName}>Anonymous</Text>
+                            ) : (
+                                <Text style={styles.userName}>{user?.displayName}</Text>
+                            )}
+                            <Text style={styles.time}>{formatDate(activeThought.createdAt)}</Text>
+                        </View>
+                        <View style={styles.thoughtContent}>
+                            <Text style={styles.content}>{activeThought.content}</Text>
+                        </View>
+                        <View style={styles.thoughtInteractions}>
+                            <View style={styles.interactionNumber}>
+                                <Image source={heartIcon} style={styles.icon} />
+                                <Text style={styles.number}>2</Text>
+                            </View>
+                            <View style={styles.interactionNumber}>
+                                <Image source={commentIcon} style={styles.icon} />
+                                <Text style={styles.number}>2</Text>
+                            </View>
+                            <TouchableOpacity style={styles.interactionNumber} onPress={edit}>
+                                <Image source={pencilIcon} style={styles.pencilIcon} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+                <View style={styles.thoughtControllers}>
+                    <TouchableOpacity onPress={toggleActiveStatus}>
+                        <Image source={lightBulbFillIcon} style={styles.controllerIcons} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={deleteFunc}>
+                        <Image source={trasIcon} style={styles.controllerIcons} />
+                    </TouchableOpacity>
+                </View>
+            </View> */}
         </View>
     );
 };

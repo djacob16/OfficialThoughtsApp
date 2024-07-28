@@ -23,7 +23,7 @@ export const getNearbyThoughts = createAsyncThunk(
                     }
                 }
             });
-            console.log("neay by slice response: ", response.data.listThoughts.items)
+            console.log("near by slice response: ", response.data.listThoughts.items)
             console.log("hash: ", hash);
             return response.data.listThoughts.items;
         } catch (error) {
