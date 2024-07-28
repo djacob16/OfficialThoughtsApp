@@ -242,3 +242,38 @@ export const thoughtsByAuthorID = /* GraphQL */ `
     }
   }
 `;
+export const thoughtsByGeoHash = /* GraphQL */ `
+  query ThoughtsByGeoHash(
+    $geohash: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelThoughtFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    thoughtsByGeoHash(
+      geohash: $geohash
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        authorID
+        content
+        active
+        parked
+        longitude
+        latitude
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

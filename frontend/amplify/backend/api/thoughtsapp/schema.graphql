@@ -22,7 +22,7 @@ type Thought @model {
   parked: Boolean!
   longitude: String!
   latitude: String!
-  geohash: String!
+  geohash: String! @index(name: "byGeohash", queryField: "thoughtsByGeoHash")
   likes: Int!
   anonymous: Boolean!
   comments: [Comment] @hasMany

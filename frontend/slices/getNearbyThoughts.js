@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { listNearbyThoughtsWithAuthor } from "../src/graphql/customQueries";
+import { listThoughts } from "../src/graphql/queries";
 import { generateClient } from "aws-amplify/api";
 import geohash from "ngeohash";
 
@@ -9,14 +10,15 @@ export const getNearbyThoughts = createAsyncThunk(
         const hash = geohash.encode(latitude, longitude, 5)
         try {
             const response = await client.graphql({
-                query: listNearbyThoughtsWithAuthor,
-                filter: {
-                    active: { eq: true },
-                    and: {
-                        geohash: { beginsWith: hash }
+                query: listThoughts,
+                variables: {
+                    filter: {
+                        geohash: {
+                            contains: hash
+                        }
                     }
                 }
-            })
+            });
             console.log("neay by slice response: ", response.data.listThoughts.items)
             return response.data.listThoughts.items;
         } catch (error) {
