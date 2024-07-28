@@ -10,7 +10,7 @@ export const getNearbyThoughts = createAsyncThunk(
         // const hash = geohash.encode(latitude, longitude, 5)
         try {
             const response = await client.graphql({
-                query: listThoughts,
+                query: listNearbyThoughtsWithAuthor,
                 variables: {
                     filter: {
                         geohash: {
