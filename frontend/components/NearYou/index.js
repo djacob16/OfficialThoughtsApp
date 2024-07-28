@@ -24,7 +24,7 @@ const NearYou = ({ setRefreshing }) => {
             {nearbyThoughts.map((thought, index) => (
                 <View key={index}>
                     <Text>{thought?.content}</Text>
-                    <Text>{thought?.authorID}</Text>
+                    <Text>{thought?.geohash}</Text>
                 </View>
             ))}
         </View>

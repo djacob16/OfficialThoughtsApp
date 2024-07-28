@@ -5,9 +5,9 @@ import { generateClient } from "aws-amplify/api";
 import geohash from "ngeohash";
 
 export const getNearbyThoughts = createAsyncThunk(
-    "data/nearby", async (latitude, longitude, radius) => {
+    "data/nearby", async (hash) => {
         const client = generateClient();
-        const hash = geohash.encode(latitude, longitude, 5)
+        // const hash = geohash.encode(latitude, longitude, 5)
         try {
             const response = await client.graphql({
                 query: listThoughts,
@@ -20,6 +20,7 @@ export const getNearbyThoughts = createAsyncThunk(
                 }
             });
             console.log("neay by slice response: ", response.data.listThoughts.items)
+            console.log("hash: ", hash);
             return response.data.listThoughts.items;
         } catch (error) {
             console.log(error.message);

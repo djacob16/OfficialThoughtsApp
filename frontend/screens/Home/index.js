@@ -77,19 +77,20 @@ const Home = () => {
     };
 
     useEffect(() => {
+        setHash(location[1], location[0], 5)
         getLoc();
     }, []);
 
     useEffect(() => {
         getLoc();
-        dispatch(getNearbyThoughts(location[1], location[0], 5))
+        dispatch(getNearbyThoughts(hash))
     }, [dispatch]);
 
 
     const onRefresh = async () => {
         setRefreshing(true);
         getLoc();
-        dispatch(getNearbyThoughts(location[1], location[0], 5))
+        dispatch(getNearbyThoughts(hash))
         setRefreshing(false);
     };
 
