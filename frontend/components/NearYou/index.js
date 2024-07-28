@@ -23,8 +23,11 @@ const NearYou = ({ setRefreshing }) => {
         <View>
             {nearbyThoughts.map((thought, index) => (
                 <View key={index}>
-                    <Text>{thought?.content}</Text>
-                    <Text>{thought?.geohash}</Text>
+                    <Text style={{ color: "red" }}>
+                        {thought.anonymous ? "Anonymous" : (<Text style={{ color: "white" }}>{thought?.author?.displayName}</Text>)}
+                    </Text>
+                    <Text style={{ color: "white" }}>{thought?.content}</Text>
+
                 </View>
             ))}
         </View>
