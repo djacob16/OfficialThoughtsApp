@@ -7,9 +7,8 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderBottomWidth: .5,
         borderBottomColor: Colors.grayFont,
-        flexDirection: "row",
+        flexDirection: "column",
         width: "100%",
-        justifyContent: "space-between"
     },
     activeTitle: {
         color: Colors.whiteFont,

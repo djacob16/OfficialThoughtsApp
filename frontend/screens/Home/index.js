@@ -39,7 +39,6 @@ const Home = () => {
     }
 
     const getLoc = async () => {
-        const locPermission = await getLocationPermission();
         const loc = await getLocation();
         setLocation([loc.coords.longitude, loc.coords.latitude]);
         setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
@@ -77,11 +76,12 @@ const Home = () => {
     };
 
     useEffect(() => {
-        setHash(location[1], location[0], 5)
         getLoc();
+        setHash(location[1], location[0], 5)
     }, []);
 
     useEffect(() => {
+        getLocationPermission();
         getLoc();
         dispatch(getNearbyThoughts(hash))
     }, [dispatch]);

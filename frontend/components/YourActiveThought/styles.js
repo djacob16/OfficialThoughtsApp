@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     thoughtBody: {
-        flexDirection: "column"
+        flexDirection: "column",
     },
     userInfo: {
         flexDirection: "row",
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     },
     thoughtInteractions: {
         flexDirection: "row",
-        marginTop: 12,
         gap: 15
     },
     icon: {
