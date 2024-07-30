@@ -77,7 +77,6 @@ const Home = () => {
 
     useEffect(() => {
         getLoc();
-        setHash(location[1], location[0], 5)
     }, []);
 
     useEffect(() => {
@@ -93,7 +92,6 @@ const Home = () => {
         dispatch(getNearbyThoughts(hash))
         setRefreshing(false);
     };
-
 
     return (
         <View style={styles.bigContainer}>

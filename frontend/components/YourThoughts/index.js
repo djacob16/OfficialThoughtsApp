@@ -18,21 +18,23 @@ const YourThoughts = () => {
         dispatch(getInactiveThoughts())
     }, [dispatch])
 
-    const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
-    const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice);
+    const { entities: active, loading: activeLoading } = useSelector((state) => state.getActiveThoughtsSlice);
+    const { entities: inactive, loading: inactiveLoading } = useSelector((state) => state.getInactiveThoughtsSlice);
+
+    console.log(activeLoading);
+    console.log(inactiveLoading);
 
     return (
         <View style={styles.container}>
             <View style={styles.activeContainer}>
                 <Text style={styles.activeTitle}>Actively Think</Text>
-                {activeThoughts.map((activeThought, index) => (
+                {activeLoading === "succeeded" && active.sortedThoughts.map((activeThought, index) => (
                     <YourActiveThought key={index} activeThought={activeThought} />
                 ))}
             </View>
-
             <View>
                 <Text style={styles.inactiveTitle}>In memory</Text>
-                {inactiveThoughts.map((inactiveThought, index) => (
+                {inactiveLoading === "succeeded" && inactive && inactive.sortedThoughts.map((inactiveThought, index) => (
                     <YourInactiveThought key={index} inactiveThought={inactiveThought} />
                 ))}
             </View>

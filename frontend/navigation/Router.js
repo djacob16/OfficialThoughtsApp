@@ -22,7 +22,6 @@ const Router = () => {
         onThought(dispatch)
         onEditThought(dispatch)
         onRemoveThought(dispatch)
-
         dispatch(getOneUser())
     }, [dispatch])
 

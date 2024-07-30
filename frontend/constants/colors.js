@@ -4,4 +4,5 @@ export const Colors = {
     redFont: "#FF2F2F",
     yellowFont: "#FBD157",
     grayFont: "#777575",
+    lightGray: "#2E2E2E"
 }

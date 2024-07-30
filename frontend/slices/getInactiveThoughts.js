@@ -20,7 +20,14 @@ export const getInactiveThoughts = createAsyncThunk("data/getInactiveThoughts", 
         });
         const thoughtsList = response.data.listThoughts.items;
         const sortedThoughts = thoughtsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        return sortedThoughts
+        let inactiveParked = 0;
+        for (thought of sortedThoughts) {
+            if (thought.parked) {
+                inactiveParked = inactiveParked + 1
+            }
+        }
+        const entities = { sortedThoughts, inactiveParked };
+        return entities;
     } catch (error) {
         console.log(error)
         return rejectWithValue(error.message);
@@ -28,7 +35,7 @@ export const getInactiveThoughts = createAsyncThunk("data/getInactiveThoughts", 
 })
 
 const initialState = {
-    inactiveThoughts: [],
+    entities: [],
     loading: "idle",
     error: null
 }
@@ -46,7 +53,7 @@ const getInactiveThoughtsSlice = createSlice({
             })
             .addCase(getInactiveThoughts.fulfilled, (state, action) => {
                 state.loading = "succeeded",
-                    state.inactiveThoughts = action.payload
+                    state.entities = action.payload;
             })
             .addCase(getInactiveThoughts.rejected, (state, action) => {
                 state.loading = "failed";

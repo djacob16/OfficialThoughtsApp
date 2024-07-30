@@ -12,22 +12,31 @@ import commentIcon from "../../assets/message.png";
 import shareIcon from "../../assets/shareIcon.png";
 import threeDots from "../../assets/threeDots.png"
 import parkedIcon from "../../assets/mappinParked.png"
+import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
+import geohash from "ngeohash"
 
 const NearYou = ({ setRefreshing }) => {
-    const [location, setLocation] = useState([]);
+    const [hash, setHash] = useState("")
     const dispatch = useDispatch();
 
     const getLoc = async () => {
         const loc = await getLocation();
-        setLocation([loc.coords.longitude, loc.coords.latitude]);
+        setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
     }
 
+    useEffect(() => {
+        getLoc();
+        dispatch(getNearbyThoughts(hash));
+    }, [])
 
-    const { nearbyThoughts } = useSelector((state) => state.getNearbyThoughtsSlice);
+
+    const { nearbyThoughts, loading } = useSelector((state) => state.getNearbyThoughtsSlice);
+    console.log(loading);
+
 
     return (
         <View>
-            {nearbyThoughts.map((thought, index) => (
+            {loading === "succeeded" && nearbyThoughts?.map((thought, index) => (
                 <View key={index} style={styles.container}>
                     <View>
                         <View style={styles.profileContainer}></View>
@@ -62,7 +71,9 @@ const NearYou = ({ setRefreshing }) => {
                             <TouchableOpacity>
                                 <Image source={shareIcon} style={styles.icon} />
                             </TouchableOpacity>
-
+                            <TouchableOpacity>
+                                <Image source={threeDots} style={styles.threeDotsIcon} />
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.parkedDistanceContainer}>
@@ -72,9 +83,6 @@ const NearYou = ({ setRefreshing }) => {
                                 <Text style={styles.parkedText}>15</Text>
                             </View>
                         )}
-                        <TouchableOpacity>
-                            <Image source={threeDots} style={styles.threeDotsIcon} />
-                        </TouchableOpacity>
                     </View>
                 </View>
             ))}
