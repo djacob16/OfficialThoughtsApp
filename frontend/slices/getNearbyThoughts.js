@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { listNearbyThoughtsWithAuthor } from "../src/graphql/customQueries";
+import { listNearbyThoughtsWithAuthor } from "../utils/customQueries";
 import { listThoughts } from "../src/graphql/queries";
 import { generateClient } from "aws-amplify/api";
 import geohash from "ngeohash";
