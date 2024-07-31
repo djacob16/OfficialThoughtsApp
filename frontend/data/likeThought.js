@@ -36,7 +36,7 @@ export const likeThought = async (thoughtID, like) => {
                     }
                 }
             }))
-            console.log("updated liked thought: ", updatedThought)
+            console.log("updated liked thought response: ", updatedThought)
             console.log("like Entry: ", likeEntry)
         } catch (error) {
             console.log("error here: ", error)
