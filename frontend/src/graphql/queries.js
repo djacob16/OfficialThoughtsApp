@@ -15,6 +15,7 @@ export const getUser = /* GraphQL */ `
         __typename
       }
       darkmode
+      reactions
       createdAt
       updatedAt
       __typename
@@ -36,6 +37,7 @@ export const listUsers = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -58,6 +60,7 @@ export const getThought = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -65,8 +68,6 @@ export const getThought = /* GraphQL */ `
       content
       active
       parked
-      longitude
-      latitude
       geohash
       likes
       anonymous
@@ -94,8 +95,6 @@ export const listThoughts = /* GraphQL */ `
         content
         active
         parked
-        longitude
-        latitude
         geohash
         likes
         anonymous
@@ -110,8 +109,8 @@ export const listThoughts = /* GraphQL */ `
   }
 `;
 export const getThoughtLike = /* GraphQL */ `
-  query GetThoughtLike($thoughtID: ID!) {
-    getThoughtLike(thoughtID: $thoughtID) {
+  query GetThoughtLike($thoughtID: ID!, $userID: ID!) {
+    getThoughtLike(thoughtID: $thoughtID, userID: $userID) {
       thoughtID
       userID
       createdAt
@@ -123,6 +122,7 @@ export const getThoughtLike = /* GraphQL */ `
 export const listThoughtLikes = /* GraphQL */ `
   query ListThoughtLikes(
     $thoughtID: ID
+    $userID: ModelIDKeyConditionInput
     $filter: ModelThoughtLikeFilterInput
     $limit: Int
     $nextToken: String
@@ -130,6 +130,7 @@ export const listThoughtLikes = /* GraphQL */ `
   ) {
     listThoughtLikes(
       thoughtID: $thoughtID
+      userID: $userID
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -159,6 +160,7 @@ export const getComment = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -211,6 +213,7 @@ export const getReply = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -268,41 +271,12 @@ export const thoughtsByGeoHash = /* GraphQL */ `
         content
         active
         parked
-        longitude
-        latitude
         geohash
         likes
         anonymous
         createdAt
         updatedAt
         userThoughtsId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const thoughtLikesByUserID = /* GraphQL */ `
-  query ThoughtLikesByUserID(
-    $userID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelThoughtLikeFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    thoughtLikesByUserID(
-      userID: $userID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        thoughtID
-        userID
-        createdAt
-        updatedAt
         __typename
       }
       nextToken

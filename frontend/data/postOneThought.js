@@ -27,8 +27,6 @@ const postThought = async (content, active, parked, longitude, latitude, anonymo
                     content: content,
                     active: active,
                     parked: parked,
-                    longitude: longitude,
-                    latitude: latitude,
                     geohash: hash,
                     likes: 0,
                     anonymous: anonymous,

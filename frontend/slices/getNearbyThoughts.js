@@ -7,7 +7,6 @@ import geohash from "ngeohash";
 export const getNearbyThoughts = createAsyncThunk(
     "data/nearby", async (hash) => {
         const client = generateClient();
-        // const hash = geohash.encode(latitude, longitude, 5)
         try {
             const response = await client.graphql({
                 query: listNearbyThoughtsWithAuthor,
@@ -23,12 +22,10 @@ export const getNearbyThoughts = createAsyncThunk(
                     }
                 }
             });
-            console.log("near by slice response: ", response.data.listThoughts.items)
-            console.log("hash: ", hash);
             return response.data.listThoughts.items;
         } catch (error) {
-            console.log(error.message);
-            return rejectWithValue(error.message);
+            console.log(error);
+            return rejectWithValue(error);
         }
     }
 );

@@ -18,6 +18,7 @@ export const createUser = /* GraphQL */ `
         __typename
       }
       darkmode
+      reactions
       createdAt
       updatedAt
       __typename
@@ -41,6 +42,7 @@ export const updateUser = /* GraphQL */ `
         __typename
       }
       darkmode
+      reactions
       createdAt
       updatedAt
       __typename
@@ -64,6 +66,7 @@ export const deleteUser = /* GraphQL */ `
         __typename
       }
       darkmode
+      reactions
       createdAt
       updatedAt
       __typename
@@ -86,6 +89,7 @@ export const createThought = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -93,8 +97,6 @@ export const createThought = /* GraphQL */ `
       content
       active
       parked
-      longitude
-      latitude
       geohash
       likes
       anonymous
@@ -125,6 +127,7 @@ export const updateThought = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -132,8 +135,6 @@ export const updateThought = /* GraphQL */ `
       content
       active
       parked
-      longitude
-      latitude
       geohash
       likes
       anonymous
@@ -164,6 +165,7 @@ export const deleteThought = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -171,8 +173,6 @@ export const deleteThought = /* GraphQL */ `
       content
       active
       parked
-      longitude
-      latitude
       geohash
       likes
       anonymous
@@ -244,6 +244,7 @@ export const createComment = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -277,6 +278,7 @@ export const updateComment = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -310,6 +312,7 @@ export const deleteComment = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -343,6 +346,7 @@ export const createReply = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -372,6 +376,7 @@ export const updateReply = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename
@@ -401,6 +406,7 @@ export const deleteReply = /* GraphQL */ `
         about
         totalThoughts
         darkmode
+        reactions
         createdAt
         updatedAt
         __typename

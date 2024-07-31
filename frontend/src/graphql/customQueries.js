@@ -12,8 +12,6 @@ export const listNearbyThoughtsWithAuthor = /* GraphQL */ `
         content
         active
         parked
-        longitude
-        latitude
         geohash
         likes
         anonymous

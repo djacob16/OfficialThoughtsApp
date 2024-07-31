@@ -11,6 +11,7 @@ type User @model {
   totalThoughts: Int!
   thoughts: [Thought] @hasMany
   darkmode: Boolean
+  reactions: Int
 }
 
 type Thought @model {
@@ -20,8 +21,6 @@ type Thought @model {
   content: String!
   active: Boolean!
   parked: Boolean!
-  longitude: String!
-  latitude: String!
   geohash: String! @index(name: "byGeohash", queryField: "thoughtsByGeoHash")
   likes: Int!
   anonymous: Boolean!
@@ -29,8 +28,8 @@ type Thought @model {
 }
 
 type ThoughtLike @model {
-  thoughtID: ID! @primaryKey
-  userID: ID! @index
+  thoughtID: ID! @primaryKey(sortKeyFields: ["userID"])
+  userID: ID!
 }
 
 type Comment @model {

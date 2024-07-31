@@ -14,21 +14,35 @@ import threeDots from "../../assets/threeDots.png"
 import parkedIcon from "../../assets/mappinParked.png"
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import geohash from "ngeohash"
+import { likeThought } from "../../data/likeThought";
+import heartFillIcon from "../../assets/heart.fill.png";
 
 const NearYou = ({ hash }) => {
     const dispatch = useDispatch();
-
     const { nearbyThoughts, loading } = useSelector((state) => state.getNearbyThoughtsSlice);
+    const [likedThoughts, setLikedThoughts] = useState([]);
     console.log("loading nearby thoughts: ", loading);
 
+    // loads nearby thoughts
     useEffect(() => {
         if (hash) {
             dispatch(getNearbyThoughts(hash));
         }
     }, [hash, dispatch]);
 
+    const handleLike = (thought) => {
+        setLikedThoughts((prevLikedThoughts) => {
+            const existingThought = prevLikedThoughts.find(item => Object.keys(item)[0] === thought.id);
 
-
+            if (existingThought) {
+                return prevLikedThoughts.filter(item => Object.keys(item)[0] !== thought.id);
+            } else {
+                return [...prevLikedThoughts, { [thought.id]: thought.likes }];
+            }
+        });
+        likeThought(thought, false)
+    }
+    console.log("liked thoughts: ", likedThoughts);
 
     return (
         <View>
@@ -56,7 +70,7 @@ const NearYou = ({ hash }) => {
                             </View>
                         </View>
                         <View style={styles.thoughtInteractions}>
-                            <TouchableOpacity style={styles.interactionNumber}>
+                            <TouchableOpacity style={styles.interactionNumber} onPress={() => handleLike(thought)}>
                                 <Image source={heartIcon} style={styles.icon} />
                                 <Text style={styles.number}>{thought.likes}</Text>
                             </TouchableOpacity>
