@@ -17,6 +17,9 @@
       },
       "api": {
         "thoughtsapp": {}
+      },
+      "storage": {
+        "profileimage": {}
       }
     }
   }

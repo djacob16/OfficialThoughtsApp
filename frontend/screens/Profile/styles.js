@@ -25,7 +25,18 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         zIndex: 1,
         backgroundColor: Colors.backgroundColor,
-        paddingVertical: 25
+        paddingVertical: 110
+    },
+    profileImage: {
+        position: "absolute",
+        width: "100%",
+        alignSelf: "center",
+        backgroundColor: Colors.yellowFont,
+        width: 169.346,
+        height: 169.346,
+        borderRadius: 100,
+        top: 80,
+        zIndex: 4
     },
     name: {
         fontSize: 30,

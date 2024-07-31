@@ -9,13 +9,13 @@ type User @model {
   displayName: String!
   about: String
   totalThoughts: Int!
-  thoughts: [Thought] @hasMany(indexName: "byUser", fields: ["id"])
+  thoughts: [Thought] @hasMany
   darkmode: Boolean
 }
 
 type Thought @model {
   id: ID!
-  authorID: ID! @index(name: "byUser")
+  authorID: ID!
   author: User! @belongsTo(fields: ["authorID"])
   content: String!
   active: Boolean!
@@ -26,6 +26,11 @@ type Thought @model {
   likes: Int!
   anonymous: Boolean!
   comments: [Comment] @hasMany
+}
+
+type ThoughtLike @model {
+  thoughtID: ID! @primaryKey
+  userID: ID! @index
 }
 
 type Comment @model {

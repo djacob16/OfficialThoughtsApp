@@ -92,6 +92,7 @@ export const onCreateThought = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userThoughtsId
       __typename
     }
   }
@@ -127,6 +128,7 @@ export const onUpdateThought = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userThoughtsId
       __typename
     }
   }
@@ -160,6 +162,46 @@ export const onDeleteThought = /* GraphQL */ `
         nextToken
         __typename
       }
+      createdAt
+      updatedAt
+      userThoughtsId
+      __typename
+    }
+  }
+`;
+export const onCreateThoughtLike = /* GraphQL */ `
+  subscription OnCreateThoughtLike(
+    $filter: ModelSubscriptionThoughtLikeFilterInput
+  ) {
+    onCreateThoughtLike(filter: $filter) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateThoughtLike = /* GraphQL */ `
+  subscription OnUpdateThoughtLike(
+    $filter: ModelSubscriptionThoughtLikeFilterInput
+  ) {
+    onUpdateThoughtLike(filter: $filter) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteThoughtLike = /* GraphQL */ `
+  subscription OnDeleteThoughtLike(
+    $filter: ModelSubscriptionThoughtLikeFilterInput
+  ) {
+    onDeleteThoughtLike(filter: $filter) {
+      thoughtID
+      userID
       createdAt
       updatedAt
       __typename

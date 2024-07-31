@@ -65,7 +65,7 @@ const NewThought = () => {
 
     const postNewThought = async () => {
         if (content) {
-            const response = await postOneThought(content, active, parked, location[0], location[1], anonymous);
+            const response = await postOneThought(content, active, parked, location[0], location[1], anonymous, user);
             setContent("");
             setActive(true);
             setAnonymous(false);

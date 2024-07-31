@@ -80,16 +80,24 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        getLocationPermission();
-        getLoc();
-        dispatch(getNearbyThoughts(hash))
+        const fetchData = async () => {
+            await getLocationPermission();
+            await getLoc();
+            if (hash) {
+                dispatch(getNearbyThoughts(hash));
+            }
+        };
+
+        fetchData();
     }, [dispatch]);
 
 
     const onRefresh = async () => {
         setRefreshing(true);
-        getLoc();
-        dispatch(getNearbyThoughts(hash))
+        await getLoc();
+        if (hash) {
+            dispatch(getNearbyThoughts(hash));
+        }
         setRefreshing(false);
     };
 
@@ -121,7 +129,7 @@ const Home = () => {
                     }
                 >
                     <NewThought />
-                    {title === "Near You" && <NearYou />}
+                    {title === "Near You" && <NearYou hash={hash} />}
                     {title === "Your Thoughts" && <YourThoughts />}
                 </ScrollView>
                 <TouchableOpacity onPress={handleSignOut}>

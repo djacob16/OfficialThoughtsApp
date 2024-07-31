@@ -2,12 +2,14 @@ import * as subscriptions from '../src/graphql/subscriptions';
 import { generateClient } from "aws-amplify/api";
 import { getActiveThoughts } from '../slices/getActiveThoughts';
 import { getInactiveThoughts } from '../slices/getInactiveThoughts';
+import { getOneUser } from '../slices/getOneUser';
 
 const client = generateClient();
 
 const onThought = async (dispatch) => {
     dispatch(getActiveThoughts());
     dispatch(getInactiveThoughts());
+    dispatch(getOneUser());
 
     const thoughtsSubscription = client.graphql({
         query: subscriptions.onCreateThought,
@@ -15,6 +17,7 @@ const onThought = async (dispatch) => {
         next: async () => {
             await dispatch(getActiveThoughts());
             await dispatch(getInactiveThoughts());
+            await dispatch(getOneUser());
         },
         error: (error) => console.warn(error)
     });

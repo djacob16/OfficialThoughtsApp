@@ -20,14 +20,7 @@ export const getActiveThoughts = createAsyncThunk("data/getActiveThoughts", asyn
         });
         const thoughtsList = response.data.listThoughts.items;
         const sortedThoughts = thoughtsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        let activeParked = 0;
-        for (thought of sortedThoughts) {
-            if (thought.parked) {
-                activeParked = activeParked + 1;
-            }
-        }
-        const entities = { sortedThoughts, activeParked };
-        return entities;
+        return sortedThoughts;
     } catch (error) {
         console.log(error)
         return rejectWithValue(error.message);
@@ -35,7 +28,7 @@ export const getActiveThoughts = createAsyncThunk("data/getActiveThoughts", asyn
 })
 
 const initialState = {
-    entities: [],
+    activeThoughts: [],
     loading: "idle",
     error: null
 }
@@ -53,7 +46,7 @@ const getActiveThoughtsSlice = createSlice({
             })
             .addCase(getActiveThoughts.fulfilled, (state, action) => {
                 state.loading = "succeeded",
-                    state.entities = action.payload;
+                    state.activeThoughts = action.payload;
             })
             .addCase(getActiveThoughts.rejected, (state, action) => {
                 state.loading = "failed";

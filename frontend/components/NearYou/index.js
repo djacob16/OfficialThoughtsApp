@@ -15,23 +15,19 @@ import parkedIcon from "../../assets/mappinParked.png"
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import geohash from "ngeohash"
 
-const NearYou = ({ setRefreshing }) => {
-    const [hash, setHash] = useState("")
+const NearYou = ({ hash }) => {
     const dispatch = useDispatch();
 
-    const getLoc = async () => {
-        const loc = await getLocation();
-        setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
-    }
+    const { nearbyThoughts, loading } = useSelector((state) => state.getNearbyThoughtsSlice);
+    console.log("loading nearby thoughts: ", loading);
 
     useEffect(() => {
-        getLoc();
-        dispatch(getNearbyThoughts(hash));
-    }, [])
+        if (hash) {
+            dispatch(getNearbyThoughts(hash));
+        }
+    }, [hash, dispatch]);
 
 
-    const { nearbyThoughts, loading } = useSelector((state) => state.getNearbyThoughtsSlice);
-    console.log(loading);
 
 
     return (

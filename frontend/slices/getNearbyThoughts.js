@@ -14,7 +14,7 @@ export const getNearbyThoughts = createAsyncThunk(
                 variables: {
                     filter: {
                         geohash: {
-                            contains: hash
+                            beginsWith: hash
                         }, and: {
                             active: {
                                 eq: true

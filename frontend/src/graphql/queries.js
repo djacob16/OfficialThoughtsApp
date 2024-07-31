@@ -76,6 +76,7 @@ export const getThought = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userThoughtsId
       __typename
     }
   }
@@ -98,6 +99,45 @@ export const listThoughts = /* GraphQL */ `
         geohash
         likes
         anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getThoughtLike = /* GraphQL */ `
+  query GetThoughtLike($thoughtID: ID!) {
+    getThoughtLike(thoughtID: $thoughtID) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listThoughtLikes = /* GraphQL */ `
+  query ListThoughtLikes(
+    $thoughtID: ID
+    $filter: ModelThoughtLikeFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listThoughtLikes(
+      thoughtID: $thoughtID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        thoughtID
+        userID
         createdAt
         updatedAt
         __typename
@@ -207,41 +247,6 @@ export const listReplies = /* GraphQL */ `
     }
   }
 `;
-export const thoughtsByAuthorID = /* GraphQL */ `
-  query ThoughtsByAuthorID(
-    $authorID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelThoughtFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    thoughtsByAuthorID(
-      authorID: $authorID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        authorID
-        content
-        active
-        parked
-        longitude
-        latitude
-        geohash
-        likes
-        anonymous
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const thoughtsByGeoHash = /* GraphQL */ `
   query ThoughtsByGeoHash(
     $geohash: String!
@@ -268,6 +273,34 @@ export const thoughtsByGeoHash = /* GraphQL */ `
         geohash
         likes
         anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const thoughtLikesByUserID = /* GraphQL */ `
+  query ThoughtLikesByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelThoughtLikeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    thoughtLikesByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        thoughtID
+        userID
         createdAt
         updatedAt
         __typename

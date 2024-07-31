@@ -104,6 +104,7 @@ export const createThought = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userThoughtsId
       __typename
     }
   }
@@ -142,6 +143,7 @@ export const updateThought = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userThoughtsId
       __typename
     }
   }
@@ -178,6 +180,49 @@ export const deleteThought = /* GraphQL */ `
         nextToken
         __typename
       }
+      createdAt
+      updatedAt
+      userThoughtsId
+      __typename
+    }
+  }
+`;
+export const createThoughtLike = /* GraphQL */ `
+  mutation CreateThoughtLike(
+    $input: CreateThoughtLikeInput!
+    $condition: ModelThoughtLikeConditionInput
+  ) {
+    createThoughtLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateThoughtLike = /* GraphQL */ `
+  mutation UpdateThoughtLike(
+    $input: UpdateThoughtLikeInput!
+    $condition: ModelThoughtLikeConditionInput
+  ) {
+    updateThoughtLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteThoughtLike = /* GraphQL */ `
+  mutation DeleteThoughtLike(
+    $input: DeleteThoughtLikeInput!
+    $condition: ModelThoughtLikeConditionInput
+  ) {
+    deleteThoughtLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
       createdAt
       updatedAt
       __typename
