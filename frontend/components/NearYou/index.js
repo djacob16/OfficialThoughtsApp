@@ -14,7 +14,7 @@ import threeDots from "../../assets/threeDots.png"
 import parkedIcon from "../../assets/mappinParked.png"
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import geohash from "ngeohash"
-import { likeThought } from "../../data/likeThought";
+import { likeThought, checkLiked } from "../../data/likeThought";
 import heartFillIcon from "../../assets/heart.fill.png";
 
 const NearYou = ({ hash }) => {
@@ -30,19 +30,39 @@ const NearYou = ({ hash }) => {
         }
     }, [hash, dispatch]);
 
+    useEffect(() => {
+        const populateLikedThoughts = async () => {
+            const likedThoughtsArray = [];
+            for (const thought of nearbyThoughts) {
+                const isLiked = await checkLiked(thought);
+                if (isLiked) {
+                    likedThoughtsArray.push({ [thought.id]: thought.likes - 1 });
+                }
+            }
+            setLikedThoughts(likedThoughtsArray);
+        };
+
+        if (nearbyThoughts.length > 0) {
+            populateLikedThoughts();
+        }
+    }, [nearbyThoughts]);
+
+
     const handleLike = (thought) => {
         setLikedThoughts((prevLikedThoughts) => {
             const existingThought = prevLikedThoughts.find(item => Object.keys(item)[0] === thought.id);
 
             if (existingThought) {
+                likeThought(thought, false)
                 return prevLikedThoughts.filter(item => Object.keys(item)[0] !== thought.id);
+
+
             } else {
+                likeThought(thought, true);
                 return [...prevLikedThoughts, { [thought.id]: thought.likes }];
             }
         });
-        likeThought(thought, false)
     }
-    console.log("liked thoughts: ", likedThoughts);
 
     return (
         <View>
@@ -71,8 +91,15 @@ const NearYou = ({ hash }) => {
                         </View>
                         <View style={styles.thoughtInteractions}>
                             <TouchableOpacity style={styles.interactionNumber} onPress={() => handleLike(thought)}>
-                                <Image source={heartIcon} style={styles.icon} />
-                                <Text style={styles.number}>{thought.likes}</Text>
+                                <Image
+                                    source={likedThoughts.some(item => Object.keys(item)[0] === thought.id) ? heartFillIcon : heartIcon}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.number}>
+                                    {likedThoughts.find(item => Object.keys(item)[0] === thought.id)
+                                        ? Object.values(likedThoughts.find(item => Object.keys(item)[0] === thought.id))[0] + 1
+                                        : thought.likes}
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.interactionNumber}>
                                 <Image source={commentIcon} style={styles.icon} />

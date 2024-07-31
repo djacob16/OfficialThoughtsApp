@@ -1,18 +1,18 @@
 import { generateClient } from "aws-amplify/api";
-import { getThought } from "../src/graphql/queries";
+import { getThought, getThoughtLike } from "../src/graphql/queries";
 import { updateThought, createThoughtLike, deleteThoughtLike } from "../src/graphql/mutations";
 import { getCurrentUser } from "@aws-amplify/auth";
 
 const client = generateClient();
 
-export const likeThought = async (thoughtID, like) => {
+export const likeThought = async (thought, like) => {
     const { userId } = await getCurrentUser()
 
     // get current like count
     const currentLikeCount = (await client.graphql({
         query: getThought,
         variables: {
-            id: thoughtID
+            id: thought.id
         }
     })).data.getThought.likes;
 
@@ -22,7 +22,7 @@ export const likeThought = async (thoughtID, like) => {
                 query: updateThought,
                 variables: {
                     input: {
-                        id: thoughtID,
+                        id: thought.id,
                         likes: currentLikeCount + 1
                     }
                 }
@@ -31,7 +31,7 @@ export const likeThought = async (thoughtID, like) => {
                 query: createThoughtLike,
                 variables: {
                     input: {
-                        thoughtID: thoughtID,
+                        thoughtID: thought.id,
                         userID: userId
                     }
                 }
@@ -47,7 +47,7 @@ export const likeThought = async (thoughtID, like) => {
                 query: updateThought,
                 variables: {
                     input: {
-                        id: thoughtID,
+                        id: thought.id,
                         likes: currentLikeCount - 1
                     }
                 }
@@ -56,7 +56,7 @@ export const likeThought = async (thoughtID, like) => {
                 query: deleteThoughtLike,
                 variables: {
                     input: {
-                        thoughtID: thoughtID,
+                        thoughtID: thought.id,
                         userID: userId,
                     }
                 }
@@ -66,5 +66,25 @@ export const likeThought = async (thoughtID, like) => {
         } catch (error) {
             console.log(error)
         }
+    }
+}
+
+export const checkLiked = async (thought) => {
+    const { userId } = await getCurrentUser();
+    console.log("in data file: ", thought)
+    try {
+        const response = await client.graphql({
+            query: getThoughtLike,
+            variables: {
+                thoughtID: thought.id,
+                userID: userId,
+            }
+        });
+        const like = response.data.getThoughtLike;
+        console.log("like: ", like);
+        return !!like;
+    } catch (error) {
+        console.log(error)
+        return false;
     }
 }
