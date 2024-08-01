@@ -187,48 +187,6 @@ export const deleteThought = /* GraphQL */ `
     }
   }
 `;
-export const createThoughtLike = /* GraphQL */ `
-  mutation CreateThoughtLike(
-    $input: CreateThoughtLikeInput!
-    $condition: ModelThoughtLikeConditionInput
-  ) {
-    createThoughtLike(input: $input, condition: $condition) {
-      thoughtID
-      userID
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updateThoughtLike = /* GraphQL */ `
-  mutation UpdateThoughtLike(
-    $input: UpdateThoughtLikeInput!
-    $condition: ModelThoughtLikeConditionInput
-  ) {
-    updateThoughtLike(input: $input, condition: $condition) {
-      thoughtID
-      userID
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteThoughtLike = /* GraphQL */ `
-  mutation DeleteThoughtLike(
-    $input: DeleteThoughtLikeInput!
-    $condition: ModelThoughtLikeConditionInput
-  ) {
-    deleteThoughtLike(input: $input, condition: $condition) {
-      thoughtID
-      userID
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const createComment = /* GraphQL */ `
   mutation CreateComment(
     $input: CreateCommentInput!
@@ -247,6 +205,20 @@ export const createComment = /* GraphQL */ `
         reactions
         createdAt
         updatedAt
+        __typename
+      }
+      thought {
+        id
+        authorID
+        content
+        active
+        parked
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
         __typename
       }
       content
@@ -283,6 +255,20 @@ export const updateComment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      thought {
+        id
+        authorID
+        content
+        active
+        parked
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
       content
       likes
       anonymous
@@ -315,6 +301,20 @@ export const deleteComment = /* GraphQL */ `
         reactions
         createdAt
         updatedAt
+        __typename
+      }
+      thought {
+        id
+        authorID
+        content
+        active
+        parked
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
         __typename
       }
       content
@@ -417,6 +417,90 @@ export const deleteReply = /* GraphQL */ `
       createdAt
       updatedAt
       commentRepliesId
+      __typename
+    }
+  }
+`;
+export const createThoughtLike = /* GraphQL */ `
+  mutation CreateThoughtLike(
+    $input: CreateThoughtLikeInput!
+    $condition: ModelThoughtLikeConditionInput
+  ) {
+    createThoughtLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateThoughtLike = /* GraphQL */ `
+  mutation UpdateThoughtLike(
+    $input: UpdateThoughtLikeInput!
+    $condition: ModelThoughtLikeConditionInput
+  ) {
+    updateThoughtLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteThoughtLike = /* GraphQL */ `
+  mutation DeleteThoughtLike(
+    $input: DeleteThoughtLikeInput!
+    $condition: ModelThoughtLikeConditionInput
+  ) {
+    deleteThoughtLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createCommentLike = /* GraphQL */ `
+  mutation CreateCommentLike(
+    $input: CreateCommentLikeInput!
+    $condition: ModelCommentLikeConditionInput
+  ) {
+    createCommentLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateCommentLike = /* GraphQL */ `
+  mutation UpdateCommentLike(
+    $input: UpdateCommentLikeInput!
+    $condition: ModelCommentLikeConditionInput
+  ) {
+    updateCommentLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteCommentLike = /* GraphQL */ `
+  mutation DeleteCommentLike(
+    $input: DeleteCommentLikeInput!
+    $condition: ModelCommentLikeConditionInput
+  ) {
+    deleteCommentLike(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
       __typename
     }
   }

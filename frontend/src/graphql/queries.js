@@ -108,46 +108,6 @@ export const listThoughts = /* GraphQL */ `
     }
   }
 `;
-export const getThoughtLike = /* GraphQL */ `
-  query GetThoughtLike($thoughtID: ID!, $userID: ID!) {
-    getThoughtLike(thoughtID: $thoughtID, userID: $userID) {
-      thoughtID
-      userID
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listThoughtLikes = /* GraphQL */ `
-  query ListThoughtLikes(
-    $thoughtID: ID
-    $userID: ModelIDKeyConditionInput
-    $filter: ModelThoughtLikeFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listThoughtLikes(
-      thoughtID: $thoughtID
-      userID: $userID
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        thoughtID
-        userID
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const getComment = /* GraphQL */ `
   query GetComment($id: ID!) {
     getComment(id: $id) {
@@ -163,6 +123,20 @@ export const getComment = /* GraphQL */ `
         reactions
         createdAt
         updatedAt
+        __typename
+      }
+      thought {
+        id
+        authorID
+        content
+        active
+        parked
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
         __typename
       }
       content
@@ -243,6 +217,86 @@ export const listReplies = /* GraphQL */ `
         createdAt
         updatedAt
         commentRepliesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getThoughtLike = /* GraphQL */ `
+  query GetThoughtLike($thoughtID: ID!, $userID: ID!) {
+    getThoughtLike(thoughtID: $thoughtID, userID: $userID) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listThoughtLikes = /* GraphQL */ `
+  query ListThoughtLikes(
+    $thoughtID: ID
+    $userID: ModelIDKeyConditionInput
+    $filter: ModelThoughtLikeFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listThoughtLikes(
+      thoughtID: $thoughtID
+      userID: $userID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        thoughtID
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getCommentLike = /* GraphQL */ `
+  query GetCommentLike($thoughtID: ID!, $userID: ID!) {
+    getCommentLike(thoughtID: $thoughtID, userID: $userID) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listCommentLikes = /* GraphQL */ `
+  query ListCommentLikes(
+    $thoughtID: ID
+    $userID: ModelIDKeyConditionInput
+    $filter: ModelCommentLikeFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCommentLikes(
+      thoughtID: $thoughtID
+      userID: $userID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        thoughtID
+        userID
+        createdAt
+        updatedAt
         __typename
       }
       nextToken

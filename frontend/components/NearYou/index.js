@@ -29,7 +29,7 @@ const NearYou = ({ hash }) => {
         if (hash) {
             dispatch(getNearbyThoughts(hash));
         }
-    }, [hash, dispatch]);
+    }, [hash]);
 
     useEffect(() => {
         const populateLikedThoughts = async () => {

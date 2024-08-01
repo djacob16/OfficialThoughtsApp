@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeTabNavigator from "./HomeTabNavigator";
 import Signin from "../screens/Signin";
+import ThoughtForum from "../screens/ThoughtForum";
 import Signup from "../screens/Signup";
 import Verify from "../screens/Verify";
 import ForgotPassword from "../screens/ForgotPassword";
@@ -35,6 +36,7 @@ const Router = () => {
                 <Stack.Screen name={"ResetPassword"} component={ResetPassword} options={{ headerShown: false }} />
                 <Stack.Screen name={"Main"} component={HomeTabNavigator} options={{ headerShown: false }} />
                 <Stack.Screen name={"EditThought"} component={EditThought} options={{ presentation: 'modal', headerShown: false }} />
+                <Stack.Screen name={"ThoughtForum"} component={ThoughtForum} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

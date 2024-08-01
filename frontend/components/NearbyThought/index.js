@@ -11,11 +11,13 @@ import parkedIcon from "../../assets/mappinParked.png"
 import heartFillIcon from "../../assets/heart.fill.png";
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import { likeThought, checkLiked } from "../../data/likeThought";
+import { useNavigation } from "@react-navigation/native";
 
 
 const NearbyThought = ({ thought }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
+    const navigation = useNavigation()
 
     const init = async () => {
         setLikeCount(thought.likes);
@@ -42,7 +44,7 @@ const NearbyThought = ({ thought }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("ThoughtForum", { thought })}>
             <View>
                 <View style={styles.profileContainer}></View>
                 <View style={styles.thoughtBody}>
@@ -104,7 +106,7 @@ const NearbyThought = ({ thought }) => {
                     </View>
                 )}
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

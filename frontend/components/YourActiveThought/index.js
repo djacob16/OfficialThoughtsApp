@@ -30,12 +30,8 @@ const YourActiveThought = ({ activeThought }) => {
         if (isLiked) {
             setLiked(true)
         }
-        console.log("coming from active: ", activeThought.content, ": ", likeCount, " : ", liked)
+        console.log(activeThought.content, ": ", liked)
     }
-
-    useEffect(() => {
-        init()
-    }, [])
 
     const handleLike = (activeThought) => {
         setLiked(true)
@@ -50,7 +46,6 @@ const YourActiveThought = ({ activeThought }) => {
     }
 
     useEffect(() => {
-        init()
         Animated.timing(animatedValue, {
             toValue: 1,
             duration: 550,
@@ -59,6 +54,7 @@ const YourActiveThought = ({ activeThought }) => {
         }).start(() => {
             animatedValue.setValue(1);
         });
+        init();
     }, [activeThought]);
 
     const edit = () => {

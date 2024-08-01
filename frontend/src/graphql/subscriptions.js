@@ -169,45 +169,6 @@ export const onDeleteThought = /* GraphQL */ `
     }
   }
 `;
-export const onCreateThoughtLike = /* GraphQL */ `
-  subscription OnCreateThoughtLike(
-    $filter: ModelSubscriptionThoughtLikeFilterInput
-  ) {
-    onCreateThoughtLike(filter: $filter) {
-      thoughtID
-      userID
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateThoughtLike = /* GraphQL */ `
-  subscription OnUpdateThoughtLike(
-    $filter: ModelSubscriptionThoughtLikeFilterInput
-  ) {
-    onUpdateThoughtLike(filter: $filter) {
-      thoughtID
-      userID
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteThoughtLike = /* GraphQL */ `
-  subscription OnDeleteThoughtLike(
-    $filter: ModelSubscriptionThoughtLikeFilterInput
-  ) {
-    onDeleteThoughtLike(filter: $filter) {
-      thoughtID
-      userID
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment($filter: ModelSubscriptionCommentFilterInput) {
     onCreateComment(filter: $filter) {
@@ -223,6 +184,20 @@ export const onCreateComment = /* GraphQL */ `
         reactions
         createdAt
         updatedAt
+        __typename
+      }
+      thought {
+        id
+        authorID
+        content
+        active
+        parked
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
         __typename
       }
       content
@@ -256,6 +231,20 @@ export const onUpdateComment = /* GraphQL */ `
         updatedAt
         __typename
       }
+      thought {
+        id
+        authorID
+        content
+        active
+        parked
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
       content
       likes
       anonymous
@@ -285,6 +274,20 @@ export const onDeleteComment = /* GraphQL */ `
         reactions
         createdAt
         updatedAt
+        __typename
+      }
+      thought {
+        id
+        authorID
+        content
+        active
+        parked
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
         __typename
       }
       content
@@ -378,6 +381,84 @@ export const onDeleteReply = /* GraphQL */ `
       createdAt
       updatedAt
       commentRepliesId
+      __typename
+    }
+  }
+`;
+export const onCreateThoughtLike = /* GraphQL */ `
+  subscription OnCreateThoughtLike(
+    $filter: ModelSubscriptionThoughtLikeFilterInput
+  ) {
+    onCreateThoughtLike(filter: $filter) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateThoughtLike = /* GraphQL */ `
+  subscription OnUpdateThoughtLike(
+    $filter: ModelSubscriptionThoughtLikeFilterInput
+  ) {
+    onUpdateThoughtLike(filter: $filter) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteThoughtLike = /* GraphQL */ `
+  subscription OnDeleteThoughtLike(
+    $filter: ModelSubscriptionThoughtLikeFilterInput
+  ) {
+    onDeleteThoughtLike(filter: $filter) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateCommentLike = /* GraphQL */ `
+  subscription OnCreateCommentLike(
+    $filter: ModelSubscriptionCommentLikeFilterInput
+  ) {
+    onCreateCommentLike(filter: $filter) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateCommentLike = /* GraphQL */ `
+  subscription OnUpdateCommentLike(
+    $filter: ModelSubscriptionCommentLikeFilterInput
+  ) {
+    onUpdateCommentLike(filter: $filter) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteCommentLike = /* GraphQL */ `
+  subscription OnDeleteCommentLike(
+    $filter: ModelSubscriptionCommentLikeFilterInput
+  ) {
+    onDeleteCommentLike(filter: $filter) {
+      thoughtID
+      userID
+      createdAt
+      updatedAt
       __typename
     }
   }
