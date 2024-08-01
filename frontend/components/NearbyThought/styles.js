@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../../constants/colors"
 
 const styles = StyleSheet.create({
     container: {
@@ -9,14 +9,16 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.grayFont,
         flexDirection: "row",
         width: "100%",
-        justifyContent: "space-between",
+        justifyContent: "space-between"
     },
     thoughtBody: {
         flexDirection: "column",
+        gap: 8,
+        marginBottom: 8
     },
     userInfo: {
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "baseline",
         gap: 8
     },
     userName: {
@@ -28,24 +30,52 @@ const styles = StyleSheet.create({
         fontSize: 10
     },
     thoughtContent: {
-        paddingVertical: 10
+        marginBottom: 15
     },
     content: {
         color: Colors.whiteFont
     },
     thoughtTags: {
+        flexDirection: "row",
+        gap: 8,
+        alignItems: "center",
+
+    },
+    addButton: {
+        backgroundColor: "#202124",
+        width: 18,
+        height: 18,
+        borderRadius: 55,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "#2C2C2C"
+    },
+    addText: {
+        color: Colors.whiteFont,
+        fontSize: 10
     },
     tags: {
         color: Colors.grayFont,
         fontSize: 12
     },
+    threeDots: {
+        color: Colors.grayFont,
+        fontSize: 20
+    },
     thoughtInteractions: {
         flexDirection: "row",
-        gap: 15
+        gap: 15,
+        alignItems: "center",
     },
     icon: {
         width: 22,
         height: 22
+    },
+    threeDotsIcon: {
+        width: 17,
+        height: 4
     },
     interactionNumber: {
         flexDirection: "row",
@@ -54,19 +84,24 @@ const styles = StyleSheet.create({
     number: {
         color: Colors.grayFont,
     },
-    pencilIcon: {
-        width: 17,
-        height: 16,
-    },
-    thoughtControllers: {
+    parkedDistanceContainer: {
         flexDirection: "column",
         justifyContent: "space-between",
-        paddingVertical: 10
+        paddingBottom: 5,
+        alignItems: "center",
     },
-    controllerIcons: {
-        width: 18,
+    parkedDistance: {
+        flexDirection: "row",
+        gap: 5,
+        alignItems: "center"
+    },
+    parkedIcon: {
+        width: 10,
         height: 18
+    },
+    parkedText: {
+        color: "yellow"
     }
 })
 
-export default styles;
+export default styles

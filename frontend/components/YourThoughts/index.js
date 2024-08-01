@@ -20,17 +20,18 @@ const YourThoughts = () => {
 
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
     const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice);
-
+    console.log("activeThoughts: ", activeThoughts)
+    console.log("inactiveThoughts: ", inactiveThoughts)
 
     return (
         <View style={styles.container}>
             <View style={styles.activeContainer}>
-                <Text style={styles.activeTitle}>Actively Think</Text>
+                <Text style={styles.activeTitle}>Actively Thinking</Text>
                 {activeThoughts.map((activeThought, index) => (
                     <YourActiveThought key={index} activeThought={activeThought} />
                 ))}
             </View>
-            <View>
+            <View style={styles.inactiveContainer}>
                 <Text style={styles.inactiveTitle}>In memory</Text>
                 {inactiveThoughts.map((inactiveThought, index) => (
                     <YourInactiveThought key={index} inactiveThought={inactiveThought} />

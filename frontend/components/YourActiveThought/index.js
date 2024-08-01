@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, Animated, Easing } from 'react-nat
 import styles from "./styles";
 import formatDate from "../../data/formatDate";
 import heartIcon from "../../assets/heart.png";
+import heartFillIcon from "../../assets/heart.fill.png";
 import commentIcon from "../../assets/message.png";
 import pencilIcon from "../../assets/pencil-create.png";
 import trasIcon from "../../assets/trash.png";
@@ -11,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import deleteOneThought from "../../data/deleteOneThought";
 import editOneThought from "../../data/editOneThought";
+import { checkLiked, likeThought } from "../../data/likeThought";
 
 const YourActiveThought = ({ activeThought }) => {
     const navigation = useNavigation();
@@ -18,11 +20,40 @@ const YourActiveThought = ({ activeThought }) => {
     const user = useSelector((state) => state.userSlice.user);
     const [animatedValue] = useState(new Animated.Value(0));
     const [fullAnimatedValue] = useState(new Animated.Value(1));
+    const [likeCount, setLikeCount] = useState(0);
+    const [liked, setLiked] = useState(false);
+
+    const init = async () => {
+        setLikeCount(activeThought.likes);
+        const isLiked = await checkLiked(activeThought);
+        console.log(isLiked)
+        if (isLiked) {
+            setLiked(true)
+        }
+        console.log("coming from active: ", activeThought.content, ": ", likeCount, " : ", liked)
+    }
 
     useEffect(() => {
+        init()
+    }, [])
+
+    const handleLike = (activeThought) => {
+        setLiked(true)
+        setLikeCount(likeCount + 1)
+        likeThought(activeThought, true)
+    }
+
+    const handleDislike = (activeThought) => {
+        setLiked(false)
+        setLikeCount(likeCount - 1)
+        likeThought(activeThought, false)
+    }
+
+    useEffect(() => {
+        init()
         Animated.timing(animatedValue, {
             toValue: 1,
-            duration: 350,
+            duration: 550,
             easing: Easing.ease,
             useNativeDriver: true,
         }).start(() => {
@@ -56,6 +87,7 @@ const YourActiveThought = ({ activeThought }) => {
         }).start(() => {
             animatedValue.setValue(1);
         });
+        setLiked(false)
     };
 
     const animatedStyle = {
@@ -88,10 +120,25 @@ const YourActiveThought = ({ activeThought }) => {
                             <Text style={styles.content}>{activeThought.content}</Text>
                         </View>
                         <View style={styles.thoughtInteractions}>
-                            <View style={styles.interactionNumber}>
-                                <Image source={heartIcon} style={styles.icon} />
-                                <Text style={styles.number}>2</Text>
-                            </View>
+                            <TouchableOpacity
+                                style={styles.interactionNumber}
+                                onPress={liked ? () => handleDislike(activeThought) : () => handleLike(activeThought)}
+                            >
+                                {liked ? (
+                                    <Image
+                                        source={heartFillIcon}
+                                        style={styles.icon}
+                                    />
+                                ) : (
+                                    <Image
+                                        source={heartIcon}
+                                        style={styles.icon}
+                                    />
+                                )}
+                                <Text style={styles.number}>
+                                    {likeCount}
+                                </Text>
+                            </TouchableOpacity>
                             <View style={styles.interactionNumber}>
                                 <Image source={commentIcon} style={styles.icon} />
                                 <Text style={styles.number}>2</Text>

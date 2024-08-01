@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import deleteOneThought from "../../data/deleteOneThought";
 import styles from "./styles";
 import editOneThought from "../../data/editOneThought";
+import { checkLiked } from "../../data/likeThought";
 
 const YourInactiveThought = ({ inactiveThought }) => {
     const [displayName, setDisplayName] = useState("");
@@ -52,7 +53,6 @@ const YourInactiveThought = ({ inactiveThought }) => {
         }).start(() => {
             animatedValue.setValue(1);
         });
-
     }, [inactiveThought]);
 
     const animatedStyle = {
@@ -92,7 +92,7 @@ const YourInactiveThought = ({ inactiveThought }) => {
                         <View style={styles.thoughtInteractions}>
                             <View style={styles.interactionNumber}>
                                 <Image source={heartIcon} style={styles.icon} />
-                                <Text style={styles.number}>2</Text>
+                                <Text style={styles.number}>{inactiveThought.likes}</Text>
                             </View>
                             <View style={styles.interactionNumber}>
                                 <Image source={commentIcon} style={styles.icon} />

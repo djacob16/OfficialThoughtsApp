@@ -17,7 +17,15 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     activeContainer: {
-        marginBottom: 40
+        marginBottom: 40,
+        backgroundColor: "#252525",
+        padding: 15,
+        borderRadius: 20
+    },
+    inactiveContainer: {
+        backgroundColor: "#252525",
+        padding: 15,
+        borderRadius: 20
     },
     inactiveTitle: {
         color: Colors.whiteFont,

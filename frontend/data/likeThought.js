@@ -38,6 +38,7 @@ export const likeThought = async (thought, like) => {
             }))
             console.log("updated liked thought response: ", updatedThought)
             console.log("like Entry: ", likeEntry)
+            return updatedThought
         } catch (error) {
             console.log("error here: ", error)
         }
@@ -63,6 +64,7 @@ export const likeThought = async (thought, like) => {
             }))
             console.log("updated Disliked Thought: ", updatedThought)
             console.log("deleted Like Entry: ", deletedLikeEntry)
+            return updatedThought
         } catch (error) {
             console.log(error)
         }
@@ -71,17 +73,15 @@ export const likeThought = async (thought, like) => {
 
 export const checkLiked = async (thought) => {
     const { userId } = await getCurrentUser();
-    console.log("in data file: ", thought)
     try {
         const response = await client.graphql({
             query: getThoughtLike,
             variables: {
-                thoughtID: thought.id,
                 userID: userId,
+                thoughtID: thought.id,
             }
         });
         const like = response.data.getThoughtLike;
-        console.log("like: ", like);
         return !!like;
     } catch (error) {
         console.log(error)
