@@ -29,3 +29,34 @@ export const listNearbyThoughtsWithAuthor = /* GraphQL */ `
     }
   }
 `;
+
+
+export const listCommentsWithAuthor = /* GraphQL */ `
+  query listCommentsWithAuthor(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        authorID
+        author {
+          id
+          photo
+          displayName
+        }
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

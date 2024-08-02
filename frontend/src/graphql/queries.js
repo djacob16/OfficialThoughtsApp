@@ -14,6 +14,10 @@ export const getUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      comments {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -112,6 +116,7 @@ export const getComment = /* GraphQL */ `
   query GetComment($id: ID!) {
     getComment(id: $id) {
       id
+      authorID
       author {
         id
         photo
@@ -148,6 +153,7 @@ export const getComment = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userCommentsId
       thoughtCommentsId
       __typename
     }
@@ -162,11 +168,13 @@ export const listComments = /* GraphQL */ `
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        authorID
         content
         likes
         anonymous
         createdAt
         updatedAt
+        userCommentsId
         thoughtCommentsId
         __typename
       }

@@ -14,6 +14,10 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      comments {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -35,6 +39,10 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      comments {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -53,6 +61,10 @@ export const onDeleteUser = /* GraphQL */ `
       about
       totalThoughts
       thoughts {
+        nextToken
+        __typename
+      }
+      comments {
         nextToken
         __typename
       }
@@ -173,6 +185,7 @@ export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment($filter: ModelSubscriptionCommentFilterInput) {
     onCreateComment(filter: $filter) {
       id
+      authorID
       author {
         id
         photo
@@ -209,6 +222,7 @@ export const onCreateComment = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userCommentsId
       thoughtCommentsId
       __typename
     }
@@ -218,6 +232,7 @@ export const onUpdateComment = /* GraphQL */ `
   subscription OnUpdateComment($filter: ModelSubscriptionCommentFilterInput) {
     onUpdateComment(filter: $filter) {
       id
+      authorID
       author {
         id
         photo
@@ -254,6 +269,7 @@ export const onUpdateComment = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userCommentsId
       thoughtCommentsId
       __typename
     }
@@ -263,6 +279,7 @@ export const onDeleteComment = /* GraphQL */ `
   subscription OnDeleteComment($filter: ModelSubscriptionCommentFilterInput) {
     onDeleteComment(filter: $filter) {
       id
+      authorID
       author {
         id
         photo
@@ -299,6 +316,7 @@ export const onDeleteComment = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userCommentsId
       thoughtCommentsId
       __typename
     }

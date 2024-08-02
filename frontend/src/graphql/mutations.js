@@ -17,6 +17,10 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      comments {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -41,6 +45,10 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      comments {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -62,6 +70,10 @@ export const deleteUser = /* GraphQL */ `
       about
       totalThoughts
       thoughts {
+        nextToken
+        __typename
+      }
+      comments {
         nextToken
         __typename
       }
@@ -194,6 +206,7 @@ export const createComment = /* GraphQL */ `
   ) {
     createComment(input: $input, condition: $condition) {
       id
+      authorID
       author {
         id
         photo
@@ -230,6 +243,7 @@ export const createComment = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userCommentsId
       thoughtCommentsId
       __typename
     }
@@ -242,6 +256,7 @@ export const updateComment = /* GraphQL */ `
   ) {
     updateComment(input: $input, condition: $condition) {
       id
+      authorID
       author {
         id
         photo
@@ -278,6 +293,7 @@ export const updateComment = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userCommentsId
       thoughtCommentsId
       __typename
     }
@@ -290,6 +306,7 @@ export const deleteComment = /* GraphQL */ `
   ) {
     deleteComment(input: $input, condition: $condition) {
       id
+      authorID
       author {
         id
         photo
@@ -326,6 +343,7 @@ export const deleteComment = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      userCommentsId
       thoughtCommentsId
       __typename
     }

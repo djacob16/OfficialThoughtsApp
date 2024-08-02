@@ -7,6 +7,9 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.backgroundColor,
         paddingTop: 45,
     },
+    scrollViewContainer: {
+        paddingHorizontal: 16
+    },
     ThoughtContainer: {
         borderBottomWidth: .5,
         borderBottomColor: Colors.grayFont,
@@ -15,97 +18,29 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         padding: 15,
     },
-    thoughtBody: {
-        flexDirection: "column",
-        gap: 8,
-        marginBottom: 8
-    },
-    userInfo: {
+    inputContainer: {
         flexDirection: "row",
-        alignItems: "baseline",
-        gap: 8
-    },
-    userName: {
-        color: Colors.whiteFont,
-        fontWeight: "500"
-    },
-    time: {
-        color: Colors.grayFont,
-        fontSize: 10
-    },
-    thoughtContent: {
-        marginBottom: 15
-    },
-    content: {
-        color: Colors.whiteFont
-    },
-    thoughtTags: {
-        flexDirection: "row",
-        gap: 8,
         alignItems: "center",
-
-    },
-    addButton: {
-        backgroundColor: "#202124",
-        width: 18,
-        height: 18,
-        borderRadius: 55,
-        display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 1,
-        borderColor: "#2C2C2C"
+        backgroundColor: "#2B2D2F",
+        borderRadius: 10,
+        width: "100%",
+        height: 50,
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        marginTop: 10,
     },
-    addText: {
-        color: Colors.whiteFont,
-        fontSize: 10
+    input: {
+        flex: 1,
+        marginRight: 10,
+        color: "white",
+        borderRadius: 20,
+        backgroundColor: "#2B2D2F",
     },
-    tags: {
-        color: Colors.grayFont,
-        fontSize: 12
+    sendArrow: {
+        width: 30,
+        height: 30
     },
-    threeDots: {
-        color: Colors.grayFont,
-        fontSize: 20
-    },
-    thoughtInteractions: {
-        flexDirection: "row",
-        gap: 15,
-        alignItems: "center",
-    },
-    icon: {
-        width: 22,
-        height: 22
-    },
-    threeDotsIcon: {
-        width: 17,
-        height: 4
-    },
-    interactionNumber: {
-        flexDirection: "row",
-        alignItems: "center"
-    },
-    number: {
-        color: Colors.grayFont,
-    },
-    parkedDistanceContainer: {
-        flexDirection: "column",
-        justifyContent: "space-between",
-        paddingBottom: 5,
-        alignItems: "center",
-    },
-    parkedDistance: {
-        flexDirection: "row",
-        gap: 5,
-        alignItems: "center"
-    },
-    parkedIcon: {
-        width: 10,
-        height: 18
-    },
-    parkedText: {
-        color: "yellow"
-    }
 })
 
 export default styles;

@@ -1,50 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
-import { View, Text, Image, TouchableOpacity, ScrollView, RefreshControl } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import formatDate from "../../data/formatDate";
 import heartIcon from "../../assets/heart.png";
 import commentIcon from "../../assets/message.png";
 import shareIcon from "../../assets/shareIcon.png";
 import threeDots from "../../assets/threeDots.png"
 import parkedIcon from "../../assets/mappinParked.png"
 import heartFillIcon from "../../assets/heart.fill.png";
-import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
+import formatDate from "../../data/formatDate";
 import { likeThought, checkLiked } from "../../data/likeThought";
-import { useNavigation } from "@react-navigation/native";
 
-
-const NearbyThought = ({ thought }) => {
-    const [likeCount, setLikeCount] = useState(0);
-    const [liked, setLiked] = useState(false);
-    const navigation = useNavigation()
-
-    const init = async () => {
-        setLikeCount(thought.likes);
-        const isLiked = await checkLiked(thought);
-        if (isLiked) {
-            setLiked(true)
-        }
-    }
-
-    useEffect(() => {
-        init()
-    }, []);
-
-    const handleLike = (thought) => {
-        setLiked(true)
-        setLikeCount(likeCount + 1)
-        likeThought(thought, true)
-    }
-
-    const handleDislike = (thought) => {
-        setLiked(false)
-        setLikeCount(likeCount - 1)
-        likeThought(thought, false)
-    }
-
+const ThoughtForumThought = ({ thought }) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought })}>
+        <View style={styles.container}>
             <View>
                 <View style={styles.profileContainer}></View>
                 <View style={styles.thoughtBody}>
@@ -69,24 +36,16 @@ const NearbyThought = ({ thought }) => {
                 <View style={styles.thoughtInteractions}>
                     <TouchableOpacity
                         style={styles.interactionNumber}
-                        onPress={liked ? () => handleDislike(thought) : () => handleLike(thought)}
                     >
-                        {liked ? (
-                            <Image
-                                source={heartFillIcon}
-                                style={styles.icon}
-                            />
-                        ) : (
-                            <Image
-                                source={heartIcon}
-                                style={styles.icon}
-                            />
-                        )}
+                        <Image
+                            source={heartIcon}
+                            style={styles.icon}
+                        />
                         <Text style={styles.number}>
-                            {likeCount}
+                            69
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.interactionNumber} onPress={() => navigation.navigate("CommentForum", { thought })}>
+                    <TouchableOpacity style={styles.interactionNumber}>
                         <Image source={commentIcon} style={styles.icon} />
                         <Text style={styles.number}>2</Text>
                     </TouchableOpacity>
@@ -106,8 +65,8 @@ const NearbyThought = ({ thought }) => {
                     </View>
                 )}
             </View>
-        </TouchableOpacity>
+        </View>
     )
 }
 
-export default NearbyThought;
+export default ThoughtForumThought;

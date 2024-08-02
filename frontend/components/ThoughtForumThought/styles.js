@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.grayFont,
         flexDirection: "row",
         width: "100%",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        padding: 16
     },
     thoughtBody: {
         flexDirection: "column",
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     },
     thoughtInteractions: {
         flexDirection: "row",
-        gap: 8,
+        gap: 15,
         alignItems: "center",
     },
     icon: {

@@ -9,12 +9,14 @@ const onEditThought = async (dispatch) => {
     dispatch(getActiveThoughts());
     dispatch(getInactiveThoughts());
 
+
     const thoughtsSubscription = client.graphql({
         query: subscriptions.onUpdateThought,
     }).subscribe({
         next: async () => {
             await dispatch(getActiveThoughts());
             await dispatch(getInactiveThoughts());
+            console.log("edit thought subscription hit")
         },
         error: (error) => console.warn(error)
     });

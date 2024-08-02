@@ -22,6 +22,7 @@ export const getNearbyThoughts = createAsyncThunk(
                     }
                 }
             });
+            console.log("nearby thoughts: ", response.data.listThoughts.items);
             return response.data.listThoughts.items;
         } catch (error) {
             console.log(error);
