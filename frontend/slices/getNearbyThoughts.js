@@ -6,6 +6,8 @@ import geohash from "ngeohash";
 
 export const getNearbyThoughts = createAsyncThunk(
     "data/nearby", async (hash) => {
+        const slicedHash = hash.slice(0, 5)
+        console.log(slicedHash)
         const client = generateClient();
         try {
             const response = await client.graphql({
@@ -13,7 +15,7 @@ export const getNearbyThoughts = createAsyncThunk(
                 variables: {
                     filter: {
                         geohash: {
-                            beginsWith: hash
+                            beginsWith: slicedHash
                         }, and: {
                             active: {
                                 eq: true
