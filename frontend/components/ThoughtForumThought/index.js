@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import heartIcon from "../../assets/heart.png";
@@ -10,6 +11,21 @@ import formatDate from "../../data/formatDate";
 import { likeThought, checkLiked } from "../../data/likeThought";
 
 const ThoughtForumThought = ({ thought }) => {
+    const [liked, setLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
+
+    useEffect(() => {
+        const init = async () => {
+            setLikeCount(thought.likes);
+            console.log("nearbyThought in comment forum init")
+            const isLiked = await checkLiked(thought);
+            if (isLiked) {
+                setLiked(true)
+            }
+        }
+        init()
+    }, []);
+
     return (
         <View style={styles.container}>
             <View>
@@ -41,9 +57,7 @@ const ThoughtForumThought = ({ thought }) => {
                             source={heartIcon}
                             style={styles.icon}
                         />
-                        <Text style={styles.number}>
-                            69
-                        </Text>
+                        <Text style={styles.number}>{likeCount}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.interactionNumber}>
                         <Image source={commentIcon} style={styles.icon} />

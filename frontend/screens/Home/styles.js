@@ -9,14 +9,13 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingHorizontal: 16
     },
     navigator: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-around",
-        backgroundColor: "#2C2C2C",
+        backgroundColor: Colors.sectionGrey,
         borderRadius: 25,
         width: "100%",
         height: 44,

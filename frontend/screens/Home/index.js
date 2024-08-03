@@ -105,19 +105,21 @@ const Home = () => {
         <View style={styles.bigContainer}>
             <LogoHeader />
             <View style={styles.container}>
-                <View style={styles.navigator}>
-                    <Animated.View style={[styles.highlight, highlightStyle]} />
-                    {homeScreens.map((data, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            onPress={() => titleIdFunc(data.id, data.title)}
-                            style={styles.navigatorText}
-                        >
-                            <Text style={{ color: data.id === titleId ? "black" : "white" }}>
-                                {data.title}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
+                <View style={{ paddingHorizontal: 16 }}>
+                    <View style={styles.navigator}>
+                        <Animated.View style={[styles.highlight, highlightStyle]} />
+                        {homeScreens.map((data, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() => titleIdFunc(data.id, data.title)}
+                                style={styles.navigatorText}
+                            >
+                                <Text style={{ color: data.id === titleId ? "black" : "white" }}>
+                                    {data.title}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
                 </View>
                 <ScrollView
                     showsVerticalScrollIndicator={false}

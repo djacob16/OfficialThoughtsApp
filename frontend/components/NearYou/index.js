@@ -4,6 +4,7 @@ import styles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import NearbyThought from "../../components/NearbyThought";
+import { Colors } from "../../constants/colors";
 
 const NearYou = ({ hash }) => {
     const dispatch = useDispatch();
@@ -19,7 +20,13 @@ const NearYou = ({ hash }) => {
     return (
         <View style={{ flex: 1 }}>
             {loading === "succeeded" && nearbyThoughts?.map((thought, index) => (
-                <NearbyThought key={index} thought={thought} />
+                <View key={index} style={{
+                    borderBottomWidth: .5,
+                    borderBottomColor: Colors.lightGray,
+                    marginBottom: 12
+                }}>
+                    <NearbyThought thought={thought} />
+                </View>
             ))}
         </View>
     );

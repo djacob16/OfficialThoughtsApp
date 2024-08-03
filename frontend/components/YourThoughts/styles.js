@@ -9,8 +9,10 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.grayFont,
         flexDirection: "column",
         width: "100%",
+        paddingHorizontal: 16
     },
     activeTitle: {
+        paddingLeft: 8,
         color: Colors.whiteFont,
         fontSize: 20,
         fontWeight: "500",
@@ -18,20 +20,21 @@ const styles = StyleSheet.create({
     },
     activeContainer: {
         marginBottom: 40,
-        backgroundColor: "#252525",
-        padding: 15,
-        borderRadius: 20
+        backgroundColor: Colors.sectionGrey,
+        paddingVertical: 15,
+        borderRadius: 15
     },
     inactiveContainer: {
-        backgroundColor: "#252525",
-        padding: 15,
-        borderRadius: 20
+        backgroundColor: Colors.sectionGrey,
+        paddingVertical: 15,
+        borderRadius: 15,
     },
     inactiveTitle: {
         color: Colors.whiteFont,
         fontSize: 20,
         fontWeight: "500",
-        marginBottom: 5
+        marginBottom: 5,
+        paddingLeft: 8,
     },
 })
 

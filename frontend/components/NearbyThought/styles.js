@@ -5,16 +5,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingVertical: 8,
-        borderBottomWidth: .5,
-        borderBottomColor: Colors.grayFont,
         flexDirection: "row",
         width: "100%",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        paddingHorizontal: 16
     },
     thoughtBody: {
         flexDirection: "column",
         gap: 8,
-        marginBottom: 8
     },
     userInfo: {
         flexDirection: "row",

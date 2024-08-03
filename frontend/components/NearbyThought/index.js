@@ -35,6 +35,8 @@ const NearbyThought = ({ thought }) => {
         setLiked(true)
         setLikeCount(likeCount + 1)
         likeThought(thought, true)
+        thought.likes = likeCount;
+        console.log(thought)
     }
 
     const handleDislike = (thought) => {
@@ -88,7 +90,7 @@ const NearbyThought = ({ thought }) => {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.interactionNumber} onPress={() => navigation.navigate("CommentForum", { thought })}>
                         <Image source={commentIcon} style={styles.icon} />
-                        <Text style={styles.number}>2</Text>
+                        <Text style={styles.number}>{thought.comments.items.length}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Image source={shareIcon} style={styles.icon} />
