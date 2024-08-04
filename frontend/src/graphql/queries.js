@@ -273,9 +273,9 @@ export const listThoughtLikes = /* GraphQL */ `
   }
 `;
 export const getCommentLike = /* GraphQL */ `
-  query GetCommentLike($thoughtID: ID!, $userID: ID!) {
-    getCommentLike(thoughtID: $thoughtID, userID: $userID) {
-      thoughtID
+  query GetCommentLike($commentID: ID!, $userID: ID!) {
+    getCommentLike(commentID: $commentID, userID: $userID) {
+      commentID
       userID
       createdAt
       updatedAt
@@ -285,7 +285,7 @@ export const getCommentLike = /* GraphQL */ `
 `;
 export const listCommentLikes = /* GraphQL */ `
   query ListCommentLikes(
-    $thoughtID: ID
+    $commentID: ID
     $userID: ModelIDKeyConditionInput
     $filter: ModelCommentLikeFilterInput
     $limit: Int
@@ -293,7 +293,7 @@ export const listCommentLikes = /* GraphQL */ `
     $sortDirection: ModelSortDirection
   ) {
     listCommentLikes(
-      thoughtID: $thoughtID
+      commentID: $commentID
       userID: $userID
       filter: $filter
       limit: $limit
@@ -301,7 +301,7 @@ export const listCommentLikes = /* GraphQL */ `
       sortDirection: $sortDirection
     ) {
       items {
-        thoughtID
+        commentID
         userID
         createdAt
         updatedAt

@@ -487,7 +487,7 @@ export const createCommentLike = /* GraphQL */ `
     $condition: ModelCommentLikeConditionInput
   ) {
     createCommentLike(input: $input, condition: $condition) {
-      thoughtID
+      commentID
       userID
       createdAt
       updatedAt
@@ -501,7 +501,7 @@ export const updateCommentLike = /* GraphQL */ `
     $condition: ModelCommentLikeConditionInput
   ) {
     updateCommentLike(input: $input, condition: $condition) {
-      thoughtID
+      commentID
       userID
       createdAt
       updatedAt
@@ -515,7 +515,7 @@ export const deleteCommentLike = /* GraphQL */ `
     $condition: ModelCommentLikeConditionInput
   ) {
     deleteCommentLike(input: $input, condition: $condition) {
-      thoughtID
+      commentID
       userID
       createdAt
       updatedAt

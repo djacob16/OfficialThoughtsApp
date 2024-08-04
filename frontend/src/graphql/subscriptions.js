@@ -447,7 +447,7 @@ export const onCreateCommentLike = /* GraphQL */ `
     $filter: ModelSubscriptionCommentLikeFilterInput
   ) {
     onCreateCommentLike(filter: $filter) {
-      thoughtID
+      commentID
       userID
       createdAt
       updatedAt
@@ -460,7 +460,7 @@ export const onUpdateCommentLike = /* GraphQL */ `
     $filter: ModelSubscriptionCommentLikeFilterInput
   ) {
     onUpdateCommentLike(filter: $filter) {
-      thoughtID
+      commentID
       userID
       createdAt
       updatedAt
@@ -473,7 +473,7 @@ export const onDeleteCommentLike = /* GraphQL */ `
     $filter: ModelSubscriptionCommentLikeFilterInput
   ) {
     onDeleteCommentLike(filter: $filter) {
-      thoughtID
+      commentID
       userID
       createdAt
       updatedAt
