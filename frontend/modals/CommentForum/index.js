@@ -29,10 +29,11 @@ const CommentForum = () => {
 
 
     const commentOnThought = async () => {
-        setLocalCommentCount(localCommentCount + 1)
-        setCommentCount(localCommentCount + 1);
-        await createOneComment(thought, comment);
         setComment("");
+        setCommentCount(localCommentCount + 1);
+        setLocalCommentCount(localCommentCount + 1)
+        await createOneComment(thought, comment);
+        dispatch(getNearbyComments(thought))
     }
 
     useEffect(() => {
