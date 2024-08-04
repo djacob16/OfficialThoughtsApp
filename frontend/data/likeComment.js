@@ -82,7 +82,6 @@ export const checkLiked = async (comment) => {
             }
         });
         const like = response.data.getCommentLike;
-        c
         return !!like;
     } catch (error) {
         console.log(error)
