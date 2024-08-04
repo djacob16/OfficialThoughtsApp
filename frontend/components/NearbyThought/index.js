@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 const NearbyThought = ({ thought }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
+    const [commentCount, setCommentCount] = useState(thought.comments.items.length)
     const navigation = useNavigation()
 
     const init = async () => {
@@ -46,7 +47,7 @@ const NearbyThought = ({ thought }) => {
     }
 
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought })}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}>
             <View>
                 <View style={styles.profileContainer}></View>
                 <View style={styles.thoughtBody}>
@@ -88,9 +89,9 @@ const NearbyThought = ({ thought }) => {
                             {likeCount}
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.interactionNumber} onPress={() => navigation.navigate("CommentForum", { thought })}>
+                    <TouchableOpacity style={styles.interactionNumber} onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}>
                         <Image source={commentIcon} style={styles.icon} />
-                        <Text style={styles.number}>{thought.comments.items.length}</Text>
+                        <Text style={styles.number}>{commentCount}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Image source={shareIcon} style={styles.icon} />

@@ -5,5 +5,5 @@ export const Colors = {
     yellowFont: "#FBD157",
     grayFont: "#777575",
     lightGray: "#262628",
-    sectionGrey: "#211F1F"
+    sectionGrey: "#1E1E1E"
 }

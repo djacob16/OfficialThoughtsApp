@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: "100%",
         justifyContent: "space-between",
-        paddingHorizontal: 8
+        paddingHorizontal: 16,
     },
     thoughtBody: {
         flexDirection: "column",

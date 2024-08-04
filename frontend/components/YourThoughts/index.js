@@ -28,24 +28,18 @@ const YourThoughts = () => {
         <View style={styles.container}>
             <View style={styles.activeContainer}>
                 <Text style={styles.activeTitle}>Actively Thinking</Text>
-                <View style={{
-                    borderBottomWidth: .5,
-                    borderBottomColor: Colors.grayFont,
-                    paddingHorizontal: 8
-                }}>
+                <View>
                     {activeThoughts.map((activeThought, index) => (
-                        <YourActiveThought key={index} activeThought={activeThought} />
+                        <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.lightGray, marginBottom: 15 }}>
+                            <YourActiveThought key={index} activeThought={activeThought} />
+                        </View>
                     ))}
                 </View>
 
             </View>
             <View style={styles.inactiveContainer}>
                 <Text style={styles.inactiveTitle}>In memory</Text>
-                <View style={{
-                    borderBottomWidth: .5,
-                    borderBottomColor: Colors.grayFont,
-                    paddingHorizontal: 8
-                }}>
+                <View style={{ paddingHorizontal: 8 }}>
                     {inactiveThoughts.map((inactiveThought, index) => (
                         <YourInactiveThought key={index} inactiveThought={inactiveThought} />
                     ))}

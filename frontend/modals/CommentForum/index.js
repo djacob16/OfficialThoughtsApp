@@ -12,44 +12,25 @@ import { useDispatch, useSelector } from "react-redux"
 import formatDate from "../../data/formatDate";
 import heartIcon from "../../assets/heart.png";
 import commentIcon from "../../assets/message.png";
+import { useFocusEffect } from "@react-navigation/native";
 
 const CommentForum = () => {
     const route = useRoute()
     const dispatch = useDispatch()
-    const { thought } = route.params;
-    const [likeCount, setLikeCount] = useState(0);
+    const { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount } = route.params;
+    // const [likeCount, setLikeCount] = useState(0);
     const [height, setHeight] = useState(40);
-    const [liked, setLiked] = useState(false);
+    // const [liked, setLiked] = useState(false);
     const [comment, setComment] = useState("");
     const [inputHeight, setInputHeight] = useState("auto");
+    const [localCommentCount, setLocalCommentCount] = useState(commentCount);
 
     const { nearbyComments, loading } = useSelector((state) => state.getNearbyCommentsSlice);
 
-    // const init = async () => {
-    //     setLikeCount(thought.likes);
-    //     const isLiked = await checkLiked(thought);
-    //     if (isLiked) {
-    //         setLiked(true)
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     init()
-    // }, []);
-
-    // const handleLike = (thought) => {
-    //     setLiked(true)
-    //     setLikeCount(likeCount + 1)
-    //     likeThought(thought, true)
-    // }
-
-    // const handleDislike = (thought) => {
-    //     setLiked(false)
-    //     setLikeCount(likeCount - 1)
-    //     likeThought(thought, false)
-    // }
 
     const commentOnThought = async () => {
+        setLocalCommentCount(localCommentCount + 1)
+        setCommentCount(localCommentCount + 1);
         await createOneComment(thought, comment);
         setComment("");
     }
@@ -62,7 +43,7 @@ const CommentForum = () => {
         <View style={styles.container}>
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
                 <ScrollView>
-                    <ThoughtForumThought thought={thought} />
+                    <ThoughtForumThought thought={thought} liked={liked} likeCount={likeCount} handleDislike={handleDislike} handleLike={handleLike} commentCount={localCommentCount} />
                     <View style={styles.commentsContainer}>
                         {nearbyComments.map((comment, index) => (
                             <View key={index} style={styles.commentContainer}>
@@ -87,7 +68,7 @@ const CommentForum = () => {
                                         </View> */}
                                 </View>
                                 <View style={styles.thoughtInteractions}>
-                                    <TouchableOpacity style={styles.interactionNumber}>
+                                    <TouchableOpacity style={styles.interactionNumber} >
                                         <Image
                                             source={heartIcon}
                                             style={styles.icon}

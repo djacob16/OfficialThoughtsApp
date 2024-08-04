@@ -8,13 +8,14 @@ import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import profileIcon from "../assets/profileIcon.png"
 import profileIconFocused from "../assets/profileIcon-focused.png"
+import { Colors } from "../constants/colors";
 
 const Tab = createBottomTabNavigator()
 
 const HomeTabNavigator = () => {
     const route = useRoute()
     return (
-        <Tab.Navigator screenOptions={{ tabBarStyle: { backgroundColor: "#211F1F", paddingVertical: 15 } }}>
+        <Tab.Navigator screenOptions={{ tabBarStyle: { backgroundColor: Colors.backgroundColor, paddingVertical: 15 } }}>
             <Tab.Screen name={"Home"} component={Home} options={{
                 headerShown: false,
                 tabBarShowLabel: false,

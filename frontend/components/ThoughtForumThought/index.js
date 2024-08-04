@@ -9,22 +9,23 @@ import parkedIcon from "../../assets/mappinParked.png"
 import heartFillIcon from "../../assets/heart.fill.png";
 import formatDate from "../../data/formatDate";
 import { likeThought, checkLiked } from "../../data/likeThought";
+import { useRoute } from "@react-navigation/native";
 
-const ThoughtForumThought = ({ thought }) => {
-    const [liked, setLiked] = useState(false);
-    const [likeCount, setLikeCount] = useState(0);
+const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleLike, commentCount }) => {
+    const [localLiked, setLocalLiked] = useState(liked);
+    const [localLikeCount, setlocalLikeCount] = useState(likeCount);
 
-    useEffect(() => {
-        const init = async () => {
-            setLikeCount(thought.likes);
-            console.log("nearbyThought in comment forum init")
-            const isLiked = await checkLiked(thought);
-            if (isLiked) {
-                setLiked(true)
-            }
-        }
-        init()
-    }, []);
+    const handleLocalLike = () => {
+        setLocalLiked(!localLiked)
+        setlocalLikeCount(localLikeCount + 1)
+        handleLike(thought)
+    }
+
+    const handleLocalDislike = () => {
+        setLocalLiked(!localLiked)
+        setlocalLikeCount(localLikeCount - 1)
+        handleDislike(thought)
+    }
 
     return (
         <View style={styles.container}>
@@ -52,16 +53,26 @@ const ThoughtForumThought = ({ thought }) => {
                 <View style={styles.thoughtInteractions}>
                     <TouchableOpacity
                         style={styles.interactionNumber}
+                        onPress={localLiked ? () => handleLocalDislike() : () => handleLocalLike()}
                     >
-                        <Image
-                            source={heartIcon}
-                            style={styles.icon}
-                        />
-                        <Text style={styles.number}>{likeCount}</Text>
+                        {localLiked ? (
+                            <Image
+                                source={heartFillIcon}
+                                style={styles.icon}
+                            />
+                        ) : (
+                            <Image
+                                source={heartIcon}
+                                style={styles.icon}
+                            />
+                        )}
+                        <Text style={styles.number}>
+                            {localLikeCount}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.interactionNumber}>
                         <Image source={commentIcon} style={styles.icon} />
-                        <Text style={styles.number}>2</Text>
+                        <Text style={styles.number}>{commentCount}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Image source={shareIcon} style={styles.icon} />
