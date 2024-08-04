@@ -8,6 +8,7 @@ import sendArrow from "../../assets/sendArrow.png";
 import { getNearbyComments } from "../../slices/getNearbyComments";
 import { useDispatch, useSelector } from "react-redux"
 import Comment from "../../components/Comment";
+import { useFocusEffect } from "@react-navigation/native";
 
 const CommentForum = () => {
     const route = useRoute()
@@ -28,6 +29,18 @@ const CommentForum = () => {
         await createOneComment(thought, comment);
         dispatch(getNearbyComments(thought))
     }
+
+    useFocusEffect(
+        React.useCallback(() => {
+            dispatch(getNearbyComments(thought))
+            console.log('CommentForum modal is now visible');
+
+            return () => {
+                dispatch(getNearbyComments(thought))
+                console.log('CommentForum modal has been closed');
+            };
+        }, [])
+    );
 
     useEffect(() => {
         dispatch(getNearbyComments(thought))
