@@ -78,10 +78,11 @@ export const checkLiked = async (comment) => {
             query: getCommentLike,
             variables: {
                 userID: userId,
-                comment: comment.id,
+                commentID: comment.id,
             }
         });
         const like = response.data.getCommentLike;
+        c
         return !!like;
     } catch (error) {
         console.log(error)
