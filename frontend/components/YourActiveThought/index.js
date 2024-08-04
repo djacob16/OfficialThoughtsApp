@@ -23,15 +23,20 @@ const YourActiveThought = ({ activeThought }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
 
-    const init = async () => {
-        setLikeCount(activeThought.likes);
-        const isLiked = await checkLiked(activeThought);
-        console.log(isLiked)
-        if (isLiked) {
-            setLiked(true)
+    useState(() => {
+        const init = async () => {
+            setLikeCount(activeThought.likes);
+            const isLiked = await checkLiked(activeThought);
+            console.log(isLiked)
+            if (isLiked) {
+                setLiked(true)
+            } else {
+                setLiked(false)
+            }
+            console.log(activeThought.content, ": ", liked)
         }
-        console.log(activeThought.content, ": ", liked)
-    }
+        init();
+    }, [])
 
     const handleLike = (activeThought) => {
         setLiked(true)
@@ -54,7 +59,6 @@ const YourActiveThought = ({ activeThought }) => {
         }).start(() => {
             animatedValue.setValue(1);
         });
-        init();
     }, [activeThought]);
 
     const edit = () => {

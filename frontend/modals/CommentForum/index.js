@@ -9,6 +9,7 @@ import { getNearbyComments } from "../../slices/getNearbyComments";
 import { useDispatch, useSelector } from "react-redux"
 import Comment from "../../components/Comment";
 import { useFocusEffect } from "@react-navigation/native";
+import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 
 const CommentForum = () => {
     const route = useRoute()
@@ -33,6 +34,7 @@ const CommentForum = () => {
     useFocusEffect(
         React.useCallback(() => {
             dispatch(getNearbyComments(thought))
+
             console.log('CommentForum modal is now visible');
 
             return () => {
@@ -42,9 +44,9 @@ const CommentForum = () => {
         }, [])
     );
 
-    useEffect(() => {
-        dispatch(getNearbyComments(thought))
-    }, [])
+    // useEffect(() => {
+    //     dispatch(getNearbyComments(thought))
+    // }, [])
 
     return (
         <View style={styles.container}>

@@ -7,6 +7,7 @@ import heartFillIcon from "../../assets/heart.fill.png";
 import commentIcon from "../../assets/message.png";
 import { likeComment, checkLiked } from "../../data/likeComment";
 
+
 const Comment = ({ comment }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
@@ -17,10 +18,12 @@ const Comment = ({ comment }) => {
             const isLiked = await checkLiked(comment);
             if (isLiked) {
                 setLiked(true)
+            } else {
+                setLiked(false)
             }
         }
         init()
-    }, []);
+    }, [comment]);
 
     const handleLike = () => {
         setLiked(true)
