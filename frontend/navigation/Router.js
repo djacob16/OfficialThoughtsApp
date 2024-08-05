@@ -15,6 +15,7 @@ import onThought from "../subscriptions/subscribeToNewThought";
 import onEditThought from "../subscriptions/subscribeToEditThought";
 import EditThought from "../components/EditThought";
 import onRemoveThought from "../subscriptions/subscribeToDeleteThought";
+import onUpdateUser from "../subscriptions/subscribeToUser";
 const Stack = createNativeStackNavigator();
 
 const Router = () => {
@@ -24,6 +25,7 @@ const Router = () => {
         onThought(dispatch)
         onEditThought(dispatch)
         onRemoveThought(dispatch)
+        onUpdateUser(dispatch)
         dispatch(getOneUser())
     }, [dispatch])
 

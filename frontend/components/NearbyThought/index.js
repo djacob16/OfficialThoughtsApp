@@ -12,9 +12,11 @@ import heartFillIcon from "../../assets/heart.fill.png";
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import { likeThought, checkLiked } from "../../data/likeThought";
 import { useNavigation } from "@react-navigation/native";
+import defaultProfilePic from "../../assets/defaultprofilepic.png"
 
 
 const NearbyThought = ({ thought }) => {
+    const { user } = useSelector((state) => state.userSlice);
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
     const [commentCount, setCommentCount] = useState(thought.comments.items.length)
@@ -48,8 +50,16 @@ const NearbyThought = ({ thought }) => {
 
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}>
+            <View style={styles.profileContainer}>
+                {thought.author.photo ? (
+                    <Image source={{ uri: thought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                ) : (
+                    <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                )}
+
+            </View>
             <View>
-                <View style={styles.profileContainer}></View>
+
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>
                         {thought.anonymous ? (

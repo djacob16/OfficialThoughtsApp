@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         flexDirection: "row",
         width: "100%",
-        justifyContent: "space-between",
+        gap: 10,
         paddingHorizontal: 16
     },
     thoughtBody: {

@@ -8,7 +8,7 @@ import mappinGreen from "../../assets/mappinGreen.png"
 import formatDate from "../../data/formatDate";
 import defaultProfilePic from "../../assets/defaultprofilepic.png"
 import { launchImageLibrary, ImageLibraryOptions } from "react-native-image-picker";
-import pickImage from "../../data/pickImage";
+import { pickImage } from "../../data/pickImage";
 import { uploadData } from "aws-amplify/storage";
 import { updateUser } from "../../src/graphql/mutations";
 import { generateClient } from "aws-amplify/api";
@@ -20,7 +20,6 @@ const Profile = () => {
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
     const [parkedThoughts, setParkedThoughts] = useState(0);
     const [fileName, setFileName] = useState("");
-    console.log("ac: ", activeThoughts[0]);
 
     const calcParkedThoughts = () => {
         let parkedThoughts = 0;
@@ -43,46 +42,29 @@ const Profile = () => {
         setFileName(pickedImage.fileName);
     }
 
-    const toS3 = async () => {
-        const client = generateClient();
+    const uploadFileToS3 = async (blob, key) => {
         try {
             const result = await uploadData({
-                key: fileName,
-                data: fileName,
+                key: key,
+                data: blob,
                 options: {
-                    accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'Optional progress callback.
+                    accessLevel: undefined
                 }
-            }).result
-            try {
-                const response = await client.graphql({
-                    query: updateUser,
-                    variables: {
-                        input: {
-                            id: user.id,
-                            photo: result.key
-                        }
-                    }
-                })
-                console.log("new user:       ", response)
-            } catch (err) {
-                console.log(err);
-            }
-            console.log("result: ", result)
+            }).result;
+            //console.log('Succeeded: ', result);
+            return result.key;
         } catch (error) {
-            console.log(error)
+            //console.log('Error : ', error);
         }
-        const toDB = async () => {
-
-
-        }
-    }
+        return '';
+    };
 
     return (
         <View style={styles.backgroundContainer}>
             <Image source={background} style={styles.backgroundImage} />
-            {image ? (
+            {user.photo ? (
                 <TouchableOpacity style={styles.profileImage} onPress={selectImage}>
-                    <Image source={user.photo} style={{
+                    <Image source={{ uri: user.photo }} style={{
                         objectFit: "cover", width: 169.346,
                         height: 169.346, borderRadius: 100
                     }} />
@@ -90,12 +72,15 @@ const Profile = () => {
             ) :
                 (
                     <TouchableOpacity style={styles.profileImage} onPress={selectImage}>
-                        {/* <Image source={defaultProfilePic} style={{ objectFit: "contain" }} /> */}
+                        <Image source={defaultProfilePic} style={{
+                            objectFit: "contain", width: 169.346,
+                            height: 169.346, borderRadius: 100
+                        }} />
                     </TouchableOpacity>
                 )
             }
             <ScrollView style={styles.container}>
-                <TouchableOpacity onPress={toS3}>
+                <TouchableOpacity>
                     <Text style={{ color: "yellow", textAlign: "center" }}>push to s3</Text>
                 </TouchableOpacity>
                 <Text style={styles.name}>{user.name}</Text>
@@ -129,6 +114,7 @@ const Profile = () => {
                         </View>
                         <Text style={styles.thought}>{activeThoughts[0]?.content}</Text>
                     </View>}
+                <Image source={user.photo} />
             </ScrollView>
         </View>
 
