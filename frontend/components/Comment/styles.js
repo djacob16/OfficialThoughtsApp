@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderBottomWidth: .5,
         borderBottomColor: Colors.grayFont,
-        flexDirection: "column",
+        flexDirection: "row",
         width: "100%",
-        justifyContent: "space-between"
+        gap: 10
     },
     thoughtBody: {
         flexDirection: "column",

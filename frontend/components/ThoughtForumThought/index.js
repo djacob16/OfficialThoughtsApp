@@ -10,6 +10,7 @@ import heartFillIcon from "../../assets/heart.fill.png";
 import formatDate from "../../data/formatDate";
 import { likeThought, checkLiked } from "../../data/likeThought";
 import { useRoute } from "@react-navigation/native";
+import defaultProfilePic from "../../assets/defaultprofilepic.png"
 
 const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleLike, commentCount }) => {
     const [localLiked, setLocalLiked] = useState(liked);
@@ -29,8 +30,14 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
 
     return (
         <View style={styles.container}>
+            <View style={styles.profileContainer}>
+                {thought.author.photo ? (
+                    <Image source={{ uri: thought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                ) : (
+                    <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                )}
+            </View>
             <View>
-                <View style={styles.profileContainer}></View>
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>
                         {thought.anonymous ? (

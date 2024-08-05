@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         borderBottomColor: Colors.grayFont,
         flexDirection: "row",
         width: "100%",
-        justifyContent: "space-between",
+        gap: 10,
         padding: 16
     },
     thoughtBody: {
