@@ -65,3 +65,33 @@ export const listCommentsWithAuthor = /* GraphQL */ `
     }
   }
 `;
+
+export const listRepliesWithAuthor = /* GraphQL */ `
+  query listRepliesWithAuthor(
+    $filter: ModelReplyFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listReplies(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        authorID
+        author {
+          id
+          photo
+          displayName
+        }
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userRepliesId
+        commentRepliesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

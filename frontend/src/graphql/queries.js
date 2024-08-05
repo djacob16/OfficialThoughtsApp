@@ -18,6 +18,10 @@ export const getUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      replies {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -187,6 +191,7 @@ export const getReply = /* GraphQL */ `
   query GetReply($id: ID!) {
     getReply(id: $id) {
       id
+      authorID
       author {
         id
         photo
@@ -200,11 +205,24 @@ export const getReply = /* GraphQL */ `
         updatedAt
         __typename
       }
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       content
       likes
       anonymous
       createdAt
       updatedAt
+      userRepliesId
       commentRepliesId
       __typename
     }
@@ -219,11 +237,13 @@ export const listReplies = /* GraphQL */ `
     listReplies(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        authorID
         content
         likes
         anonymous
         createdAt
         updatedAt
+        userRepliesId
         commentRepliesId
         __typename
       }
@@ -302,6 +322,46 @@ export const listCommentLikes = /* GraphQL */ `
     ) {
       items {
         commentID
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getReplyLike = /* GraphQL */ `
+  query GetReplyLike($replyID: ID!, $userID: ID!) {
+    getReplyLike(replyID: $replyID, userID: $userID) {
+      replyID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listReplyLikes = /* GraphQL */ `
+  query ListReplyLikes(
+    $replyID: ID
+    $userID: ModelIDKeyConditionInput
+    $filter: ModelReplyLikeFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listReplyLikes(
+      replyID: $replyID
+      userID: $userID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        replyID
         userID
         createdAt
         updatedAt

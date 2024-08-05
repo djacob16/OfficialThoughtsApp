@@ -6,17 +6,23 @@ import heartIcon from "../../assets/heart.png";
 import heartFillIcon from "../../assets/heart.fill.png";
 import commentIcon from "../../assets/message.png";
 import { likeComment, checkLiked } from "../../data/likeComment";
-import defaultProfilePic from "../../assets/defaultprofilepic.png"
+import defaultProfilePic from "../../assets/defaultprofilepic.png";
+import Replies from "../Replies";
+import { useDispatch } from "react-redux";
+import { getNearbyReplies } from "../../slices/getNearbyReplies";
 
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, setOpenReply, setUsername, setComments }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
+    const [openReplySection, setOpenReplySection] = useState(false)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const init = async () => {
             setLikeCount(comment.likes);
             const isLiked = await checkLiked(comment);
+            setComments(comment);
             if (isLiked) {
                 setLiked(true)
             } else {
@@ -37,6 +43,17 @@ const Comment = ({ comment }) => {
         setLiked(false)
         setLikeCount(likeCount - 1)
         likeComment(comment, false)
+    }
+
+    const commentOnReply = () => {
+        setComments(comment);
+        setUsername(comment.author.displayName)
+        setOpenReply(true);
+    }
+
+    const showReplies = () => {
+        setOpenReplySection(!openReplySection)
+        dispatch(getNearbyReplies(comment))
     }
 
     return (
@@ -88,15 +105,17 @@ const Comment = ({ comment }) => {
                             {likeCount}
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.interactionNumber}>
+                    <TouchableOpacity style={styles.interactionNumber} onPress={showReplies}>
                         <Image source={commentIcon} style={styles.icon} />
                         <Text style={styles.number}>2</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text>view replies</Text>
+                    <TouchableOpacity onPress={commentOnReply}>
+                        <Text style={{ color: "white" }}>reply</Text>
                     </TouchableOpacity>
                 </View>
+                {openReplySection && <Replies />}
             </View>
+
         </View>
     )
 }

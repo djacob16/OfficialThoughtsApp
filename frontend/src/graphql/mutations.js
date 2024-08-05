@@ -21,6 +21,10 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      replies {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -49,6 +53,10 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      replies {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -74,6 +82,10 @@ export const deleteUser = /* GraphQL */ `
         __typename
       }
       comments {
+        nextToken
+        __typename
+      }
+      replies {
         nextToken
         __typename
       }
@@ -356,6 +368,7 @@ export const createReply = /* GraphQL */ `
   ) {
     createReply(input: $input, condition: $condition) {
       id
+      authorID
       author {
         id
         photo
@@ -369,11 +382,24 @@ export const createReply = /* GraphQL */ `
         updatedAt
         __typename
       }
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       content
       likes
       anonymous
       createdAt
       updatedAt
+      userRepliesId
       commentRepliesId
       __typename
     }
@@ -386,6 +412,7 @@ export const updateReply = /* GraphQL */ `
   ) {
     updateReply(input: $input, condition: $condition) {
       id
+      authorID
       author {
         id
         photo
@@ -399,11 +426,24 @@ export const updateReply = /* GraphQL */ `
         updatedAt
         __typename
       }
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       content
       likes
       anonymous
       createdAt
       updatedAt
+      userRepliesId
       commentRepliesId
       __typename
     }
@@ -416,6 +456,7 @@ export const deleteReply = /* GraphQL */ `
   ) {
     deleteReply(input: $input, condition: $condition) {
       id
+      authorID
       author {
         id
         photo
@@ -429,11 +470,24 @@ export const deleteReply = /* GraphQL */ `
         updatedAt
         __typename
       }
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       content
       likes
       anonymous
       createdAt
       updatedAt
+      userRepliesId
       commentRepliesId
       __typename
     }
@@ -516,6 +570,48 @@ export const deleteCommentLike = /* GraphQL */ `
   ) {
     deleteCommentLike(input: $input, condition: $condition) {
       commentID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createReplyLike = /* GraphQL */ `
+  mutation CreateReplyLike(
+    $input: CreateReplyLikeInput!
+    $condition: ModelReplyLikeConditionInput
+  ) {
+    createReplyLike(input: $input, condition: $condition) {
+      replyID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateReplyLike = /* GraphQL */ `
+  mutation UpdateReplyLike(
+    $input: UpdateReplyLikeInput!
+    $condition: ModelReplyLikeConditionInput
+  ) {
+    updateReplyLike(input: $input, condition: $condition) {
+      replyID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteReplyLike = /* GraphQL */ `
+  mutation DeleteReplyLike(
+    $input: DeleteReplyLikeInput!
+    $condition: ModelReplyLikeConditionInput
+  ) {
+    deleteReplyLike(input: $input, condition: $condition) {
+      replyID
       userID
       createdAt
       updatedAt

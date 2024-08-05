@@ -16,6 +16,8 @@ const ThoughtForum = () => {
     const [liked, setLiked] = useState(false);
     const [comment, setComment] = useState("");
     const [inputHeight, setInputHeight] = useState("auto");
+    const [openReply, setOpenReply] = useState(false);
+    const [username, setUsername] = useState("");
 
     // const init = async () => {
     //     setLikeCount(thought.likes);
@@ -43,6 +45,7 @@ const ThoughtForum = () => {
 
     const commentOnThought = async () => {
         await createOneComment(thought, comment);
+        setOpenReply(false);
         setComment("");
     }
 
@@ -51,24 +54,37 @@ const ThoughtForum = () => {
             <BackArrow />
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
                 <ScrollView>
-                    <ThoughtForumThought thought={thought} likeCount={likeCount} />
+                    <ThoughtForumThought thought={thought} likeCount={likeCount} openReply={openReply} />
                 </ScrollView>
 
-                <View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
-                    <TextInput
-                        style={[styles.input, { height: inputHeight, minHeight: 20 }]}
-                        value={comment}
-                        marginBottom={0}
-                        keyboardAppearance="dark"
-                        onChangeText={setComment}
-                        placeholder="Type a message..."
-                        placeholderTextColor="#888"
-                        multiline={true}
-                        onContentSizeChange={(event) => {
-                            const newHeight = event.nativeEvent.contentSize.height;
-                            setInputHeight(newHeight > 100 ? 100 : newHeight); // Example max height of 100
-                        }}
-                    />
+                {openReply ? (<TextInput
+                    style={[styles.input, { height: inputHeight, minHeight: 20 }]}
+                    value={comment}
+                    marginBottom={0}
+                    keyboardAppearance="dark"
+                    onChangeText={setComment}
+                    placeholder={`${username}`}
+                    placeholderTextColor="#888"
+                    multiline={true}
+                    onContentSizeChange={(event) => {
+                        const newHeight = event.nativeEvent.contentSize.height;
+                        setInputHeight(newHeight > 100 ? 100 : newHeight); // Example max height of 100
+                    }}
+                />) : (<TextInput
+                    style={[styles.input, { height: inputHeight, minHeight: 20 }]}
+                    value={comment}
+                    marginBottom={0}
+                    keyboardAppearance="dark"
+                    onChangeText={setComment}
+                    placeholder="Type a message..."
+                    placeholderTextColor="#888"
+                    multiline={true}
+                    onContentSizeChange={(event) => {
+                        const newHeight = event.nativeEvent.contentSize.height;
+                        setInputHeight(newHeight > 100 ? 100 : newHeight); // Example max height of 100
+                    }}
+                />)}<View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
+
                     <TouchableOpacity onPress={commentOnThought}>
                         <Image source={sendArrow} style={styles.sendArrow} />
                     </TouchableOpacity>

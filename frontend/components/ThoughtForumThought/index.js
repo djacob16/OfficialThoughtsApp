@@ -12,7 +12,7 @@ import { likeThought, checkLiked } from "../../data/likeThought";
 import { useRoute } from "@react-navigation/native";
 import defaultProfilePic from "../../assets/defaultprofilepic.png"
 
-const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleLike, commentCount }) => {
+const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleLike, commentCount, openReply, setOpenReply }) => {
     const [localLiked, setLocalLiked] = useState(liked);
     const [localLikeCount, setlocalLikeCount] = useState(likeCount);
 
@@ -77,7 +77,7 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
                             {localLikeCount}
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.interactionNumber}>
+                    <TouchableOpacity style={styles.interactionNumber} onPress={() => setOpenReply(false)}>
                         <Image source={commentIcon} style={styles.icon} />
                         <Text style={styles.number}>{commentCount}</Text>
                     </TouchableOpacity>

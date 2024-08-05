@@ -18,6 +18,10 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      replies {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -43,6 +47,10 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      replies {
+        nextToken
+        __typename
+      }
       darkmode
       reactions
       createdAt
@@ -65,6 +73,10 @@ export const onDeleteUser = /* GraphQL */ `
         __typename
       }
       comments {
+        nextToken
+        __typename
+      }
+      replies {
         nextToken
         __typename
       }
@@ -326,6 +338,7 @@ export const onCreateReply = /* GraphQL */ `
   subscription OnCreateReply($filter: ModelSubscriptionReplyFilterInput) {
     onCreateReply(filter: $filter) {
       id
+      authorID
       author {
         id
         photo
@@ -339,11 +352,24 @@ export const onCreateReply = /* GraphQL */ `
         updatedAt
         __typename
       }
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       content
       likes
       anonymous
       createdAt
       updatedAt
+      userRepliesId
       commentRepliesId
       __typename
     }
@@ -353,6 +379,7 @@ export const onUpdateReply = /* GraphQL */ `
   subscription OnUpdateReply($filter: ModelSubscriptionReplyFilterInput) {
     onUpdateReply(filter: $filter) {
       id
+      authorID
       author {
         id
         photo
@@ -366,11 +393,24 @@ export const onUpdateReply = /* GraphQL */ `
         updatedAt
         __typename
       }
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       content
       likes
       anonymous
       createdAt
       updatedAt
+      userRepliesId
       commentRepliesId
       __typename
     }
@@ -380,6 +420,7 @@ export const onDeleteReply = /* GraphQL */ `
   subscription OnDeleteReply($filter: ModelSubscriptionReplyFilterInput) {
     onDeleteReply(filter: $filter) {
       id
+      authorID
       author {
         id
         photo
@@ -393,11 +434,24 @@ export const onDeleteReply = /* GraphQL */ `
         updatedAt
         __typename
       }
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       content
       likes
       anonymous
       createdAt
       updatedAt
+      userRepliesId
       commentRepliesId
       __typename
     }
@@ -474,6 +528,45 @@ export const onDeleteCommentLike = /* GraphQL */ `
   ) {
     onDeleteCommentLike(filter: $filter) {
       commentID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateReplyLike = /* GraphQL */ `
+  subscription OnCreateReplyLike(
+    $filter: ModelSubscriptionReplyLikeFilterInput
+  ) {
+    onCreateReplyLike(filter: $filter) {
+      replyID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateReplyLike = /* GraphQL */ `
+  subscription OnUpdateReplyLike(
+    $filter: ModelSubscriptionReplyLikeFilterInput
+  ) {
+    onUpdateReplyLike(filter: $filter) {
+      replyID
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteReplyLike = /* GraphQL */ `
+  subscription OnDeleteReplyLike(
+    $filter: ModelSubscriptionReplyLikeFilterInput
+  ) {
+    onDeleteReplyLike(filter: $filter) {
+      replyID
       userID
       createdAt
       updatedAt
