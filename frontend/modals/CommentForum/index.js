@@ -17,28 +17,29 @@ const CommentForum = () => {
     const dispatch = useDispatch()
     const { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount } = route.params;
     const [height, setHeight] = useState(40);
-    const [comment, setComment] = useState("");
+    const [content, setContent] = useState("");
     const [inputHeight, setInputHeight] = useState("auto");
     const [localCommentCount, setLocalCommentCount] = useState(commentCount);
     const [openReply, setOpenReply] = useState(false);
     const [username, setUsername] = useState("");
-    const [comments, setComments] = useState([]);
+    const [oneComment, setOneComment] = useState([]);
 
-    const { nearbyComments, loading } = useSelector((state) => state.getNearbyCommentsSlice);
+    const { nearbyComments } = useSelector((state) => state.getNearbyCommentsSlice);
 
 
     const commentOnThought = async () => {
         console.log("comment on thought")
-        setComment("");
+        setContent("");
         setCommentCount(localCommentCount + 1);
         setLocalCommentCount(localCommentCount + 1)
-        await createOneComment(thought, comment);
+        await createOneComment(thought, content);
         dispatch(getNearbyComments(thought))
     }
 
-    const commentOnReply = async () => {
-        await replyOnComment(comments, comment);
-        console.log(comment);
+    const replyToComment = async () => {
+        console.log("one comment", oneComment);
+        await replyOnComment(oneComment, content);
+        setContent("");
     }
 
     useFocusEffect(
@@ -46,21 +47,12 @@ const CommentForum = () => {
             dispatch(getNearbyComments(thought))
             setOpenReply(false);
             console.log('CommentForum modal is now visible');
-
             return () => {
-                dispatch(getNearbyComments(thought))
                 console.log('CommentForum modal has been closed');
             };
         }, [])
     );
 
-    // useEffect(() => {
-    //     dispatch(getNearbyComments(thought))
-    // }, [])
-
-    console.log(openReply);
-    console.log(username);
-    console.log("comments: ", comments);
     return (
         <View style={styles.container}>
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
@@ -69,53 +61,58 @@ const CommentForum = () => {
                     <ThoughtForumThought thought={thought} liked={liked} likeCount={likeCount} handleDislike={handleDislike} handleLike={handleLike} commentCount={localCommentCount} setOpenReply={setOpenReply} />
 
                     {/*comments*/}
+                    <Text style={{ color: "white", paddingTop: 16, paddingLeft: 16, fontSize: 18 }}>Comments</Text>
                     <View style={styles.commentsContainer}>
                         {nearbyComments.map((comment, index) => (
-                            <Comment setComments={setComments} key={index} comment={comment} setOpenReply={setOpenReply} setUsername={setUsername} />
+                            <Comment key={index} comment={comment} oneComment={oneComment} setOneComment={setOneComment} setOpenReply={setOpenReply} setUsername={setUsername} />
                         ))}
                     </View>
                 </ScrollView>
 
                 {/*input*/}
-                {openReply ? (<View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
-                    <TextInput
-                        style={[styles.input, { height: inputHeight, minHeight: 20 }]}
-                        value={comment}
-                        marginBottom={0}
-                        keyboardAppearance="dark"
-                        onChangeText={setComment}
-                        placeholder={`@${username}`}
-                        placeholderTextColor="#888"
-                        multiline={true}
-                        onContentSizeChange={(event) => {
-                            const newHeight = event.nativeEvent.contentSize.height;
-                            setInputHeight(newHeight > 100 ? 100 : newHeight); // Example max height of 100
-                        }}
-                    />
-                    <TouchableOpacity onPress={commentOnReply}>
-                        <Image source={sendArrow} style={styles.sendArrow} />
-                    </TouchableOpacity>
-                </View>) : (<View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
-                    <TextInput
-                        style={[styles.input, { height: inputHeight, minHeight: 20 }]}
-                        value={comment}
-                        marginBottom={0}
-                        keyboardAppearance="dark"
-                        onChangeText={setComment}
-                        placeholder="Type a message.."
-                        placeholderTextColor="#888"
-                        multiline={true}
-                        onContentSizeChange={(event) => {
-                            const newHeight = event.nativeEvent.contentSize.height;
-                            setInputHeight(newHeight > 100 ? 100 : newHeight); // Example max height of 100
-                        }}
-                    />
-                    <TouchableOpacity onPress={commentOnThought}>
-                        <Image source={sendArrow} style={styles.sendArrow} />
-                    </TouchableOpacity>
-                </View>)}
+                {openReply ? (
+                    <View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
+                        <TextInput
+                            style={[styles.input, { height: inputHeight, minHeight: 20 }]}
+                            value={content}
+                            marginBottom={0}
+                            keyboardAppearance="dark"
+                            onChangeText={setContent}
+                            placeholder={`@${username}`}
+                            placeholderTextColor="#888"
+                            multiline={true}
+                            onContentSizeChange={(event) => {
+                                const newHeight = event.nativeEvent.contentSize.height;
+                                setInputHeight(newHeight > 100 ? 100 : newHeight);
+                            }}
+                        />
+                        <TouchableOpacity onPress={replyToComment}>
+                            <Image source={sendArrow} style={styles.sendArrow} />
+                        </TouchableOpacity>
+                    </View>
+                ) : (
+                    <View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
+                        <TextInput
+                            style={[styles.input, { height: inputHeight, minHeight: 20 }]}
+                            value={content}
+                            marginBottom={0}
+                            keyboardAppearance="dark"
+                            onChangeText={setContent}
+                            placeholder="Type a message.."
+                            placeholderTextColor="#888"
+                            multiline={true}
+                            onContentSizeChange={(event) => {
+                                const newHeight = event.nativeEvent.contentSize.height;
+                                setInputHeight(newHeight > 100 ? 100 : newHeight);
+                            }}
+                        />
+                        <TouchableOpacity onPress={commentOnThought}>
+                            <Image source={sendArrow} style={styles.sendArrow} />
+                        </TouchableOpacity>
+                    </View>
+                )}
             </KeyboardAvoidingView>
-        </View >
+        </View>
     )
 }
 

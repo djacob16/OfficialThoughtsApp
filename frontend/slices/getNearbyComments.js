@@ -18,7 +18,7 @@ export const getNearbyComments = createAsyncThunk("data/getNearbyThoughts",
                     }
                 }
             })
-            console.log("Nearby Comments: ", response);
+            console.log("Nearby Comments: ", response.data.listComments.items);
             const commentsList = response.data.listComments.items;
             const sortedComments = commentsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             return sortedComments;

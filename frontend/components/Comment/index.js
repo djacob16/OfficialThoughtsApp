@@ -11,8 +11,7 @@ import Replies from "../Replies";
 import { useDispatch } from "react-redux";
 import { getNearbyReplies } from "../../slices/getNearbyReplies";
 
-
-const Comment = ({ comment, setOpenReply, setUsername, setComments }) => {
+const Comment = ({ comment, oneComment, setOneComment, setOpenReply, setUsername }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
     const [openReplySection, setOpenReplySection] = useState(false)
@@ -21,8 +20,8 @@ const Comment = ({ comment, setOpenReply, setUsername, setComments }) => {
     useEffect(() => {
         const init = async () => {
             setLikeCount(comment.likes);
+            // setOneComment(comment);
             const isLiked = await checkLiked(comment);
-            setComments(comment);
             if (isLiked) {
                 setLiked(true)
             } else {
@@ -30,13 +29,12 @@ const Comment = ({ comment, setOpenReply, setUsername, setComments }) => {
             }
         }
         init()
-    }, [comment]);
+    }, []);
 
     const handleLike = () => {
         setLiked(true)
         setLikeCount(likeCount + 1)
         likeComment(comment, true)
-        console.log(comment)
     }
 
     const handleDislike = () => {
@@ -45,10 +43,10 @@ const Comment = ({ comment, setOpenReply, setUsername, setComments }) => {
         likeComment(comment, false)
     }
 
-    const commentOnReply = () => {
-        setComments(comment);
-        setUsername(comment.author.displayName)
+    const replyOnComment = () => {
         setOpenReply(true);
+        setOneComment(comment);
+        setUsername(comment.author.displayName)
     }
 
     const showReplies = () => {
@@ -78,12 +76,6 @@ const Comment = ({ comment, setOpenReply, setUsername, setComments }) => {
                     <View style={styles.thoughtContent}>
                         <Text style={styles.content}>{comment.content}</Text>
                     </View>
-                    {/* <View style={styles.thoughtTags}>
-                    <Text style={styles.tags}>Be the first to leave a label</Text>
-                    <TouchableOpacity style={styles.addButton}>
-                        <Text style={styles.addText}>+</Text>
-                    </TouchableOpacity>
-                </View> */}
                 </View>
                 <View style={styles.thoughtInteractions}>
                     <TouchableOpacity
@@ -109,13 +101,12 @@ const Comment = ({ comment, setOpenReply, setUsername, setComments }) => {
                         <Image source={commentIcon} style={styles.icon} />
                         <Text style={styles.number}>2</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={commentOnReply}>
+                    <TouchableOpacity onPress={replyOnComment}>
                         <Text style={{ color: "white" }}>reply</Text>
                     </TouchableOpacity>
                 </View>
                 {openReplySection && <Replies />}
             </View>
-
         </View>
     )
 }

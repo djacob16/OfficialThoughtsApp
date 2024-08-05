@@ -19,8 +19,8 @@ const NearbyThought = ({ thought }) => {
     const { user } = useSelector((state) => state.userSlice);
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
-    const [commentCount, setCommentCount] = useState(thought.comments.items.length)
-    const navigation = useNavigation()
+    const [commentCount, setCommentCount] = useState(thought.comments.items.length);
+    const navigation = useNavigation();
 
     const init = async () => {
         setLikeCount(thought.likes);
@@ -38,8 +38,6 @@ const NearbyThought = ({ thought }) => {
         setLiked(true)
         setLikeCount(likeCount + 1)
         likeThought(thought, true)
-        thought.likes = likeCount;
-        console.log(thought)
     }
 
     const handleDislike = (thought) => {
@@ -56,10 +54,8 @@ const NearbyThought = ({ thought }) => {
                 ) : (
                     <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
                 )}
-
             </View>
             <View>
-
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>
                         {thought.anonymous ? (

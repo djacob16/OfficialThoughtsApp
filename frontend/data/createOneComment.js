@@ -20,7 +20,7 @@ const createOneComment = async (thought, comment) => {
                 }
             }
         })).data
-        console.log(commentResponse)
+        console.log("new comment: ", commentResponse)
         return commentResponse;
     } catch (err) {
         console.log(err.message);

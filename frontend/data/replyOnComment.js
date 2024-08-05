@@ -2,7 +2,7 @@ import { getCurrentUser } from "aws-amplify/auth";
 import { generateClient } from "aws-amplify/api";
 import { createReply } from "../src/graphql/mutations";
 
-const replyOnComment = async (comments, comment) => {
+const replyOnComment = async (oneComment, comment) => {
     const client = generateClient()
     const { userId } = await getCurrentUser();
     try {
@@ -14,7 +14,7 @@ const replyOnComment = async (comments, comment) => {
                     content: comment,
                     likes: 0,
                     anonymous: false,
-                    commentRepliesId: comments.id,
+                    commentRepliesId: oneComment.id,
                 }
             }
         })
