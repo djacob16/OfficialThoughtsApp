@@ -28,7 +28,7 @@ const Comment = ({ comment, setParent }) => {
             }
         }
         init()
-    }, []);
+    }, [comment]);
 
     const handleLike = () => {
         setLiked(true)
