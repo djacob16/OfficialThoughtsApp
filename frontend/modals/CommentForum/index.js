@@ -17,12 +17,10 @@ const CommentForum = () => {
     const dispatch = useDispatch()
     const { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount } = route.params;
     const [height, setHeight] = useState(40);
-    const [content, setContent] = useState("");
     const [inputHeight, setInputHeight] = useState("auto");
     const [localCommentCount, setLocalCommentCount] = useState(commentCount);
-    const [openReply, setOpenReply] = useState(false);
-    const [username, setUsername] = useState("");
-    const [oneComment, setOneComment] = useState([]);
+    const [content, setContent] = useState("");
+    const [parent, setParent] = useState(thought)
 
     const { nearbyComments } = useSelector((state) => state.getNearbyCommentsSlice);
 
@@ -37,15 +35,13 @@ const CommentForum = () => {
     }
 
     const replyToComment = async () => {
-        console.log("one comment", oneComment);
-        await replyOnComment(oneComment, content);
         setContent("");
+        await replyOnComment(parent, content);
     }
 
     useFocusEffect(
         React.useCallback(() => {
             dispatch(getNearbyComments(thought))
-            setOpenReply(false);
             console.log('CommentForum modal is now visible');
             return () => {
                 console.log('CommentForum modal has been closed');
@@ -58,59 +54,43 @@ const CommentForum = () => {
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
                 <ScrollView>
                     {/*parent thought*/}
-                    <ThoughtForumThought thought={thought} liked={liked} likeCount={likeCount} handleDislike={handleDislike} handleLike={handleLike} commentCount={localCommentCount} setOpenReply={setOpenReply} />
+                    <ThoughtForumThought thought={thought} liked={liked} likeCount={likeCount} handleDislike={handleDislike} handleLike={handleLike} commentCount={localCommentCount} setParent={setParent} />
 
                     {/*comments*/}
                     <Text style={{ color: "white", paddingTop: 16, paddingLeft: 16, fontSize: 18 }}>Comments</Text>
                     <View style={styles.commentsContainer}>
                         {nearbyComments.map((comment, index) => (
-                            <Comment key={index} comment={comment} oneComment={oneComment} setOneComment={setOneComment} setOpenReply={setOpenReply} setUsername={setUsername} />
+                            <Comment key={index} comment={comment} setParent={setParent} />
                         ))}
                     </View>
                 </ScrollView>
 
                 {/*input*/}
-                {openReply ? (
-                    <View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
-                        <TextInput
-                            style={[styles.input, { height: inputHeight, minHeight: 20 }]}
-                            value={content}
-                            marginBottom={0}
-                            keyboardAppearance="dark"
-                            onChangeText={setContent}
-                            placeholder={`@${username}`}
-                            placeholderTextColor="#888"
-                            multiline={true}
-                            onContentSizeChange={(event) => {
-                                const newHeight = event.nativeEvent.contentSize.height;
-                                setInputHeight(newHeight > 100 ? 100 : newHeight);
-                            }}
-                        />
-                        <TouchableOpacity onPress={replyToComment}>
-                            <Image source={sendArrow} style={styles.sendArrow} />
-                        </TouchableOpacity>
-                    </View>
-                ) : (
-                    <View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
-                        <TextInput
-                            style={[styles.input, { height: inputHeight, minHeight: 20 }]}
-                            value={content}
-                            marginBottom={0}
-                            keyboardAppearance="dark"
-                            onChangeText={setContent}
-                            placeholder="Type a message.."
-                            placeholderTextColor="#888"
-                            multiline={true}
-                            onContentSizeChange={(event) => {
-                                const newHeight = event.nativeEvent.contentSize.height;
-                                setInputHeight(newHeight > 100 ? 100 : newHeight);
-                            }}
-                        />
+                <View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
+                    <TextInput
+                        style={[styles.input, { height: inputHeight, minHeight: 20 }]}
+                        value={content}
+                        marginBottom={0}
+                        keyboardAppearance="dark"
+                        onChangeText={setContent}
+                        placeholder={`replying to @${parent.author.displayName}`}
+                        placeholderTextColor="#888"
+                        multiline={true}
+                        onContentSizeChange={(event) => {
+                            const newHeight = event.nativeEvent.contentSize.height;
+                            setInputHeight(newHeight > 100 ? 100 : newHeight);
+                        }}
+                    />
+                    {parent.__typename == "Thought" ? (
                         <TouchableOpacity onPress={commentOnThought}>
                             <Image source={sendArrow} style={styles.sendArrow} />
                         </TouchableOpacity>
-                    </View>
-                )}
+                    ) : (
+                        <TouchableOpacity onPress={replyToComment}>
+                            <Image source={sendArrow} style={styles.sendArrow} />
+                        </TouchableOpacity>
+                    )}
+                </View>
             </KeyboardAvoidingView>
         </View>
     )

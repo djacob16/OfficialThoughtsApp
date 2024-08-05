@@ -11,7 +11,7 @@ import Replies from "../Replies";
 import { useDispatch } from "react-redux";
 import { getNearbyReplies } from "../../slices/getNearbyReplies";
 
-const Comment = ({ comment, oneComment, setOneComment, setOpenReply, setUsername }) => {
+const Comment = ({ comment, setParent }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
     const [openReplySection, setOpenReplySection] = useState(false)
@@ -20,7 +20,6 @@ const Comment = ({ comment, oneComment, setOneComment, setOpenReply, setUsername
     useEffect(() => {
         const init = async () => {
             setLikeCount(comment.likes);
-            // setOneComment(comment);
             const isLiked = await checkLiked(comment);
             if (isLiked) {
                 setLiked(true)
@@ -44,14 +43,11 @@ const Comment = ({ comment, oneComment, setOneComment, setOpenReply, setUsername
     }
 
     const replyOnComment = () => {
-        setOpenReply(true);
-        setOneComment(comment);
-        setUsername(comment.author.displayName)
+        setParent(comment)
     }
 
     const showReplies = () => {
         setOpenReplySection(!openReplySection)
-        dispatch(getNearbyReplies(comment))
     }
 
     return (
@@ -105,7 +101,7 @@ const Comment = ({ comment, oneComment, setOneComment, setOpenReply, setUsername
                         <Text style={{ color: "white" }}>reply</Text>
                     </TouchableOpacity>
                 </View>
-                {openReplySection && <Replies />}
+                {openReplySection && <Replies parentComment={comment} />}
             </View>
         </View>
     )

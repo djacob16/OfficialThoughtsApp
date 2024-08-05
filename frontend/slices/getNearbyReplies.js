@@ -18,7 +18,7 @@ export const getNearbyReplies = createAsyncThunk("data/getNearbyReplies",
                     }
                 }
             })
-            console.log("Nearby replies: ", response.data.listReplies.items)
+            // console.log("Nearby replies: ", response.data.listReplies.items)
             const repliesList = response.data.listReplies.items;
             const sortedReplies = repliesList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             return sortedReplies;

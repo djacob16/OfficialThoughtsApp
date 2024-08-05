@@ -28,4 +28,4 @@ const onThought = async (dispatch) => {
     };
 };
 
-export default onThought
+export default onThought;

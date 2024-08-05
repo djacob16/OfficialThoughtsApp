@@ -12,7 +12,7 @@ import { likeThought, checkLiked } from "../../data/likeThought";
 import { useRoute } from "@react-navigation/native";
 import defaultProfilePic from "../../assets/defaultprofilepic.png"
 
-const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleLike, commentCount, openReply, setOpenReply }) => {
+const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleLike, commentCount, setParent }) => {
     const [localLiked, setLocalLiked] = useState(liked);
     const [localLikeCount, setlocalLikeCount] = useState(likeCount);
 
@@ -50,12 +50,6 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
                     <View style={styles.thoughtContent}>
                         <Text style={styles.content}>{thought.content}</Text>
                     </View>
-                    {/* <View style={styles.thoughtTags}>
-                        <Text style={styles.tags}>Be the first to leave a label</Text>
-                        <TouchableOpacity style={styles.addButton}>
-                            <Text style={styles.addText}>+</Text>
-                        </TouchableOpacity>
-                    </View> */}
                 </View>
                 <View style={styles.thoughtInteractions}>
                     <TouchableOpacity
@@ -77,7 +71,7 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
                             {localLikeCount}
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.interactionNumber} onPress={() => setOpenReply(false)}>
+                    <TouchableOpacity style={styles.interactionNumber} onPress={() => setParent(thought)}>
                         <Image source={commentIcon} style={styles.icon} />
                         <Text style={styles.number}>{commentCount}</Text>
                     </TouchableOpacity>
