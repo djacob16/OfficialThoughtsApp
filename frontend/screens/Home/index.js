@@ -29,6 +29,7 @@ const Home = () => {
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
     const windowWidth = Dimensions.get('window').width;
+    console.log("window width: ", windowWidth)
 
     const handleSignOut = async () => {
         await signOut();
@@ -70,7 +71,7 @@ const Home = () => {
             {
                 translateX: highlightPosition.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, windowWidth * .46]
+                    outputRange: [0, windowWidth * .462]
                 })
             }
         ]

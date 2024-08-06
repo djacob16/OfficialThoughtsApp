@@ -24,55 +24,20 @@ const Profile = () => {
     const [user, setUser] = useState({})
     // const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
     // const [parkedThoughts, setParkedThoughts] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true)
         const fetchUser = async () => {
             const user = await getUserById(userId);
             setUser(user);
+            setLoading(false);
         }
         fetchUser()
     }, [userId])
 
-    // const calcParkedThoughts = () => {
-    //     let parkedThoughts = 0;
-    //     for (thought of activeThoughts) {
-    //         if (thought.parked) {
-    //             parkedThoughts += 1;
-    //         }
-    //     }
-    //     return parkedThoughts
-    // }
-
-    // useEffect(() => {
-    //     const parkedNo = calcParkedThoughts()
-    //     setParkedThoughts(parkedNo)
-    // }, [activeThoughts])
-
-    // const selectImage = async () => {
-    //     const pickedImage = await pickImage();
-    //     setImage(pickedImage.uri)
-    //     setFileName(pickedImage.fileName);
-    // }
-
-    // const uploadFileToS3 = async (blob, key) => {
-    //     try {
-    //         const result = await uploadData({
-    //             key: key,
-    //             data: blob,
-    //             options: {
-    //                 accessLevel: undefined
-    //             }
-    //         }).result;
-    //         //console.log('Succeeded: ', result);
-    //         return result.key;
-    //     } catch (error) {
-    //         //console.log('Error : ', error);
-    //     }
-    //     return '';
-    // };
-
     return (
-        <View style={styles.backgroundContainer}>
+        loading ? (<View style={styles.backgroundContainer}></View>) : (<View style={styles.backgroundContainer}>
             <Image source={background} style={styles.backgroundImage} />
             {user.photo ? (
                 <TouchableOpacity style={styles.profileImage}>
@@ -116,17 +81,8 @@ const Profile = () => {
                         <Text style={styles.titleParked}>Parked</Text>
                     </TouchableOpacity>
                 </View>
-                {/* {activeThoughts[0] &&
-                    <View style={styles.latestThoughtContainer}>
-                        <View style={styles.titleTimeContainer}>
-                            <Text style={styles.latestThought}>Latest Thought</Text>
-                            <Text style={styles.time}>{formatDate(activeThoughts[0]?.createdAt)}</Text>
-                        </View>
-                        <Text style={styles.thought}>{activeThoughts[0]?.content}</Text>
-                    </View>} */}
             </ScrollView>
-        </View>
-
+        </View>)
     )
 }
 

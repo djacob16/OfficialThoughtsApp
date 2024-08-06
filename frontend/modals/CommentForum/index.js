@@ -16,7 +16,6 @@ const CommentForum = () => {
     const route = useRoute()
     const dispatch = useDispatch()
     const { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount } = route.params;
-    const [height, setHeight] = useState(40);
     const [inputHeight, setInputHeight] = useState("auto");
     const [localCommentCount, setLocalCommentCount] = useState(commentCount);
     const [content, setContent] = useState("");
