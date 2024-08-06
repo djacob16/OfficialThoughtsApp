@@ -2,25 +2,23 @@ import { StyleSheet } from "react-native";
 import { Colors } from "../../constants/colors";
 
 const styles = StyleSheet.create({
-    commentContainer: {
-        marginTop: 10,
-        paddingLeft: 5,
+
+    replyContainer: {
         flex: 1,
-        paddingVertical: 8,
-        // borderBottomWidth: .5,
-        // borderBottomColor: Colors.grayFont,
         flexDirection: "row",
-        width: "100%",
-        gap: 10
+        width: "80%",
+        gap: 10,
+        marginTop: 10,
     },
-    thoughtBody: {
+    profileContainer: {
+    },
+    replyBody: {
         flexDirection: "column",
-        gap: 8,
-        marginBottom: 8
+        width: "80%"
     },
     userInfo: {
         flexDirection: "row",
-        alignItems: "baseline",
+        alignItems: "center",
         gap: 8
     },
     userName: {
@@ -31,8 +29,8 @@ const styles = StyleSheet.create({
         color: Colors.grayFont,
         fontSize: 10
     },
-    thoughtContent: {
-        marginBottom: 15
+    replyContent: {
+        marginBottom: 10
     },
     content: {
         color: Colors.whiteFont
@@ -81,7 +79,7 @@ const styles = StyleSheet.create({
     },
     interactionNumber: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
     },
     number: {
         color: Colors.grayFont,

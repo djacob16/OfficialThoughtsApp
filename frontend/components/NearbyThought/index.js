@@ -55,7 +55,7 @@ const NearbyThought = ({ thought }) => {
                     <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
                 )}
             </View>
-            <View>
+            <View style={styles.midSectionContainer}>
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>
                         {thought.anonymous ? (

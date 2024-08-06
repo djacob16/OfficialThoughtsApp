@@ -52,6 +52,11 @@ export const listCommentsWithAuthor = /* GraphQL */ `
           displayName
         }
         content
+        replies {
+          items {
+            id
+          }
+        }
         likes
         anonymous
         createdAt

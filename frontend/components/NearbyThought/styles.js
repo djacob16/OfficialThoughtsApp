@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../constants/colors"
+import { Profiler } from "react";
 
 const styles = StyleSheet.create({
     container: {
@@ -8,11 +9,26 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: "100%",
         gap: 10,
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
     },
     thoughtBody: {
         flexDirection: "column",
         gap: 8,
+    },
+    profileContainer: {
+        width: "9%",
+    },
+    midSectionContainer: {
+        width: "78%",
+    },
+    midSectionContainerExtended: {
+        width: "85%",
+    },
+    parkedDistanceContainer: {
+        flexDirection: "column",
+        justifyContent: "space-between",
+        paddingBottom: 5,
+        alignItems: "center",
     },
     userInfo: {
         flexDirection: "row",
@@ -37,7 +53,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 8,
         alignItems: "center",
-
     },
     addButton: {
         backgroundColor: "#202124",
@@ -81,12 +96,6 @@ const styles = StyleSheet.create({
     },
     number: {
         color: Colors.grayFont,
-    },
-    parkedDistanceContainer: {
-        flexDirection: "column",
-        justifyContent: "space-between",
-        paddingBottom: 5,
-        alignItems: "center",
     },
     parkedDistance: {
         flexDirection: "row",

@@ -26,7 +26,6 @@ const CommentForum = () => {
 
 
     const commentOnThought = async () => {
-        console.log("comment on thought")
         setContent("");
         setCommentCount(localCommentCount + 1);
         setLocalCommentCount(localCommentCount + 1)
@@ -73,7 +72,7 @@ const CommentForum = () => {
                         marginBottom={0}
                         keyboardAppearance="dark"
                         onChangeText={setContent}
-                        placeholder={`replying to @${parent.author.displayName}`}
+                        placeholder={parent.__typename == "Thought" ? `Comment on @${parent.author.displayName}'s thought` : `Replying to @${parent.author.displayName}'s comment`}
                         placeholderTextColor="#888"
                         multiline={true}
                         onContentSizeChange={(event) => {

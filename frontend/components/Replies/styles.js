@@ -103,6 +103,12 @@ const styles = StyleSheet.create({
     },
     parkedText: {
         color: "yellow"
+    },
+    subText: {
+        fontSize: 14,
+        color: Colors.grayFont,
+        paddingTop: 10,
+        textAlign: "left"
     }
 })
 

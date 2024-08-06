@@ -13,7 +13,7 @@ import * as subscriptions from '../../src/graphql/subscriptions';
 import { listRepliesWithAuthor } from "../../utils/customQueries";
 import onNewReply from "../../subscriptions/subscribeToNewReply";
 
-const Replies = ({ parentComment }) => {
+const Replies = ({ parentComment, setReplyCount }) => {
     const [nearbyReplies, setNearbyReplies] = useState([]);
 
     useEffect(() => {
@@ -60,6 +60,7 @@ const Replies = ({ parentComment }) => {
                     const repliesList = response.data.listReplies.items;
                     const sortedReplies = repliesList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                     setNearbyReplies(sortedReplies)
+                    setReplyCount(sortedReplies.length)
                 } catch (error) {
                     console.log("error fetching replies: ", error)
                 }

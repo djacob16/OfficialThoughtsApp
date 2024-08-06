@@ -14,12 +14,14 @@ import { getNearbyReplies } from "../../slices/getNearbyReplies";
 const Comment = ({ comment, setParent }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
+    const [replyCount, setReplyCount] = useState();
     const [openReplySection, setOpenReplySection] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
         const init = async () => {
             setLikeCount(comment.likes);
+            setReplyCount(comment.replies.items.length)
             const isLiked = await checkLiked(comment);
             if (isLiked) {
                 setLiked(true)
@@ -95,13 +97,14 @@ const Comment = ({ comment, setParent }) => {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.interactionNumber} onPress={showReplies}>
                         <Image source={commentIcon} style={styles.icon} />
-                        <Text style={styles.number}>2</Text>
+                        <Text style={styles.number}>{replyCount}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={replyOnComment}>
                         <Text style={{ color: "white" }}>reply</Text>
                     </TouchableOpacity>
                 </View>
-                {openReplySection && <Replies parentComment={comment} />}
+                {openReplySection && <Replies parentComment={comment} setReplyCount={setReplyCount} />}
+                {replyCount == 0 && openReplySection && <Text style={styles.subText}>no replies</Text>}
             </View>
         </View>
     )

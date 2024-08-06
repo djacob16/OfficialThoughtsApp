@@ -27,8 +27,9 @@ const YourThoughts = () => {
     return (
         <View style={styles.container}>
             <View style={styles.activeContainer}>
-                <Text style={styles.activeTitle}>Actively Thinking</Text>
+                <Text style={styles.activeTitle}>On my mind</Text>
                 <View>
+                    {activeThoughts.length == 0 && (<Text style={styles.activeSubText}>Thoughts on your mind are actively seen by others around you</Text>)}
                     {activeThoughts.map((activeThought, index) => (
                         <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.lightGray, marginBottom: 15 }}>
                             <YourActiveThought key={index} activeThought={activeThought} />
@@ -40,6 +41,7 @@ const YourThoughts = () => {
             <View style={styles.inactiveContainer}>
                 <Text style={styles.inactiveTitle}>In memory</Text>
                 <View style={{ paddingHorizontal: 8 }}>
+                    {inactiveThoughts.length == 0 && (<Text style={styles.inactiveSubText}>Thoughts in memory are not actively seen by anyone near you</Text>)}
                     {inactiveThoughts.map((inactiveThought, index) => (
                         <YourInactiveThought key={index} inactiveThought={inactiveThought} />
                     ))}

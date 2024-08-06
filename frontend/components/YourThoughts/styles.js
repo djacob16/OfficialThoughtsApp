@@ -19,20 +19,32 @@ const styles = StyleSheet.create({
     activeContainer: {
         marginBottom: 40,
         paddingTop: 15,
-        borderRadius: 8,
-        backgroundColor: Colors.sectionGrey
     },
     inactiveContainer: {
-        paddingVertical: 15,
+        paddingTop: 10,
+        paddingBottom: 20,
         borderRadius: 8,
+        backgroundColor: Colors.sectionGrey
     },
     inactiveTitle: {
         color: Colors.whiteFont,
         fontSize: 20,
         fontWeight: "500",
-        marginBottom: 5,
         paddingHorizontal: 8,
+        marginBottom: 15,
     },
+    activeSubText: {
+        fontSize: 14,
+        color: Colors.grayFont,
+        paddingHorizontal: 50,
+        textAlign: "center"
+    },
+    inactiveSubText: {
+        fontSize: 14,
+        color: Colors.grayFont,
+        paddingHorizontal: 42,
+        textAlign: "center"
+    }
 })
 
 export default styles;
