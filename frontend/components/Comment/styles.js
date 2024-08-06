@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 8,
         borderBottomWidth: .5,
-        borderBottomColor: Colors.grayFont,
+        borderBottomColor: Colors.lightGray,
         flexDirection: "row",
         width: "100%",
         gap: 10

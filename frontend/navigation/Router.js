@@ -7,6 +7,7 @@ import CommentForum from "../modals/CommentForum";
 import ThoughtForum from "../screens/ThoughtForum"
 import Signup from "../screens/Signup";
 import Verify from "../screens/Verify";
+import Profile from "../screens/Profile";
 import ForgotPassword from "../screens/ForgotPassword";
 import ResetPassword from "../screens/ResetPassword";
 import { useDispatch } from "react-redux";
@@ -41,6 +42,7 @@ const Router = () => {
                 <Stack.Screen name={"EditThought"} component={EditThought} options={{ presentation: 'modal', headerShown: false }} />
                 <Stack.Screen name={"CommentForum"} component={CommentForum} options={{ presentation: 'modal', headerShown: false }} />
                 <Stack.Screen name={"ThoughtForum"} component={ThoughtForum} options={{ headerShown: false }} />
+                <Stack.Screen name={"Profile"} component={Profile} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

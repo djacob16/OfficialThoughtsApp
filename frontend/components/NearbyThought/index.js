@@ -61,7 +61,9 @@ const NearbyThought = ({ thought }) => {
                         {thought.anonymous ? (
                             <Text style={styles.userName}>Anonymous</Text>
                         ) : (
-                            <Text style={styles.userName}>{thought?.author?.displayName}</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: thought.author.id })}>
+                                <Text style={styles.userName}>{thought?.author?.displayName}</Text>
+                            </TouchableOpacity>
                         )}
                         <Text style={styles.time}>{formatDate(thought.createdAt)}</Text>
                     </View>

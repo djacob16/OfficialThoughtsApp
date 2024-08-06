@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 8,
         borderBottomWidth: .5,
-        borderBottomColor: Colors.grayFont,
+        borderBottomColor: Colors.lightGray,
         flexDirection: "column",
         width: "100%",
         justifyContent: "space-between"

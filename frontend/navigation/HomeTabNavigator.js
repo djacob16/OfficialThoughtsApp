@@ -5,7 +5,7 @@ import { useRoute } from '@react-navigation/native';
 import homeIcon from "../assets/homeIcon.png";
 import homeFocused from "../assets/home-focused.png"
 import Home from "../screens/Home";
-import Profile from "../screens/Profile";
+import Account from "../screens/Account";
 import profileIcon from "../assets/profileIcon.png"
 import profileIconFocused from "../assets/profileIcon-focused.png"
 import { Colors } from "../constants/colors";
@@ -21,7 +21,7 @@ const HomeTabNavigator = () => {
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused, size }) => (<Image source={focused ? homeFocused : homeIcon} style={{ width: 28, height: 26 }} />)
             }} />
-            <Tab.Screen name={"Profile"} component={Profile} options={{
+            <Tab.Screen name={"Account"} component={Account} options={{
                 headerShown: false,
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused, size }) => (<Image source={focused ? profileIconFocused : profileIcon} style={{ width: 28, height: 30 }} />)

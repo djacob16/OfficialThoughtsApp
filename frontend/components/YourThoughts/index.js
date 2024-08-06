@@ -31,7 +31,7 @@ const YourThoughts = () => {
                 <View>
                     {activeThoughts.length == 0 && (<Text style={styles.activeSubText}>Thoughts on your mind are actively seen by others around you</Text>)}
                     {activeThoughts.map((activeThought, index) => (
-                        <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.lightGray, marginBottom: 15 }}>
+                        <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.lightGray, marginBottom: 15 }} key={index}>
                             <YourActiveThought key={index} activeThought={activeThought} />
                         </View>
                     ))}
