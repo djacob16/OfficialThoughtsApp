@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated, ScrollView, RefreshControl } from "react-native";
+import { View, Text, TouchableOpacity, Animated, ScrollView, RefreshControl, Dimensions } from "react-native";
 import { signOut } from "aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
 import LogoHeader from "../../components/LogoHeader";
@@ -28,6 +28,7 @@ const Home = () => {
     const dispatch = useDispatch();
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
+    const windowWidth = Dimensions.get('window').width;
 
     const handleSignOut = async () => {
         await signOut();
@@ -69,7 +70,7 @@ const Home = () => {
             {
                 translateX: highlightPosition.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 179]
+                    outputRange: [0, windowWidth * .46]
                 })
             }
         ]
