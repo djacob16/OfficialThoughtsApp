@@ -16,6 +16,8 @@ import * as Location from 'expo-location';
 import { getOneUser } from "../../slices/getOneUser";
 import { useDispatch, useSelector } from "react-redux";
 import { generateClient } from "aws-amplify/api";
+import uploadThoughtPhotos from "../../data/uploadThoughtPhotos";
+import { uploadData } from 'aws-amplify/storage';
 
 const NewThought = ({ hash }) => {
     const client = generateClient();
@@ -26,13 +28,45 @@ const NewThought = ({ hash }) => {
     const [active, setActive] = useState(true)
     const [parked, setParked] = useState(false);
     const [anonymous, setAnonymous] = useState(false);
+    const [pickedImage, setPickedImage] = useState("");
+    const [imgData, setImgData] = useState("");
+    const [key, setKey] = useState("");
+    const [uploadKey, setUploadKey] = useState("")
 
     const user = useSelector((state) => state.userSlice.user);
 
+    const toS3 = async () => {
+        const data = await uploadThoughtPhotos();
+        setPickedImage(data.imagePath);
+        setImgData(data.imageData);
+        setKey(data.key);
+        console.log("key: ", key)
+        console.log("imgData: ", imgData)
+    }
+
     const postNewThought = async () => {
+        const bucket = "profileimagebucket4c583-staging"
+        if (imgData && key) {
+            try {
+                const result = await uploadData({
+                    key: key,
+                    data: imgData,
+                    options: {
+                        accessLevel: undefined
+                    }
+                }).result;
+                console.log('Succeeded: ', result.key);
+                setUploadKey(result.key)
+            } catch (error) {
+                console.log('Error : ', error);
+            }
+        }
+        const s3URL = `https://profileimagebucket4c583-staging.s3.us-east-2.amazonaws.com/public/thoughtphotos/${uploadKey}`
         if (content && hash) {
             setContent("");
-            const response = await postOneThought(content, active, parked, hash, anonymous, user);
+            setPickedImage("");
+            setUploadKey("");
+            const response = await postOneThought(content, active, parked, hash, anonymous, user, s3URL);
             setActive(true);
             setAnonymous(false);
             setParked(false);
@@ -58,10 +92,13 @@ const NewThought = ({ hash }) => {
                 placeholderTextColor={"#ffffffa6"}
                 value={content}
                 onChangeText={setContent} />
+            {pickedImage && <Image source={{ uri: pickedImage }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }} />}
             <View style={styles.inputBottomContainer}>
                 <View style={styles.inputBottomLeftContainer}>
                     <Image source={camIcon} style={styles.icon} />
-                    <Image source={picIcon} style={styles.icon} />
+                    <TouchableOpacity onPress={toS3}>
+                        <Image source={picIcon} style={styles.icon} />
+                    </TouchableOpacity>
                     <Image source={musicIcon} style={styles.icon} />
                     <Image source={giphyIcon} style={styles.icon} />
                     <Image source={pollIcon} style={styles.icon} />

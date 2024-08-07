@@ -91,7 +91,7 @@ const Home = () => {
             if (loc == "Permission to access location was denied") {
                 console.log("can not show near you thoguhts bc location was not allowed")
                 setLocationPermission(false)
-            } else if (loc) {
+            } if (loc) {
                 setLocation([loc.coords.longitude, loc.coords.latitude]);
                 setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
                 setLocationPermission(true)
@@ -107,7 +107,7 @@ const Home = () => {
             setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
             await updateActiveUnparkedThoughts(hash);
             console.log("succssefully updated locations of all active unparked thoguhts")
-        }, 20000)
+        }, 500000)
         return () => clearInterval(intervalId);
     }, [location])
 
