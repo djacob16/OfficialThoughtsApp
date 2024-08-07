@@ -78,6 +78,7 @@ const Home = () => {
         setLocation([loc.coords.longitude, loc.coords.latitude]);
         setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
         if (hash) {
+            await updateActiveUnparkedThoughts(hash);
             dispatch(getNearbyThoughts(hash));
         }
         setRefreshing(false);
@@ -105,7 +106,7 @@ const Home = () => {
             setLocation([loc.coords.longitude, loc.coords.latitude]);
             setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
             await updateActiveUnparkedThoughts(hash);
-            console.log("succssefully updates location of all active unparked thoguhts")
+            console.log("succssefully updated locations of all active unparked thoguhts")
         }, 20000)
         return () => clearInterval(intervalId);
     }, [location])
