@@ -119,6 +119,10 @@ export const createThought = /* GraphQL */ `
         __typename
       }
       content
+      photo
+      video
+      audio
+      gif
       active
       parked
       geohash
@@ -157,6 +161,10 @@ export const updateThought = /* GraphQL */ `
         __typename
       }
       content
+      photo
+      video
+      audio
+      gif
       active
       parked
       geohash
@@ -195,6 +203,10 @@ export const deleteThought = /* GraphQL */ `
         __typename
       }
       content
+      photo
+      video
+      audio
+      gif
       active
       parked
       geohash
@@ -236,6 +248,10 @@ export const createComment = /* GraphQL */ `
         id
         authorID
         content
+        photo
+        video
+        audio
+        gif
         active
         parked
         geohash
@@ -247,6 +263,7 @@ export const createComment = /* GraphQL */ `
         __typename
       }
       content
+      gif
       likes
       anonymous
       replies {
@@ -286,6 +303,10 @@ export const updateComment = /* GraphQL */ `
         id
         authorID
         content
+        photo
+        video
+        audio
+        gif
         active
         parked
         geohash
@@ -297,6 +318,7 @@ export const updateComment = /* GraphQL */ `
         __typename
       }
       content
+      gif
       likes
       anonymous
       replies {
@@ -336,6 +358,10 @@ export const deleteComment = /* GraphQL */ `
         id
         authorID
         content
+        photo
+        video
+        audio
+        gif
         active
         parked
         geohash
@@ -347,6 +373,7 @@ export const deleteComment = /* GraphQL */ `
         __typename
       }
       content
+      gif
       likes
       anonymous
       replies {
@@ -386,6 +413,7 @@ export const createReply = /* GraphQL */ `
         id
         authorID
         content
+        gif
         likes
         anonymous
         createdAt
@@ -430,6 +458,7 @@ export const updateReply = /* GraphQL */ `
         id
         authorID
         content
+        gif
         likes
         anonymous
         createdAt
@@ -474,6 +503,7 @@ export const deleteReply = /* GraphQL */ `
         id
         authorID
         content
+        gif
         likes
         anonymous
         createdAt

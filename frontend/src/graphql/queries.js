@@ -74,6 +74,10 @@ export const getThought = /* GraphQL */ `
         __typename
       }
       content
+      photo
+      video
+      audio
+      gif
       active
       parked
       geohash
@@ -101,6 +105,10 @@ export const listThoughts = /* GraphQL */ `
         id
         authorID
         content
+        photo
+        video
+        audio
+        gif
         active
         parked
         geohash
@@ -138,6 +146,10 @@ export const getComment = /* GraphQL */ `
         id
         authorID
         content
+        photo
+        video
+        audio
+        gif
         active
         parked
         geohash
@@ -149,6 +161,7 @@ export const getComment = /* GraphQL */ `
         __typename
       }
       content
+      gif
       likes
       anonymous
       replies {
@@ -174,6 +187,7 @@ export const listComments = /* GraphQL */ `
         id
         authorID
         content
+        gif
         likes
         anonymous
         createdAt
@@ -209,6 +223,7 @@ export const getReply = /* GraphQL */ `
         id
         authorID
         content
+        gif
         likes
         anonymous
         createdAt
@@ -391,6 +406,10 @@ export const thoughtsByGeoHash = /* GraphQL */ `
         id
         authorID
         content
+        photo
+        video
+        audio
+        gif
         active
         parked
         geohash

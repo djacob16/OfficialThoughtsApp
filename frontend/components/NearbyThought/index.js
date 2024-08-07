@@ -48,13 +48,13 @@ const NearbyThought = ({ thought }) => {
 
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}>
-            <View style={styles.profileContainer}>
+            <TouchableOpacity style={styles.profileContainer} onPress={() => navigation.navigate("Profile", { userId: thought.author.id })}>
                 {thought.author.photo ? (
                     <Image source={{ uri: thought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
                 ) : (
                     <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
                 )}
-            </View>
+            </TouchableOpacity>
             <View style={styles.midSectionContainer}>
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>

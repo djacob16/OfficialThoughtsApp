@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import NearbyThought from "../../components/NearbyThought";
 import { Colors } from "../../constants/colors";
+import getLocation from "../../data/getLocation";
 
 const NearYou = ({ hash }) => {
     const dispatch = useDispatch();

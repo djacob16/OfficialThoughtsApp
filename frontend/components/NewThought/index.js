@@ -17,7 +17,7 @@ import { getOneUser } from "../../slices/getOneUser";
 import { useDispatch, useSelector } from "react-redux";
 import { generateClient } from "aws-amplify/api";
 
-const NewThought = () => {
+const NewThought = ({ hash }) => {
     const client = generateClient();
     const dispatch = useDispatch();
     const [content, setContent] = useState("");
@@ -26,47 +26,13 @@ const NewThought = () => {
     const [active, setActive] = useState(true)
     const [parked, setParked] = useState(false);
     const [anonymous, setAnonymous] = useState(false);
-    const [location, setLocation] = useState([]);
-
-    const getLocation = async () => {
-        try {
-            let currentLocation = await Location.getCurrentPositionAsync({});
-            setLocation([currentLocation.coords.longitude, currentLocation.coords.latitude]);
-        } catch (error) {
-            console.error("Error getting location:", error);
-        }
-    }
-
-    useEffect(() => {
-        getLocation();
-        let locationSubscription;
-        const startWatchingLocation = async () => {
-            locationSubscription = await Location.watchPositionAsync(
-                {
-                    accuracy: Location.Accuracy.High,
-                    timeInterval: 10000,
-                    distanceInterval: 10,
-                },
-                (newLocation) => {
-                    setLocation([newLocation.coords.longitude, newLocation.coords.latitude]);
-                }
-            );
-        };
-
-        startWatchingLocation();
-        return () => {
-            if (locationSubscription) {
-                locationSubscription.remove();
-            }
-        };
-    }, []);
 
     const user = useSelector((state) => state.userSlice.user);
 
     const postNewThought = async () => {
-        if (content) {
+        if (content && hash) {
             setContent("");
-            const response = await postOneThought(content, active, parked, location[0], location[1], anonymous, user);
+            const response = await postOneThought(content, active, parked, hash, anonymous, user);
             setActive(true);
             setAnonymous(false);
             setParked(false);

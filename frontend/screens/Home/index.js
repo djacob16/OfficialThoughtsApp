@@ -16,6 +16,7 @@ import getLocation from "../../data/getLocation";
 import getLocationPermission from "../../data/getLocationPermission";
 import { getNearbyThoughts, resetNearbyThoughts } from "../../slices/getNearbyThoughts";
 import geohash from "ngeohash";
+import { updateActiveUnparkedThoughts } from "../../data/updateActiveUnparkedThoughts";
 
 const Home = () => {
     const [title, setTitle] = useState("Near You");
@@ -24,12 +25,12 @@ const Home = () => {
     const [userId, setUserId] = useState("");
     const [location, setLocation] = useState([]);
     const [hash, setHash] = useState();
+    const [locationPermission, setLocationPermission] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const dispatch = useDispatch();
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
     const windowWidth = Dimensions.get('window').width;
-    console.log("window width: ", windowWidth)
 
     const handleSignOut = async () => {
         await signOut();
@@ -39,12 +40,6 @@ const Home = () => {
         dispatch(resetInactiveThoughts());
         dispatch(resetNearbyThoughts());
     }
-
-    const getLoc = async () => {
-        const loc = await getLocation();
-        setLocation([loc.coords.longitude, loc.coords.latitude]);
-        setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
-    };
 
     const homeScreens = [
         {
@@ -77,31 +72,43 @@ const Home = () => {
         ]
     };
 
-    useEffect(() => {
-        getLoc();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await getLocationPermission();
-            await getLoc();
-            if (hash) {
-                dispatch(getNearbyThoughts(hash));
-            }
-        };
-
-        fetchData();
-    }, [dispatch]);
-
-
     const onRefresh = async () => {
         setRefreshing(true);
-        await getLoc();
+        const loc = await getLocation();
+        setLocation([loc.coords.longitude, loc.coords.latitude]);
+        setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
         if (hash) {
             dispatch(getNearbyThoughts(hash));
         }
         setRefreshing(false);
     };
+
+    useEffect(() => {
+        const data = async () => {
+            const loc = await getLocation();
+            console.log(loc);
+            if (loc == "Permission to access location was denied") {
+                console.log("can not show near you thoguhts bc location was not allowed")
+                setLocationPermission(false)
+            } else if (loc) {
+                setLocation([loc.coords.longitude, loc.coords.latitude]);
+                setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
+                setLocationPermission(true)
+            }
+        }
+        data();
+    }, [])
+
+    useEffect(() => {
+        const intervalId = setInterval(async () => {
+            const loc = await getLocation();
+            setLocation([loc.coords.longitude, loc.coords.latitude]);
+            setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
+            await updateActiveUnparkedThoughts(hash);
+            console.log("succssefully updates location of all active unparked thoguhts")
+        }, 20000)
+        return () => clearInterval(intervalId);
+    }, [location])
 
     return (
         <View style={styles.bigContainer}>
@@ -132,15 +139,20 @@ const Home = () => {
                         />
                     }
                 >
-                    <NewThought />
-                    {title === "Near You" && <NearYou hash={hash} />}
+                    <NewThought hash={hash} />
+                    {!locationPermission && <Text style={{ color: "white", paddingHorizontal: 16, textAlign: "center", color: "red" }}>can not show near you thoguhts bc location was not allowed</Text>}
+                    {hash && title === "Near You" && <NearYou hash={hash} />}
                     {title === "Your Thoughts" && <YourThoughts />}
                 </ScrollView>
                 <TouchableOpacity onPress={handleSignOut}>
                     <Text>Go back</Text>
                 </TouchableOpacity>
-                <Text>{location}</Text>
-                <Text>{hash}</Text>
+                {locationPermission &&
+                    <>
+                        <Text>{location}</Text>
+                        <Text>{hash}</Text>
+                    </>
+                }
             </View>
         </View>
     );

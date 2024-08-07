@@ -4,11 +4,10 @@ import { getCurrentUser } from "@aws-amplify/auth";
 import geohash from "ngeohash";
 import { updateUser } from "../src/graphql/mutations";
 
-const postThought = async (content, active, parked, longitude, latitude, anonymous, user) => {
+const postThought = async (content, active, parked, hash, anonymous, user) => {
     const client = generateClient();
     const { userId } = await getCurrentUser();
     console.log("user: ", user);
-    const hash = geohash.encode(latitude, longitude, 9)
     try {
         const updatedUser = await client.graphql({
             query: updateUser,
