@@ -49,6 +49,9 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
                     </View>
                     <View style={styles.thoughtContent}>
                         <Text style={styles.content}>{thought.content}</Text>
+                        {thought.photo &&
+                            <Image source={{ uri: thought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />
+                        }
                     </View>
                 </View>
                 <View style={styles.thoughtInteractions}>

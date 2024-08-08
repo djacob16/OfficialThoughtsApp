@@ -69,13 +69,9 @@ const NearbyThought = ({ thought }) => {
                     </View>
                     <View style={styles.thoughtContent}>
                         <Text style={styles.content}>{thought.content}</Text>
-                        {thought.photo && thought.photo.map((photoUrl, index) => (
-                            <Image
-                                key={index}
-                                source={{ uri: photoUrl }}
-                                style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }}
-                            />
-                        ))}
+                        {thought.photo &&
+                            <Image source={{ uri: thought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />
+                        }
                     </View>
                     {/* <View style={styles.thoughtTags}>
                         <Text style={styles.tags}>Be the first to leave a label</Text>

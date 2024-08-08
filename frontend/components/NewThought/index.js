@@ -40,12 +40,12 @@ const NewThought = ({ hash }) => {
         setPickedImage(data.imagePath);
         setImgData(data.imageData);
         setKey(data.key);
-        console.log("key: ", key)
-        console.log("imgData: ", imgData)
+        console.log("key: ", data.key)
+        console.log("imgData: ", data.imageData)
     }
 
     const postNewThought = async () => {
-        const bucket = "profileimagebucket4c583-staging"
+        const bucket = "officialthoughtsapp1f893ea772a043c594941011a17a247be-staging";
         if (imgData && key) {
             try {
                 const result = await uploadData({
@@ -55,21 +55,32 @@ const NewThought = ({ hash }) => {
                         accessLevel: undefined
                     }
                 }).result;
-                console.log('Succeeded: ', result.key);
-                setUploadKey(result.key)
+                let s3URL = `https://${bucket}.s3.us-east-2.amazonaws.com/public/${result.key}`;
+                if (content && hash) {
+                    setContent("");
+                    setPickedImage("");
+                    setUploadKey("");
+                    const response = await postOneThought(content, active, parked, hash, anonymous, user, s3URL);
+                    s3URL = "";
+                    setImgData("");
+                    setKey("");
+                    setActive(true);
+                    setAnonymous(false);
+                    setParked(false);
+                }
             } catch (error) {
                 console.log('Error : ', error);
             }
-        }
-        const s3URL = `https://profileimagebucket4c583-staging.s3.us-east-2.amazonaws.com/public/thoughtphotos/${uploadKey}`
-        if (content && hash) {
-            setContent("");
-            setPickedImage("");
-            setUploadKey("");
-            const response = await postOneThought(content, active, parked, hash, anonymous, user, s3URL);
-            setActive(true);
-            setAnonymous(false);
-            setParked(false);
+        } else {
+            if (content && hash) {
+                setContent("");
+                setPickedImage("");
+                setUploadKey("");
+                const response = await postOneThought(content, active, parked, hash, anonymous, user);
+                setActive(true);
+                setAnonymous(false);
+                setParked(false);
+            }
         }
     }
 

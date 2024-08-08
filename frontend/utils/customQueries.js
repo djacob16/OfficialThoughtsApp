@@ -10,6 +10,9 @@ export const listNearbyThoughtsWithAuthor = /* GraphQL */ `
         id
         authorID
         content
+        photo
+        video
+        music
         active
         parked
         geohash

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     thoughtBody: {
         flexDirection: "column",
         gap: 8,
-        marginBottom: 8
+        marginBottom: 8,
     },
     userInfo: {
         flexDirection: "row",

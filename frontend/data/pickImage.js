@@ -5,7 +5,7 @@ import { getCurrentUser } from "aws-amplify/auth";
 import { updateUser } from "../src/graphql/mutations";
 
 export const pickImage = async () => {
-    const bucket = "profileimagebucket4c583-staging";
+    const bucket = "officialthoughtsapp1f893ea772a043c594941011a17a247be-staging";
 
     const fetchImage = async (uri) => {
         const response = await fetch(uri);
