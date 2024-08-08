@@ -17,6 +17,7 @@ import { getOneUser } from "../../slices/getOneUser";
 import { useDispatch, useSelector } from "react-redux";
 import { generateClient } from "aws-amplify/api";
 import uploadThoughtPhotos from "../../data/uploadThoughtPhotos";
+import uploadThoughtVideo from "../../data/uploadThoughtVideo";
 import { uploadData } from 'aws-amplify/storage';
 
 const NewThought = ({ hash }) => {
