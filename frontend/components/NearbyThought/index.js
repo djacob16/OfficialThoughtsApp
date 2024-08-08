@@ -13,6 +13,7 @@ import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import { likeThought, checkLiked } from "../../data/likeThought";
 import { useNavigation } from "@react-navigation/native";
 import defaultProfilePic from "../../assets/defaultprofilepic.png"
+import Video from "react-native-video"
 
 
 const NearbyThought = ({ thought }) => {
@@ -69,9 +70,8 @@ const NearbyThought = ({ thought }) => {
                     </View>
                     <View style={styles.thoughtContent}>
                         <Text style={styles.content}>{thought.content}</Text>
-                        {thought.photo &&
-                            <Image source={{ uri: thought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />
-                        }
+                        {thought.photo.slice(-4) === ".jpg" && <Image source={{ uri: thought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />}
+                        {thought.photo.slice(-4) === ".mp4" && <Video source={{ uri: thought.photo }} resizeMode="contain" controls={true} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />}
                     </View>
                     {/* <View style={styles.thoughtTags}>
                         <Text style={styles.tags}>Be the first to leave a label</Text>

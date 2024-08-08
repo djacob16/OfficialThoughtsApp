@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
         fontSize: 10
     },
     thoughtContent: {
-        paddingVertical: 10
+        paddingVertical: 10,
+        width: "100%"
     },
     content: {
         color: Colors.whiteFont

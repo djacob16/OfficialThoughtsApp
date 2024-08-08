@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
+import Video from "react-native-video"
 import styles from './styles';
 import camIcon from "../../assets/camera-01.png"
 import picIcon from "../../assets/image-01.png"
@@ -16,7 +17,7 @@ import * as Location from 'expo-location';
 import { getOneUser } from "../../slices/getOneUser";
 import { useDispatch, useSelector } from "react-redux";
 import { generateClient } from "aws-amplify/api";
-import uploadThoughtPhotos from "../../data/uploadThoughtPhotos";
+import { uploadThoughtMedia } from "../../data/uploadThoughtMedia";
 import { uploadData } from 'aws-amplify/storage';
 
 const NewThought = ({ hash }) => {
@@ -36,12 +37,15 @@ const NewThought = ({ hash }) => {
     const user = useSelector((state) => state.userSlice.user);
 
     const toS3 = async () => {
-        const data = await uploadThoughtPhotos();
-        setPickedImage(data.imagePath);
-        setImgData(data.imageData);
-        setKey(data.key);
-        console.log("key: ", data.key)
-        console.log("imgData: ", data.imageData)
+        const data = await uploadThoughtMedia();
+        if (data) {
+            setPickedImage(data.mediaPath);
+            setImgData(data.mediaData);
+            setKey(data.key);
+            console.log("key: ", data.key)
+            console.log("imgData: ", data.imageData)
+            console.log("pickedImage: ", pickedImage)
+        }
     }
 
     const postNewThought = async () => {
@@ -88,6 +92,7 @@ const NewThought = ({ hash }) => {
         dispatch(getOneUser());
     }, [dispatch]);
 
+    console.log(pickedImage.slice(-4));
     return (
         <View style={styles.container}>
             <View style={styles.inputTopContainer}>
@@ -103,7 +108,8 @@ const NewThought = ({ hash }) => {
                 placeholderTextColor={"#ffffffa6"}
                 value={content}
                 onChangeText={setContent} />
-            {pickedImage && <Image source={{ uri: pickedImage }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }} />}
+            {pickedImage.slice(-4) === ".jpg" && <Image source={{ uri: pickedImage }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }} />}
+            {pickedImage.slice(-4) === ".mp4" && <Video source={{ uri: pickedImage }} resizeMode="contain" controls={true} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }} />}
             <View style={styles.inputBottomContainer}>
                 <View style={styles.inputBottomLeftContainer}>
                     <Image source={camIcon} style={styles.icon} />

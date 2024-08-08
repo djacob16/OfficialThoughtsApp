@@ -118,6 +118,9 @@ const YourActiveThought = ({ activeThought }) => {
                         </View>
                         <View style={styles.thoughtContent}>
                             <Text style={styles.content}>{activeThought.content}</Text>
+                            {activeThought.photo &&
+                                <Image source={{ uri: activeThought.photo }} style={{ width: "100%", height: 200, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />
+                            }
                         </View>
                         <View style={styles.thoughtInteractions}>
                             <TouchableOpacity

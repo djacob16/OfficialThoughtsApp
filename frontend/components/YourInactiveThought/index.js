@@ -82,9 +82,10 @@ const YourInactiveThought = ({ inactiveThought }) => {
                             <Text style={styles.time}>{formatDate(inactiveThought.createdAt)}</Text>
                         </View>
                         <View style={styles.thoughtContent}>
-                            <Text style={styles.content}>
-                                {inactiveThought.content}
-                            </Text>
+                            <Text style={styles.content}>{inactiveThought.content}</Text>
+                            {inactiveThought.photo &&
+                                <Image source={{ uri: inactiveThought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />
+                            }
                         </View>
                         {/* <View style={styles.thoughtTags}>
                         <Text style={styles.tags}>no tags yet</Text>
