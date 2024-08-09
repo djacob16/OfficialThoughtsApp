@@ -79,14 +79,14 @@ const Home = () => {
         const scrollY = event.nativeEvent.contentOffset.y;
         // Fade the logo as you scroll down, bring it back as you scroll up
         Animated.timing(logoOpacity, {
-            toValue: scrollY > 10 ? -1 : 1,
+            toValue: scrollY > 20 ? -1 : 1,
             duration: 30,
             useNativeDriver: true,
         }).start();
 
         // Adjust paddingTop based on scroll position
         Animated.timing(paddingTop, {
-            toValue: scrollY > 10 ? 0 : 60,
+            toValue: scrollY > 20 ? 0 : 60,
             duration: 80,
             useNativeDriver: false
         }).start();
