@@ -17,6 +17,9 @@ import onEditThought from "../subscriptions/subscribeToEditThought";
 import EditThought from "../components/EditThought";
 import onRemoveThought from "../subscriptions/subscribeToDeleteThought";
 import onUpdateUser from "../subscriptions/subscribeToUser";
+import Search from "../screens/Search";
+
+
 const Stack = createNativeStackNavigator();
 
 const Router = () => {
@@ -43,6 +46,7 @@ const Router = () => {
                 <Stack.Screen name={"CommentForum"} component={CommentForum} options={{ presentation: 'modal', headerShown: false }} />
                 <Stack.Screen name={"ThoughtForum"} component={ThoughtForum} options={{ headerShown: false }} />
                 <Stack.Screen name={"Profile"} component={Profile} options={{ headerShown: false }} />
+                <Stack.Screen name={"Search"} component={Search} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
