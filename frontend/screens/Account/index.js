@@ -12,6 +12,8 @@ import { pickImage } from "../../data/pickImage";
 import { uploadData } from "aws-amplify/storage";
 import { updateUser } from "../../src/graphql/mutations";
 import { generateClient } from "aws-amplify/api";
+import YourActiveThought from "../../components/YourActiveThought";
+import { Colors } from "../../constants/colors";
 
 const Account = () => {
     const [image, setImage] = useState("");
@@ -114,7 +116,14 @@ const Account = () => {
                         </View>
                         <Text style={styles.thought}>{activeThoughts[0]?.content}</Text>
                     </View>}
-                <Image source={user.photo} />
+                <View style={{ marginTop: 20 }}>
+                    {activeThoughts.slice(1, activeThoughts.length).map((activeThought, index) => (
+                        <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.lightGray, marginBottom: 15 }} key={index}>
+                            <YourActiveThought key={index} activeThought={activeThought} />
+                        </View>
+                    ))}
+                </View>
+
             </ScrollView>
         </View>
 

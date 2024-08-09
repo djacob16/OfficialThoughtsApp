@@ -8,22 +8,23 @@ const ResetPassword = () => {
     const navigation = useNavigation();
     const route = useRoute()
     const { email } = route.params;
-    const [error, setError] = useState(false);
+    const [error, setError] = useState("");
     const [code, setCode] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleResetPassword = async () => {
-        setError(false)
+        setError("")
         if (password == confirmPassword) {
             try {
                 await confirmResetPassword({ username: email, confirmationCode: code, newPassword: password });
                 navigation.navigate("Signin")
             } catch (error) {
                 console.log(error);
+                setError(error)
             }
         } else {
-            setError(true)
+            setError("Passwords do not match")
         }
     }
 
@@ -43,7 +44,7 @@ const ResetPassword = () => {
                 <TextInput
                     autoCapitalize={"none"}
                     style={styles.input}
-                    placeholder="Enter password"
+                    placeholder="Enter new password"
                     onChangeText={setPassword}
                     value={password}
                     placeholderTextColor={"gray"}
@@ -53,13 +54,13 @@ const ResetPassword = () => {
                 <TextInput
                     autoCapitalize={"none"}
                     style={styles.input}
-                    placeholder="Confirm password"
+                    placeholder="Confirm new password"
                     onChangeText={setConfirmPassword}
                     value={confirmPassword}
                     placeholderTextColor={"gray"}
                 />
             </View>
-            {error && <Text style={styles.errorText}>error</Text>}
+            {error && <Text style={styles.errorText}>{error}</Text>}
             <TouchableOpacity style={styles.inputContainer} onPress={handleResetPassword}>
                 <Text style={styles.buttonText}>Reset</Text>
             </TouchableOpacity>

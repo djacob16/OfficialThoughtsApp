@@ -23,6 +23,21 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         justifyContent: "center",
     },
+    createAccountContainer: {
+        width: "100%",
+        height: 55,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: Colors.yellowFont,
+        color: Colors.whiteFont,
+        marginBottom: 15,
+        alignItems: "center",
+        paddingLeft: 15,
+        justifyContent: "center",
+    },
+    createAccountText: {
+        color: Colors.yellowFont,
+    },
     inputContainerTwo: {
         width: "100%",
         height: 55,
@@ -47,7 +62,6 @@ const styles = StyleSheet.create({
     error: {
         color: Colors.redFont,
         fontSize: 12,
-        marginTop: 8,
         marginBottom: 8
     },
     forgotPasswordContainer: {

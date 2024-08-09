@@ -49,13 +49,15 @@ const NearbyThought = ({ thought }) => {
 
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}>
-            <TouchableOpacity style={styles.profileContainer} onPress={() => navigation.navigate("Profile", { userId: thought.author.id })}>
+            <View style={styles.profileContainer}>
                 {thought.author.photo ? (
-                    <Image source={{ uri: thought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                    <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: thought.author.id })}>
+                        <Image source={{ uri: thought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                    </TouchableOpacity>
                 ) : (
                     <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
                 )}
-            </TouchableOpacity>
+            </View>
             <View style={styles.midSectionContainer}>
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>
@@ -71,7 +73,7 @@ const NearbyThought = ({ thought }) => {
                     <View style={styles.thoughtContent}>
                         <Text style={styles.content}>{thought.content}</Text>
                         <TouchableOpacity>
-                            {thought.photo?.slice(-4) === ".jpg" && <Image source={{ uri: thought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />}
+                            {thought.photo?.slice(-4) === ".jpg" && <Image source={{ uri: thought.photo }} style={styles.photo} />}
                             {thought.photo?.slice(-4) === ".mp4" && <Video source={{ uri: thought.photo }} resizeMode="contain" controls={true} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />}
                         </TouchableOpacity>
                     </View>

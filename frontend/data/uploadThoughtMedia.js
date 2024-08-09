@@ -2,7 +2,7 @@ import { launchImageLibrary } from "react-native-image-picker";
 
 export const uploadThoughtMedia = async () => {
     const options = {
-        mediaType: "mixed", // This will allow both photos and videos
+        mediaType: "mixed",
         includeBase64: false,
         maxHeight: 2000,
         maxWidth: 2000,

@@ -49,6 +49,13 @@ const styles = StyleSheet.create({
     content: {
         color: Colors.whiteFont
     },
+    photo: {
+        width: "100%",
+        height: 300,
+        borderRadius: 10,
+        marginTop: 10,
+        resizeMode: 'cover'
+    },
     thoughtTags: {
         flexDirection: "row",
         gap: 8,

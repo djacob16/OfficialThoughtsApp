@@ -93,8 +93,8 @@ const Search = () => {
                     ))
                 ) : (
                     <View>
-                        <Text style={{ color: "white" }}>recent searches</Text>
-                        {recentUsers?.map((user, index) => (
+                        {isTextInputFocused && <Text style={{ color: "white" }}>recent searches</Text>}
+                        {isTextInputFocused && recentUsers?.map((user, index) => (
                             <View>
 
                                 <View>
@@ -112,7 +112,6 @@ const Search = () => {
                             </View>
                         ))}
                     </View>
-
                 )}
             </ScrollView>
         </View>
