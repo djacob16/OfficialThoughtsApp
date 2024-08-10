@@ -39,7 +39,7 @@ const Replies = ({ parentComment, setReplyCount }) => {
             }
         }
         getReplies(parentComment)
-    }, [])
+    }, [parentComment])
 
     useEffect(() => {
         const client = generateClient();

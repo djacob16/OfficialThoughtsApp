@@ -28,6 +28,11 @@ export const listNearbyThoughtsWithAuthor = /* GraphQL */ `
         comments {
           items {
             id
+            replies {
+              items {
+                id
+              }
+            }
           }
         }
         __typename

@@ -11,6 +11,7 @@ import Comment from "../../components/Comment";
 import { useFocusEffect } from "@react-navigation/native";
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import replyOnComment from "../../data/replyOnComment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CommentForum = () => {
     const route = useRoute()
@@ -35,13 +36,27 @@ const CommentForum = () => {
     const replyToComment = async () => {
         setContent("");
         await replyOnComment(parent, content);
+        setCommentCount(localCommentCount + 1);
+        setLocalCommentCount(localCommentCount + 1)
     }
+
+    const clearOpenReplySectionState = async () => {
+        try {
+            const keys = await AsyncStorage.getAllKeys();
+            const openReplyKeys = keys.filter(key => key.startsWith('openReplySection-'));
+            await AsyncStorage.multiRemove(openReplyKeys);
+            console.log("Cleared open reply section state from AsyncStorage");
+        } catch (error) {
+            console.error("Error clearing open reply section state:", error);
+        }
+    };
 
     useFocusEffect(
         React.useCallback(() => {
             dispatch(getNearbyComments(thought))
             console.log('CommentForum modal is now visible');
             return () => {
+                clearOpenReplySectionState();
                 console.log('CommentForum modal has been closed');
             };
         }, [])

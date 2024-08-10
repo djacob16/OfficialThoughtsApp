@@ -1,43 +1,8 @@
-2024-08-09 19:11:31.061 xcodebuild[23654:28099583] DVTCoreDeviceEnabledState: DVTCoreDeviceEnabledState_Disabled set via user default (DVTEnableCoreDevice=disabled)
-2024-08-09 19:11:45.753 xcodebuild[23654:28100180]  iPhoneConnect: 📱<DVTiOSDevice (0x1306200f0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> unable to mount developer disk image, (Error Domain=com.apple.dt.DVTDeviceSupportFilesDDIError Code=2 "Could not locate device support files" UserInfo={NSLocalizedDescription=Could not locate device support files, NSLocalizedRecoverySuggestion=You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.
-
-[missing string: 869a8e318f07f3e2f42e11d435502286094f76de], DVTRadarComponentKey=487927, DeviceType=iPhone14,2, NSLocalizedFailureReason=The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.}) {
-    DVTRadarComponentKey = 487927;
-    DeviceType = "iPhone14,2";
-    NSLocalizedDescription = "Could not locate device support files";
-    NSLocalizedFailureReason = "The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.";
-    NSLocalizedRecoverySuggestion = "You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.\n\n[missing string: 869a8e318f07f3e2f42e11d435502286094f76de]";
-}
+2024-08-09 22:12:39.540 xcodebuild[39045:28277529] DVTCoreDeviceEnabledState: DVTCoreDeviceEnabledState_Disabled set via user default (DVTEnableCoreDevice=disabled)
 --- xcodebuild: WARNING: Using the first of multiple matching destinations:
 { platform:iOS Simulator, id:C60B146D-760D-4954-9484-640C4586FD56, OS:16.4, name:iPhone 14 Pro }
 { platform:iOS Simulator, id:C60B146D-760D-4954-9484-640C4586FD56, OS:16.4, name:iPhone 14 Pro }
-2024-08-09 19:11:45.920 xcodebuild[23654:28099583] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x1306200f0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> -- An error occurred whilst preparing device for development -- Could not locate device support files
-Domain: com.apple.dt.DVTDeviceSupportFilesDDIError
-Code: 2
-Failure Reason: The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.
-Recovery Suggestion: You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.
-
-[missing string: 869a8e318f07f3e2f42e11d435502286094f76de]
-User Info: {
-    DVTRadarComponentKey = 487927;
-    DeviceType = "iPhone14,2";
-}
---
-2024-08-09 19:11:45.920 xcodebuild[23654:28099583] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x1306200f0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> == Underlying device preparation errors ==
-2024-08-09 19:11:45.920 xcodebuild[23654:28099583] [MT] iPhoneConnect: Could not locate device support files
-Domain: com.apple.dt.DVTDeviceSupportFilesDDIError
-Code: 2
-Failure Reason: The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.
-Recovery Suggestion: You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.
-
-[missing string: 869a8e318f07f3e2f42e11d435502286094f76de]
-User Info: {
-    DVTRadarComponentKey = 487927;
-    DeviceType = "iPhone14,2";
-}
---
-2024-08-09 19:11:45.920 xcodebuild[23654:28099583] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x1306200f0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> == END: Underlying device preparation errors ==
-2024-08-09 19:11:45.925 xcodebuild[23654:28100042]  iPhoneConnect: 📱<DVTiOSDevice (0x1306200f0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> unable to mount developer disk image, (Error Domain=com.apple.dt.DVTDeviceSupportFilesDDIError Code=2 "Could not locate device support files" UserInfo={NSLocalizedDescription=Could not locate device support files, NSLocalizedRecoverySuggestion=You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.
+2024-08-09 22:13:02.453 xcodebuild[39045:28277792]  iPhoneConnect: 📱<DVTiOSDevice (0x13063fdd0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> unable to mount developer disk image, (Error Domain=com.apple.dt.DVTDeviceSupportFilesDDIError Code=2 "Could not locate device support files" UserInfo={NSLocalizedDescription=Could not locate device support files, NSLocalizedRecoverySuggestion=You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.
 
 [missing string: 869a8e318f07f3e2f42e11d435502286094f76de], DVTRadarComponentKey=487927, DeviceType=iPhone14,2, NSLocalizedFailureReason=The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.}) {
     DVTRadarComponentKey = 487927;
@@ -46,7 +11,7 @@ User Info: {
     NSLocalizedFailureReason = "The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.";
     NSLocalizedRecoverySuggestion = "You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.\n\n[missing string: 869a8e318f07f3e2f42e11d435502286094f76de]";
 }
-2024-08-09 19:11:45.926 xcodebuild[23654:28099583] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x1306200f0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> -- An error occurred whilst preparing device for development -- Could not locate device support files
+2024-08-09 22:13:02.454 xcodebuild[39045:28277529] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x13063fdd0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> -- An error occurred whilst preparing device for development -- Could not locate device support files
 Domain: com.apple.dt.DVTDeviceSupportFilesDDIError
 Code: 2
 Failure Reason: The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.
@@ -58,8 +23,8 @@ User Info: {
     DeviceType = "iPhone14,2";
 }
 --
-2024-08-09 19:11:45.926 xcodebuild[23654:28099583] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x1306200f0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> == Underlying device preparation errors ==
-2024-08-09 19:11:45.926 xcodebuild[23654:28099583] [MT] iPhoneConnect: Could not locate device support files
+2024-08-09 22:13:02.454 xcodebuild[39045:28277529] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x13063fdd0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> == Underlying device preparation errors ==
+2024-08-09 22:13:02.454 xcodebuild[39045:28277529] [MT] iPhoneConnect: Could not locate device support files
 Domain: com.apple.dt.DVTDeviceSupportFilesDDIError
 Code: 2
 Failure Reason: The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.
@@ -71,4 +36,39 @@ User Info: {
     DeviceType = "iPhone14,2";
 }
 --
-2024-08-09 19:11:45.926 xcodebuild[23654:28099583] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x1306200f0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> == END: Underlying device preparation errors ==
+2024-08-09 22:13:02.454 xcodebuild[39045:28277529] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x13063fdd0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> == END: Underlying device preparation errors ==
+2024-08-09 22:13:02.748 xcodebuild[39045:28277792]  iPhoneConnect: 📱<DVTiOSDevice (0x13063fdd0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> unable to mount developer disk image, (Error Domain=com.apple.dt.DVTDeviceSupportFilesDDIError Code=2 "Could not locate device support files" UserInfo={NSLocalizedDescription=Could not locate device support files, NSLocalizedRecoverySuggestion=You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.
+
+[missing string: 869a8e318f07f3e2f42e11d435502286094f76de], DVTRadarComponentKey=487927, DeviceType=iPhone14,2, NSLocalizedFailureReason=The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.}) {
+    DVTRadarComponentKey = 487927;
+    DeviceType = "iPhone14,2";
+    NSLocalizedDescription = "Could not locate device support files";
+    NSLocalizedFailureReason = "The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.";
+    NSLocalizedRecoverySuggestion = "You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.\n\n[missing string: 869a8e318f07f3e2f42e11d435502286094f76de]";
+}
+2024-08-09 22:13:02.748 xcodebuild[39045:28277529] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x13063fdd0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> -- An error occurred whilst preparing device for development -- Could not locate device support files
+Domain: com.apple.dt.DVTDeviceSupportFilesDDIError
+Code: 2
+Failure Reason: The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.
+Recovery Suggestion: You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.
+
+[missing string: 869a8e318f07f3e2f42e11d435502286094f76de]
+User Info: {
+    DVTRadarComponentKey = 487927;
+    DeviceType = "iPhone14,2";
+}
+--
+2024-08-09 22:13:02.748 xcodebuild[39045:28277529] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x13063fdd0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> == Underlying device preparation errors ==
+2024-08-09 22:13:02.748 xcodebuild[39045:28277529] [MT] iPhoneConnect: Could not locate device support files
+Domain: com.apple.dt.DVTDeviceSupportFilesDDIError
+Code: 2
+Failure Reason: The device may be running a version of iOS (17.4.1 21E236) that is not supported by this version of Xcode.
+Recovery Suggestion: You may be able to resolve the issue by installing the latest version of Xcode from the Mac App Store or developer.apple.com.
+
+[missing string: 869a8e318f07f3e2f42e11d435502286094f76de]
+User Info: {
+    DVTRadarComponentKey = 487927;
+    DeviceType = "iPhone14,2";
+}
+--
+2024-08-09 22:13:02.748 xcodebuild[39045:28277529] [MT] iPhoneConnect: 📱<DVTiOSDevice (0x13063fdd0), Sreenand’s iPhone, iPhone, 17.4.1 (21E236), 00008110-0002489001D1401E> == END: Underlying device preparation errors ==

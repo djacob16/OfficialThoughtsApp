@@ -25,7 +25,9 @@ export const getNearbyThoughts = createAsyncThunk(
                 }
             });
             console.log("nearby thoughts: ", response.data.listThoughts.items);
-            return response.data.listThoughts.items;
+            const nearbyThoughtList = response.data.listThoughts.items;
+            const sortedThoughts = nearbyThoughtList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            return sortedThoughts
         } catch (error) {
             console.log(error);
             return rejectWithValue(error);

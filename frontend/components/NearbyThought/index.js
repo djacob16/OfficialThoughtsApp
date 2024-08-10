@@ -20,10 +20,30 @@ const NearbyThought = ({ thought }) => {
     const { user } = useSelector((state) => state.userSlice);
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
-    const [commentCount, setCommentCount] = useState(thought.comments.items.length);
+    const [commentCount, setCommentCount] = useState(0);
     const navigation = useNavigation();
 
+    console.log("thought", thought.comments.items.length);
+    console.log(thought.comments.items.length);
+
+    const calcTotalComments = (thought) => {
+        let total = 0;
+        thought?.comments?.items.forEach((comment) => {
+            if (comment) {
+                total += 1;
+            }
+            comment?.replies?.items.forEach((reply) => {
+                if (reply) {
+                    total += 1;
+                }
+            });
+        });
+        return total;
+    };
+
     const init = async () => {
+        const totalComments = calcTotalComments(thought);
+        setCommentCount(totalComments);
         setLikeCount(thought.likes);
         const isLiked = await checkLiked(thought);
         if (isLiked) {
