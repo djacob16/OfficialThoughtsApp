@@ -115,7 +115,35 @@ const styles = StyleSheet.create({
     },
     parkedText: {
         color: "yellow"
-    }
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.9)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 60,
+        right: 10,
+        zIndex: 1,
+        backgroundColor: Colors.lightGray,
+        width: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        height: 40,
+        padding: 10,
+        borderRadius: 50
+    },
+    closeButtonText: {
+        color: Colors.whiteFont,
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    fullScreenImage: {
+        width: '100%',
+        height: '80%',
+    },
 })
 
 export default styles
