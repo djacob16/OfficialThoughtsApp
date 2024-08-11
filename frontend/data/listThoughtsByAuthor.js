@@ -2,7 +2,6 @@ import { listThoughtsWithAuthor } from "../utils/customQueries";
 import { generateClient } from "aws-amplify/api";
 
 const listThoughtsByAuthor = async (id) => {
-    console.log(id);
     const client = generateClient();
     try {
         const response = await client.graphql({
