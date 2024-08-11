@@ -108,3 +108,47 @@ export const listRepliesWithAuthor = /* GraphQL */ `
     }
   }
 `;
+
+export const listThoughtsWithAuthor = /* GraphQL */ `
+  query listNearbyThoughtsWithAuthor(
+    $filter: ModelThoughtFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listThoughts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        authorID
+        content
+        photo
+        video
+        music
+        active
+        parked
+        geohash
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        author {
+          id
+          photo
+          displayName
+        }
+        comments {
+          items {
+            id
+            replies {
+              items {
+                id
+              }
+            }
+          }
+        }
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
