@@ -4,6 +4,7 @@ import styles from "./styles";
 import { useRoute } from "@react-navigation/native";
 import BackArrow from "../../components/BackArrow";
 import { getUserById } from "../../data/getUserById";
+import listThoughtsByAuthor from "../../data/listThoughtsByAuthor";
 import defaultProfilePic from "../../assets/defaultprofilepic.png"
 import mappinGreen from "../../assets/mappinGreen.png"
 import verifiedIcon from "../../assets/verifiedIcon.png"
@@ -15,8 +16,6 @@ const Profile = () => {
     const [user, setUser] = useState({})
     const [loading, setLoading] = useState(false);
 
-    console.log(userId);
-
     useEffect(() => {
         setLoading(true)
         const fetchUser = async () => {
@@ -26,6 +25,14 @@ const Profile = () => {
         }
         fetchUser()
     }, [userId])
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const profile = await listThoughtsByAuthor(userId);
+            console.log("profile: ", profile)
+        }
+        fetchProfile();
+    }, [])
 
     return (
         loading ? (<View style={styles.backgroundContainer}></View>) : (<View style={styles.backgroundContainer}>
