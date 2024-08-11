@@ -1,7 +1,6 @@
 import { createComment } from '../src/graphql/mutations';
 import { generateClient } from "aws-amplify/api";
 import { getCurrentUser } from '@aws-amplify/auth';
-import { fetchUserAttributes } from '@aws-amplify/auth';
 
 const createOneComment = async (thought, comment) => {
 
@@ -20,7 +19,6 @@ const createOneComment = async (thought, comment) => {
                 }
             }
         })).data
-        console.log("new comment: ", commentResponse)
         return commentResponse;
     } catch (err) {
         console.log(err.message);

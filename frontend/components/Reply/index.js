@@ -1,10 +1,10 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import formatDate from "../../data/formatDate";
-import heartIcon from "../../assets/heart.png";
-import heartFillIcon from "../../assets/heart.fill.png";
-import styles from "./styles";
 import { useEffect, useState } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import styles from "./styles";
+import formatDate from "../../data/formatDate";
 import { likeReply, checkLiked } from "../../data/likeReply";
+import heartFillIcon from "../../assets/heart.fill.png";
+import heartIcon from "../../assets/heart.png";
 
 const Reply = ({ reply }) => {
     const [likeCount, setLikeCount] = useState(0);

@@ -1,29 +1,18 @@
-import styles from "./styles";
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native"
-import background from "../../assets/profileBackground.png"
-import { useSelector } from "react-redux";
-import verifiedIcon from "../../assets/verifiedIcon.png"
-import mappinGreen from "../../assets/mappinGreen.png"
-import formatDate from "../../data/formatDate";
-import defaultProfilePic from "../../assets/defaultprofilepic.png"
-import { launchImageLibrary, ImageLibraryOptions } from "react-native-image-picker";
-import { pickImage } from "../../data/pickImage";
-import { uploadData } from "aws-amplify/storage";
-import { updateUser } from "../../src/graphql/mutations";
-import { generateClient } from "aws-amplify/api";
+import styles from "./styles";
 import { useRoute } from "@react-navigation/native";
 import BackArrow from "../../components/BackArrow";
 import { getUserById } from "../../data/getUserById";
+import defaultProfilePic from "../../assets/defaultprofilepic.png"
+import mappinGreen from "../../assets/mappinGreen.png"
+import verifiedIcon from "../../assets/verifiedIcon.png"
+import background from "../../assets/profileBackground.png"
 
 const Profile = () => {
     const route = useRoute()
     const { userId } = route.params;
-    // const [image, setImage] = useState("");
-    // const [fileName, setFileName] = useState("");
     const [user, setUser] = useState({})
-    // const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
-    // const [parkedThoughts, setParkedThoughts] = useState(0);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

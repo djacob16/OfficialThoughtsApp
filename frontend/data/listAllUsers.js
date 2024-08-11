@@ -15,7 +15,6 @@ const listAllUsers = async (search) => {
                 }
             }
         })
-        console.log("list users: ", users.data.listUsers.items)
         return users.data.listUsers.items
     } catch (error) {
         console.log("error getting users: ", error)

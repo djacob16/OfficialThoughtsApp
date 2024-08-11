@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, KeyboardAvoidingView, Platform } from "react-native"
 import styles from "./styles";
 import { useRoute } from "@react-navigation/native";
 import ThoughtForumThought from "../../components/ThoughtForumThought";
+import Comment from "../../components/Comment";
 import createOneComment from "../../data/createOneComment";
-import sendArrow from "../../assets/sendArrow.png";
 import { getNearbyComments } from "../../slices/getNearbyComments";
 import { useDispatch, useSelector } from "react-redux"
-import Comment from "../../components/Comment";
 import { useFocusEffect } from "@react-navigation/native";
-import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import replyOnComment from "../../data/replyOnComment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import sendArrow from "../../assets/sendArrow.png"
 
 const CommentForum = () => {
     const route = useRoute()
@@ -23,7 +22,6 @@ const CommentForum = () => {
     const [parent, setParent] = useState(thought)
 
     const { nearbyComments } = useSelector((state) => state.getNearbyCommentsSlice);
-
 
     const commentOnThought = async () => {
         setContent("");
@@ -45,7 +43,6 @@ const CommentForum = () => {
             const keys = await AsyncStorage.getAllKeys();
             const openReplyKeys = keys.filter(key => key.startsWith('openReplySection-'));
             await AsyncStorage.multiRemove(openReplyKeys);
-            console.log("Cleared open reply section state from AsyncStorage");
         } catch (error) {
             console.error("Error clearing open reply section state:", error);
         }
@@ -54,10 +51,8 @@ const CommentForum = () => {
     useFocusEffect(
         React.useCallback(() => {
             dispatch(getNearbyComments(thought))
-            console.log('CommentForum modal is now visible');
             return () => {
                 clearOpenReplySectionState();
-                console.log('CommentForum modal has been closed');
             };
         }, [])
     );

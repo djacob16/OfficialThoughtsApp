@@ -1,6 +1,5 @@
 import { updateThought } from "../src/graphql/mutations";
 import { generateClient } from "aws-amplify/api";
-import { getCurrentUser } from "@aws-amplify/auth";
 
 const editOneThought = async (id, content, active, parked, anonymous) => {
     const client = generateClient();
@@ -17,7 +16,6 @@ const editOneThought = async (id, content, active, parked, anonymous) => {
                 }
             }
         })).data.updateThought
-        console.log(edit)
         return edit;
     } catch (error) {
         console.log(error);

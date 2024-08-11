@@ -36,8 +36,6 @@ export const likeThought = async (thought, like) => {
                     }
                 }
             }))
-            console.log("updated liked thought response: ", updatedThought)
-            console.log("like Entry: ", likeEntry)
             return updatedThought
         } catch (error) {
             console.log("error here: ", error)
@@ -62,8 +60,6 @@ export const likeThought = async (thought, like) => {
                     }
                 }
             }))
-            console.log("updated Disliked Thought: ", updatedThought)
-            console.log("deleted Like Entry: ", deletedLikeEntry)
             return updatedThought
         } catch (error) {
             console.log(error)

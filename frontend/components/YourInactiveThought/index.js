@@ -1,24 +1,21 @@
 import { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Image, Button, Modal, Animated, Easing } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Animated, Easing } from 'react-native';
 import formatDate from "../../data/formatDate";
 import heartIcon from "../../assets/heart.png";
 import commentIcon from "../../assets/message.png"
 import pencilIcon from "../../assets/pencil-create.png";
 import trasIcon from "../../assets/trash.png";
 import lightBulbFillIcon from "../../assets/lightbulbFillinactive.png"
-import EditThought from "../EditThought";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import deleteOneThought from "../../data/deleteOneThought";
 import styles from "./styles";
 import editOneThought from "../../data/editOneThought";
-import { checkLiked } from "../../data/likeThought";
 import defaultProfilePic from "../../assets/defaultprofilepic.png"
 import Video from "react-native-video";
 
 const YourInactiveThought = ({ inactiveThought }) => {
     const navigation = useNavigation();
-    const [displayName, setDisplayName] = useState("");
     const user = useSelector((state) => state.userSlice.user);
     const [animatedValue] = useState(new Animated.Value(0));
     const [fullAnimatedValue] = useState(new Animated.Value(1));

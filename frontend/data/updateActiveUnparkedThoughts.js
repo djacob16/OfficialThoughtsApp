@@ -30,7 +30,6 @@ export const updateActiveUnparkedThoughts = async (hash) => {
                         }
                     }
                 })
-                console.log("updated Thought's new geohash: ", updatedThought.data.updateThought.geohash);
                 return updatedThought.data.updateThought
             } catch (error) {
                 console.log("error updating geohash of thought: ", error)

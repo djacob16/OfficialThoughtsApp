@@ -1,14 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCurrentUser } from "aws-amplify/auth";
 import { generateClient } from "aws-amplify/api";
-import { listReplies } from '../src/graphql/queries';
 import { listRepliesWithAuthor } from "../utils/customQueries";
 
 export const getNearbyReplies = createAsyncThunk("data/getNearbyReplies",
     async (comment) => {
         const client = generateClient()
-        const { userId } = await getCurrentUser();
-        console.log(comment.id)
         try {
             const response = await client.graphql({
                 query: listRepliesWithAuthor,
@@ -18,7 +14,6 @@ export const getNearbyReplies = createAsyncThunk("data/getNearbyReplies",
                     }
                 }
             })
-            // console.log("Nearby replies: ", response.data.listReplies.items)
             const repliesList = response.data.listReplies.items;
             const sortedReplies = repliesList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             return sortedReplies;

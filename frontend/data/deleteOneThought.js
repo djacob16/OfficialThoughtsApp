@@ -12,7 +12,6 @@ const deleteOneThought = async (thoughtId) => {
                 }
             }
         })
-        console.log("deleted")
         return deletedThought;
     } catch (error) {
         console.log(error)

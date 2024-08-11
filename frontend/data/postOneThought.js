@@ -1,13 +1,11 @@
 import { createThought } from "../src/graphql/mutations";
 import { generateClient } from "aws-amplify/api";
 import { getCurrentUser } from "@aws-amplify/auth";
-import geohash from "ngeohash";
 import { updateUser } from "../src/graphql/mutations";
 
 const postThought = async (content, active, parked, hash, anonymous, user, s3URL) => {
     const client = generateClient();
     const { userId } = await getCurrentUser();
-    console.log("user: ", user);
     try {
         const updatedUser = await client.graphql({
             query: updateUser,
@@ -33,8 +31,6 @@ const postThought = async (content, active, parked, hash, anonymous, user, s3URL
                 }
             }
         });
-        console.log("updatedUser: ", updatedUser)
-        console.log("new thought: :", thoughtResult.data.createThought)
         return thoughtResult.data.createThought;
     } catch (error) {
         console.error("Error creating thought:", error.errors);

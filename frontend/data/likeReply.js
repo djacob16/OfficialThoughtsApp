@@ -36,8 +36,6 @@ export const likeReply = async (reply, like) => {
                     }
                 }
             }))
-            console.log("updated reply response: ", updatedReply)
-            console.log("like Entry for reply: ", likeEntry)
             return updatedReply
         } catch (error) {
             console.log("error liking reply: ", error)
@@ -62,15 +60,12 @@ export const likeReply = async (reply, like) => {
                     }
                 }
             }))
-            console.log("updated reply thought response: ", updatedReply)
-            console.log("deleted like Entry for reply: ", deletedLikeEntry)
             return updatedReply
         } catch (error) {
             console.log("error Disliking reply: ", error)
         }
     }
 }
-
 
 export const checkLiked = async (reply) => {
     const { userId } = await getCurrentUser();

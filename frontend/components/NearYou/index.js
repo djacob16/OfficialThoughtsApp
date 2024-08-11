@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { View, Text } from "react-native";
+import React, { useEffect } from "react";
+import { View } from "react-native";
 import styles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import NearbyThought from "../../components/NearbyThought";
 import { Colors } from "../../constants/colors";
-import getLocation from "../../data/getLocation";
 
 const NearYou = ({ hash }) => {
     const dispatch = useDispatch();

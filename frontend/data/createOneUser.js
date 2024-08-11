@@ -6,7 +6,6 @@ import { fetchUserAttributes } from "@aws-amplify/auth";
 const createOneUser = async (username) => {
     const { userId } = await getCurrentUser()
     const userAttributes = await fetchUserAttributes();
-    console.log("user attributes: ", userAttributes);
     const client = generateClient();
     const response = (await client.graphql({
         query: createUser,

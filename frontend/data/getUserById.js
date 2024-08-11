@@ -10,7 +10,6 @@ export const getUserById = async (userId) => {
                 id: userId
             }
         })
-        console.log("User: ", response.data);
         return response.data.getUser
     } catch (error) {
         console.log("error getting user by id: ", error)

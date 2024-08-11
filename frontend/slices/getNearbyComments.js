@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCurrentUser } from "aws-amplify/auth";
 import { generateClient } from "aws-amplify/api";
-import { listComments } from '../src/graphql/queries';
 import { listCommentsWithAuthor } from "../utils/customQueries";
 
 export const getNearbyComments = createAsyncThunk("data/getNearbyThoughts",
@@ -18,7 +17,6 @@ export const getNearbyComments = createAsyncThunk("data/getNearbyThoughts",
                     }
                 }
             })
-            console.log("Nearby Comments: ", response.data.listComments.items);
             const commentsList = response.data.listComments.items;
             const sortedComments = commentsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             return sortedComments;

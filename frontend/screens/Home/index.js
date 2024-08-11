@@ -1,28 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, Animated, ScrollView, RefreshControl, Dimensions } from "react-native";
+import styles from "./styles";
+import { useDispatch } from "react-redux";
 import { signOut } from "aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
+import { resetUser } from "../../slices/getOneUser";
+import { resetActiveThoughts } from "../../slices/getActiveThoughts";
+import { resetInactiveThoughts } from "../../slices/getInactiveThoughts";
+import getLocation from "../../data/getLocation";
+import { getNearbyThoughts, resetNearbyThoughts } from "../../slices/getNearbyThoughts";
+import { updateActiveUnparkedThoughts } from "../../data/updateActiveUnparkedThoughts";
+import geohash from "ngeohash";
 import LogoHeader from "../../components/LogoHeader";
 import NearYou from "../../components/NearYou";
 import YourThoughts from "../../components/YourThoughts";
 import NewThought from "../../components/NewThought";
-import styles from "./styles";
-import { useDispatch } from "react-redux";
-import { getOneUser, resetUser } from "../../slices/getOneUser";
-import { getActiveThoughts, resetActiveThoughts } from "../../slices/getActiveThoughts";
-import { getInactiveThoughts, resetInactiveThoughts } from "../../slices/getInactiveThoughts";
-import * as Location from 'expo-location';
-import getLocation from "../../data/getLocation";
-import getLocationPermission from "../../data/getLocationPermission";
-import { getNearbyThoughts, resetNearbyThoughts } from "../../slices/getNearbyThoughts";
-import geohash from "ngeohash";
-import { updateActiveUnparkedThoughts } from "../../data/updateActiveUnparkedThoughts";
 
 const Home = () => {
     const [title, setTitle] = useState("Near You");
     const [titleId, setTitleId] = useState("1");
-    const [name, setName] = useState("");
-    const [userId, setUserId] = useState("");
     const [location, setLocation] = useState([]);
     const [hash, setHash] = useState();
     const [locationPermission, setLocationPermission] = useState(false);
@@ -109,7 +105,6 @@ const Home = () => {
             const loc = await getLocation();
             console.log(loc);
             if (loc == "Permission to access location was denied") {
-                console.log("can not show near you thoughts because location was not allowed")
                 setLocationPermission(false)
             } if (loc) {
                 setLocation([loc.coords.longitude, loc.coords.latitude]);
@@ -126,7 +121,6 @@ const Home = () => {
             setLocation([loc.coords.longitude, loc.coords.latitude]);
             setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
             await updateActiveUnparkedThoughts(hash);
-            console.log("successfully updated locations of all active unparked thoughts")
         }, 500000)
         return () => clearInterval(intervalId);
     }, [location])

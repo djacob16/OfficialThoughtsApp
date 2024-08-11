@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { listNearbyThoughtsWithAuthor } from "../utils/customQueries";
-import { listThoughts } from "../src/graphql/queries";
 import { generateClient } from "aws-amplify/api";
-import geohash from "ngeohash";
 
 export const getNearbyThoughts = createAsyncThunk(
     "data/nearby", async (hash) => {
@@ -24,7 +22,6 @@ export const getNearbyThoughts = createAsyncThunk(
                     }
                 }
             });
-            console.log("nearby thoughts: ", response.data.listThoughts.items);
             const nearbyThoughtList = response.data.listThoughts.items;
             const sortedThoughts = nearbyThoughtList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             return sortedThoughts
