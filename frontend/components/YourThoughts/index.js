@@ -21,8 +21,6 @@ const YourThoughts = () => {
 
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
     const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice);
-    console.log("activeThoughts: ", activeThoughts)
-    console.log("inactiveThoughts: ", inactiveThoughts)
 
     return (
         <View style={styles.container}>
