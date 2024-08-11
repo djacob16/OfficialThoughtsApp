@@ -1,60 +1,94 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native"
+import { ScrollView, View, Text, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { useRoute } from "@react-navigation/native";
 import BackArrow from "../../components/BackArrow";
 import { getUserById } from "../../data/getUserById";
+import ProfileThought from "../../components/ProfileThought";
 import listThoughtsByAuthor from "../../data/listThoughtsByAuthor";
-import defaultProfilePic from "../../assets/defaultprofilepic.png"
-import mappinGreen from "../../assets/mappinGreen.png"
-import verifiedIcon from "../../assets/verifiedIcon.png"
-import background from "../../assets/profileBackground.png"
+import defaultProfilePic from "../../assets/defaultprofilepic.png";
+import mappinGreen from "../../assets/mappinGreen.png";
+import verifiedIcon from "../../assets/verifiedIcon.png";
+import background from "../../assets/profileBackground.png";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = () => {
-    const route = useRoute()
+    const route = useRoute();
     const { userId } = route.params;
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
     const [loading, setLoading] = useState(false);
+    const [profileThoughts, setProfileThoughts] = useState([]);
 
-    useEffect(() => {
-        setLoading(true)
-        const fetchUser = async () => {
-            const user = await getUserById(userId);
-            setUser(user);
-            setLoading(false);
+    // Function to get user data from AsyncStorage
+    const getUserData = async (userId) => {
+        const storedUser = await AsyncStorage.getItem(`user_${userId}`);
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
         }
-        fetchUser()
-    }, [userId])
+    };
+
+    // Function to get profile thoughts from AsyncStorage
+    const getProfileThoughts = async (userId) => {
+        const storedThoughts = await AsyncStorage.getItem(`thoughts_${userId}`);
+        if (storedThoughts) {
+            setProfileThoughts(JSON.parse(storedThoughts));
+        }
+    };
 
     useEffect(() => {
-        const fetchProfile = async () => {
+        // Fetch user data and thoughts from backend
+        const fetchData = async () => {
+            setLoading(true);
+            const userData = await getUserById(userId);
+            setUser(userData);
+            await AsyncStorage.setItem(`user_${userId}`, JSON.stringify(userData)); // Save user data to AsyncStorage
+
             const profile = await listThoughtsByAuthor(userId);
-            console.log("profile: ", profile)
-        }
-        fetchProfile();
-    }, [])
+            setProfileThoughts(profile);
+            await AsyncStorage.setItem(`thoughts_${userId}`, JSON.stringify(profile)); // Save profile thoughts to AsyncStorage
+            setLoading(false);
+        };
 
-    return (
-        loading ? (<View style={styles.backgroundContainer}></View>) : (<View style={styles.backgroundContainer}>
+        fetchData();
+    }, [userId]);
+
+    // Use useEffect to get stored data when the component mounts
+    useEffect(() => {
+        getUserData(userId);
+        getProfileThoughts(userId);
+    }, [userId]);
+
+    return loading ? (
+        <View style={styles.backgroundContainer}></View>
+    ) : (
+        <View style={styles.backgroundContainer}>
             <Image source={background} style={styles.backgroundImage} />
             {user.photo ? (
                 <TouchableOpacity style={styles.profileImage}>
-                    <Image source={{ uri: user.photo }} style={{
-                        objectFit: "cover", width: 169.346,
-                        height: 169.346, borderRadius: 100
-                    }} />
+                    <Image
+                        source={{ uri: user.photo }}
+                        style={{
+                            objectFit: "cover",
+                            width: 169.346,
+                            height: 169.346,
+                            borderRadius: 100,
+                        }}
+                    />
                 </TouchableOpacity>
-            ) :
-                (
-                    <TouchableOpacity style={styles.profileImage}>
-                        <Image source={defaultProfilePic} style={{
-                            objectFit: "contain", width: 169.346,
-                            height: 169.346, borderRadius: 100
-                        }} />
-                    </TouchableOpacity>
-                )
-            }
-            <ScrollView style={styles.container}>
+            ) : (
+                <TouchableOpacity style={styles.profileImage}>
+                    <Image
+                        source={defaultProfilePic}
+                        style={{
+                            objectFit: "contain",
+                            width: 169.346,
+                            height: 169.346,
+                            borderRadius: 100,
+                        }}
+                    />
+                </TouchableOpacity>
+            )}
+            <View style={styles.container}>
                 <BackArrow />
                 <Text style={styles.name}>{user.name}</Text>
                 <View style={styles.verifiedContainer}>
@@ -79,9 +113,16 @@ const Profile = () => {
                         <Text style={styles.titleParked}>Parked</Text>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
-        </View>)
-    )
-}
+                <ScrollView style={{ width: "100%" }}>
+                    <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
+                        {profileThoughts.map((thought, index) => (
+                            <ProfileThought key={index} thought={thought} />
+                        ))}
+                    </View>
+                </ScrollView>
+            </View>
+        </View>
+    );
+};
 
-export default Profile
+export default Profile;
