@@ -18,7 +18,6 @@ const onThought = async (dispatch) => {
             await dispatch(getActiveThoughts());
             await dispatch(getInactiveThoughts());
             await dispatch(getOneUser());
-            console.log("new thought subscription hit")
         },
         error: (error) => console.warn(error)
     });

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
-import { confirmSignUp, getCurrentUser, signIn } from "aws-amplify/auth";
+import { confirmSignUp, signIn } from "aws-amplify/auth";
 import styles from "./styles";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import createOneUser from "../../data/createOneUser";
@@ -19,12 +19,6 @@ const Verify = () => {
                 username: email,
                 confirmationCode: code
             });
-            // if (isSignUpComplete) {
-            //     navigation.navigate("Main")
-            // }
-            // const { userId } = await getCurrentUser();
-            // const user = await createOneUser(userId);
-            // console.log(user)
             try {
                 const { isSignedIn, nextStep } = await signIn({ username: email, password });
                 const user = await createOneUser(username);
