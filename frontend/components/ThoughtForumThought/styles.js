@@ -36,6 +36,21 @@ const styles = StyleSheet.create({
     content: {
         color: Colors.whiteFont
     },
+    photo: {
+        width: "100%",
+        height: 300,
+        borderRadius: 10,
+        marginTop: 10,
+        resizeMode: 'cover'
+    },
+    video: {
+        width: "100%",
+        height: 300,
+        // aspectRatio: .565,
+        marginBottom: 20,
+        borderRadius: 10,
+        marginTop: 10,
+    },
     thoughtTags: {
         flexDirection: "row",
         gap: 8,
@@ -102,6 +117,12 @@ const styles = StyleSheet.create({
     },
     parkedText: {
         color: "yellow"
+    },
+    midSectionContainer: {
+        width: "78%",
+    },
+    profileContainer: {
+        width: "9%"
     }
 })
 

@@ -8,11 +8,13 @@ import commentIcon from "../../assets/message.png";
 import pencilIcon from "../../assets/pencil-create.png";
 import trasIcon from "../../assets/trash.png";
 import lightBulbFillIcon from "../../assets/lightbulbFill.png";
+import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import deleteOneThought from "../../data/deleteOneThought";
 import editOneThought from "../../data/editOneThought";
 import { checkLiked, likeThought } from "../../data/likeThought";
+import defaultProfilePic from "../../assets/defaultprofilepic.png"
 
 const YourActiveThought = ({ activeThought }) => {
     const navigation = useNavigation();
@@ -105,51 +107,58 @@ const YourActiveThought = ({ activeThought }) => {
     return (
         <Animated.View style={animatedStyle}>
             <View style={styles.container}>
-                <View>
-                    <View style={styles.profileContainer}></View>
-                    <View style={styles.thoughtBody}>
-                        <View style={styles.userInfo}>
-                            {activeThought.anonymous ? (
-                                <Text style={styles.userName}>Anonymous</Text>
+                <View style={styles.profileContainer}>
+                    {activeThought.author.photo ? (
+                        <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: activeThought.author.id })}>
+                            <Image source={{ uri: activeThought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                        </TouchableOpacity>
+                    ) : (
+                        <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                    )}
+                </View>
+                <View style={styles.thoughtBody}>
+                    <View style={styles.userInfo}>
+                        {activeThought.anonymous ? (
+                            <Text style={styles.userName}>Anonymous</Text>
+                        ) : (
+                            <Text style={styles.userName}>{user?.displayName}</Text>
+                        )}
+                        <Text style={styles.time}>{formatDate(activeThought.createdAt)}</Text>
+                    </View>
+                    <View style={styles.thoughtContent}>
+                        <Text style={styles.content}>{activeThought.content}</Text>
+                        <TouchableOpacity>
+                            {activeThought.photo?.slice(-4) === ".jpg" && <Image source={{ uri: activeThought.photo }} style={styles.photo} />}
+                            {activeThought.photo?.slice(-4) === ".mp4" && <Video source={{ uri: activeThought.photo }} resizeMode="contain" controls={true} style={styles.video} />}
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.thoughtInteractions}>
+                        <TouchableOpacity
+                            style={styles.interactionNumber}
+                            onPress={liked ? () => handleDislike(activeThought) : () => handleLike(activeThought)}
+                        >
+                            {liked ? (
+                                <Image
+                                    source={heartFillIcon}
+                                    style={styles.icon}
+                                />
                             ) : (
-                                <Text style={styles.userName}>{user?.displayName}</Text>
+                                <Image
+                                    source={heartIcon}
+                                    style={styles.icon}
+                                />
                             )}
-                            <Text style={styles.time}>{formatDate(activeThought.createdAt)}</Text>
+                            <Text style={styles.number}>
+                                {likeCount}
+                            </Text>
+                        </TouchableOpacity>
+                        <View style={styles.interactionNumber}>
+                            <Image source={commentIcon} style={styles.icon} />
+                            <Text style={styles.number}>2</Text>
                         </View>
-                        <View style={styles.thoughtContent}>
-                            <Text style={styles.content}>{activeThought.content}</Text>
-                            {activeThought.photo &&
-                                <Image source={{ uri: activeThought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />
-                            }
-                        </View>
-                        <View style={styles.thoughtInteractions}>
-                            <TouchableOpacity
-                                style={styles.interactionNumber}
-                                onPress={liked ? () => handleDislike(activeThought) : () => handleLike(activeThought)}
-                            >
-                                {liked ? (
-                                    <Image
-                                        source={heartFillIcon}
-                                        style={styles.icon}
-                                    />
-                                ) : (
-                                    <Image
-                                        source={heartIcon}
-                                        style={styles.icon}
-                                    />
-                                )}
-                                <Text style={styles.number}>
-                                    {likeCount}
-                                </Text>
-                            </TouchableOpacity>
-                            <View style={styles.interactionNumber}>
-                                <Image source={commentIcon} style={styles.icon} />
-                                <Text style={styles.number}>2</Text>
-                            </View>
-                            <TouchableOpacity style={styles.interactionNumber} onPress={edit}>
-                                <Image source={pencilIcon} style={styles.pencilIcon} />
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity style={styles.interactionNumber} onPress={edit}>
+                            <Image source={pencilIcon} style={styles.pencilIcon} />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.thoughtControllers}>

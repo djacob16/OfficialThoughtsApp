@@ -10,8 +10,27 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingHorizontal: 16,
     },
+    profileContainer: {
+        width: "9%",
+    },
     thoughtBody: {
+        width: "80%",
         flexDirection: "column",
+    },
+    photo: {
+        width: "100%",
+        height: 300,
+        borderRadius: 10,
+        marginTop: 10,
+        resizeMode: 'cover'
+    },
+    video: {
+        width: "100%",
+        height: 300,
+        // aspectRatio: .565,
+        marginBottom: 20,
+        borderRadius: 10,
+        marginTop: 10,
     },
     userInfo: {
         flexDirection: "row",
@@ -27,7 +46,8 @@ const styles = StyleSheet.create({
         fontSize: 10
     },
     thoughtContent: {
-        paddingVertical: 10
+        paddingVertical: 10,
+        width: "100%"
     },
     content: {
         color: Colors.whiteFont

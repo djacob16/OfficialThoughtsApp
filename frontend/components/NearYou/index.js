@@ -19,7 +19,7 @@ const NearYou = ({ hash }) => {
     }, [hash]);
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginBottom: 30 }}>
             {loading === "succeeded" && nearbyThoughts?.map((thought, index) => (
                 <View key={index} style={{
                     borderBottomWidth: .5,

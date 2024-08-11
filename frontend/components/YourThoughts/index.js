@@ -36,7 +36,6 @@ const YourThoughts = () => {
                         </View>
                     ))}
                 </View>
-
             </View>
             <View style={styles.inactiveContainer}>
                 <Text style={styles.inactiveTitle}>In memory</Text>

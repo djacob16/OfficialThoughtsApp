@@ -13,8 +13,11 @@ import deleteOneThought from "../../data/deleteOneThought";
 import styles from "./styles";
 import editOneThought from "../../data/editOneThought";
 import { checkLiked } from "../../data/likeThought";
+import defaultProfilePic from "../../assets/defaultprofilepic.png"
+import Video from "react-native-video";
 
 const YourInactiveThought = ({ inactiveThought }) => {
+    const navigation = useNavigation();
     const [displayName, setDisplayName] = useState("");
     const user = useSelector((state) => state.userSlice.user);
     const [animatedValue] = useState(new Animated.Value(0));
@@ -70,35 +73,40 @@ const YourInactiveThought = ({ inactiveThought }) => {
     return (
         <Animated.View style={animatedStyle}>
             <View style={styles.container}>
-                <View>
-                    <View style={styles.profileContainer}></View>
-                    <View style={styles.thoughtBody}>
-                        <View style={styles.userInfo}>
-                            {inactiveThought.anonymous ? (
-                                <Text style={styles.userName}>Anonymous</Text>
-                            ) : (
-                                <Text style={styles.userName}>{user?.displayName}</Text>
-                            )}
-                            <Text style={styles.time}>{formatDate(inactiveThought.createdAt)}</Text>
-                        </View>
-                        <View style={styles.thoughtContent}>
-                            <Text style={styles.content}>{inactiveThought.content}</Text>
-                            {inactiveThought.photo &&
-                                <Image source={{ uri: inactiveThought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />
-                            }
-                        </View>
-                        {/* <View style={styles.thoughtTags}>
+                <View style={styles.profileContainer}>
+                    {inactiveThought.author.photo ? (
+                        <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: inactiveThought.author.id })}>
+                            <Image source={{ uri: inactiveThought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                        </TouchableOpacity>
+                    ) : (
+                        <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                    )}
+                </View>
+                <View style={styles.thoughtBody}>
+                    <View style={styles.userInfo}>
+                        {inactiveThought.anonymous ? (
+                            <Text style={styles.userName}>Anonymous</Text>
+                        ) : (
+                            <Text style={styles.userName}>{user?.displayName}</Text>
+                        )}
+                        <Text style={styles.time}>{formatDate(inactiveThought.createdAt)}</Text>
+                    </View>
+                    <View style={styles.thoughtContent}>
+                        <Text style={styles.content}>{inactiveThought.content}</Text>
+                        {inactiveThought.photo?.slice(-4) === ".jpg" && <Image source={{ uri: inactiveThought.photo }} style={styles.photo} />}
+                        {inactiveThought.photo?.slice(-4) === ".mp4" && <Video source={{ uri: inactiveThought.photo }} resizeMode="contain" controls={true} style={styles.video} />}
+                    </View>
+                    {/* <View style={styles.thoughtTags}>
                         <Text style={styles.tags}>no tags yet</Text>
                     </View> */}
-                        <View style={styles.thoughtInteractions}>
-                            <View style={styles.interactionNumber}>
-                                <Image source={heartIcon} style={styles.icon} />
-                                <Text style={styles.number}>{inactiveThought.likes}</Text>
-                            </View>
-                            <View style={styles.interactionNumber}>
-                                <Image source={commentIcon} style={styles.icon} />
-                                <Text style={styles.number}>2</Text>
-                            </View>
+                    <View style={styles.thoughtInteractions}>
+                        <View style={styles.interactionNumber}>
+                            <Image source={heartIcon} style={styles.icon} />
+                            <Text style={styles.number}>{inactiveThought.likes}</Text>
+                        </View>
+                        <View style={styles.interactionNumber}>
+                            <Image source={commentIcon} style={styles.icon} />
+                            <Text style={styles.number}>2</Text>
                         </View>
                     </View>
                 </View>

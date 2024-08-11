@@ -11,7 +11,11 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: "space-between"
     },
+    profileContainer: {
+        width: "9%"
+    },
     thoughtBody: {
+        width: "80%",
         flexDirection: "column"
     },
     userInfo: {
@@ -32,6 +36,23 @@ const styles = StyleSheet.create({
     },
     content: {
         color: Colors.grayFont
+    },
+    photo: {
+        width: "100%",
+        height: 300,
+        borderRadius: 10,
+        marginTop: 10,
+        resizeMode: 'cover',
+        opacity: .3
+    },
+    video: {
+        width: "100%",
+        height: 300,
+        // aspectRatio: .565,
+        marginBottom: 20,
+        borderRadius: 10,
+        marginTop: 10,
+        opacity: .3
     },
     thoughtTags: {
     },

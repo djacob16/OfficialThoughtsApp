@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import Video from "react-native-video";
 import styles from "./styles";
 import heartIcon from "../../assets/heart.png";
 import commentIcon from "../../assets/message.png";
@@ -37,7 +38,7 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
                     <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
                 )}
             </View>
-            <View>
+            <View style={styles.midSectionContainer}>
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>
                         {thought.anonymous ? (
@@ -49,9 +50,8 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
                     </View>
                     <View style={styles.thoughtContent}>
                         <Text style={styles.content}>{thought.content}</Text>
-                        {thought.photo &&
-                            <Image source={{ uri: thought.photo }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10, marginTop: 10 }} />
-                        }
+                        {thought.photo?.slice(-4) === ".jpg" && <Image source={{ uri: thought.photo }} style={styles.photo} />}
+                        {thought.photo?.slice(-4) === ".mp4" && <Video source={{ uri: thought.photo }} style={styles.video} controls={true} resizeMode="contain" />}
                     </View>
                 </View>
                 <View style={styles.thoughtInteractions}>

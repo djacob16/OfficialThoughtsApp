@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.backgroundColor,
-        paddingTop: 45,
+        paddingTop: 25,
     },
     scrollViewContainer: {
         paddingHorizontal: 16
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         flexDirection: "column",
         gap: 10,
+        marginBottom: 50,
     },
     commentContainer: {
         paddingLeft: 36,

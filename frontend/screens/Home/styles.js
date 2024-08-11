@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        marginBottom: 10
     },
     navigator: {
         display: "flex",

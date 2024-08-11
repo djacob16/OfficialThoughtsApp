@@ -18,6 +18,7 @@ const ForgotPassword = () => {
                 navigation.navigate("ResetPassword", { email })
             } catch (err) {
                 console.log(err.message);
+                setError(true)
             }
         } else {
             setError(true);

@@ -36,6 +36,7 @@ const Signin = () => {
     }
 
     useEffect(() => {
+        setError("")
         const checkLoggedin = async () => {
             try {
                 const { userId } = await getCurrentUser();
@@ -51,7 +52,7 @@ const Signin = () => {
     }, [])
 
     const login = async () => {
-        setInvalid(false);
+        setError("")
         try {
             const { isSignedIn, nextStep } = await signIn({ username: email, password });
             if (isSignedIn) {
@@ -65,9 +66,7 @@ const Signin = () => {
             }
         } catch (err) {
             console.log(err);
-            if (err.message === "username is required to signIn" || err.message === "User does not exist.") {
-                setInvalid(true);
-            }
+            setError(err.message)
         }
     }
 
@@ -94,7 +93,7 @@ const Signin = () => {
                     placeholderTextColor={"gray"}>
                 </TextInput>
             </View>
-            {invalid && <Text style={styles.error}>Invalid email or password</Text>}
+            {error && <Text style={styles.error}>{error}</Text>}
             <TouchableOpacity onPress={login} style={styles.inputContainer}>
                 <Text style={styles.buttonText}>Sign in</Text>
             </TouchableOpacity>
@@ -106,11 +105,11 @@ const Signin = () => {
                 <Text style={styles.orText}>or</Text>
                 <View style={styles.line}></View>
             </View>
-            <TouchableOpacity onPress={() => signInWithGoogle()} style={styles.inputContainer}>
+            {/* <TouchableOpacity onPress={() => signInWithGoogle()} style={styles.inputContainer}>
                 <Text style={styles.buttonText}>Continue on with google</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")} style={styles.buttonText}>
-                <Text style={styles.buttonText}>Create an account?</Text>
+            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => navigation.navigate("Signup")} style={styles.createAccountContainer}>
+                <Text style={styles.createAccountText}>Create an account</Text>
             </TouchableOpacity>
         </View>
     )

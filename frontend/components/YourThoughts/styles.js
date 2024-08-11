@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         flexDirection: "column",
         width: "100%",
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
+        paddingBottom: 100
     },
     activeTitle: {
         color: Colors.whiteFont,
