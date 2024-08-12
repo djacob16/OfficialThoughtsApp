@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         marginTop: 150,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
-        paddingHorizontal: 16,
         zIndex: 1,
         backgroundColor: Colors.backgroundColor,
         paddingVertical: 110
@@ -68,14 +67,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
-        marginBottom: 24.99
+        marginBottom: 24.99,
+        paddingHorizontal: 16,
     },
     data: {
         width: "33%",
         alignItems: "center",
         justifyContent: "center",
         borderRightWidth: 1,
-        borderColor: "white"
+        borderColor: "white",
     },
     number: {
         color: Colors.whiteFont,

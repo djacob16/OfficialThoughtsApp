@@ -62,7 +62,7 @@ const Account = () => {
     };
 
     return (
-        <View style={styles.backgroundContainer}>
+        <ScrollView style={styles.backgroundContainer}>
             <Image source={background} style={styles.backgroundImage} />
             {user?.photo ? (
                 <TouchableOpacity style={styles.profileImage} onPress={selectImage}>
@@ -81,7 +81,7 @@ const Account = () => {
                     </TouchableOpacity>
                 )
             }
-            <ScrollView style={styles.container}>
+            <View style={styles.container}>
                 <TouchableOpacity>
                     <Text style={{ color: "yellow", textAlign: "center" }}>push to s3</Text>
                 </TouchableOpacity>
@@ -124,8 +124,8 @@ const Account = () => {
                     ))}
                 </View>
 
-            </ScrollView>
-        </View>
+            </View>
+        </ScrollView>
 
     )
 }

@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { getOneUser } from "../slices/getOneUser";
 import onThought from "../subscriptions/subscribeToNewThought";
 import onEditThought from "../subscriptions/subscribeToEditThought";
-import EditThought from "../components/EditThought";
+import EditThought from "../modals/EditThought";
 import onRemoveThought from "../subscriptions/subscribeToDeleteThought";
 import onUpdateUser from "../subscriptions/subscribeToUser";
 import Search from "../screens/Search";

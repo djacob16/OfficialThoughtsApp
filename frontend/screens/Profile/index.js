@@ -61,7 +61,7 @@ const Profile = () => {
     return loading ? (
         <View style={styles.backgroundContainer}></View>
     ) : (
-        <View style={styles.backgroundContainer}>
+        <ScrollView style={styles.backgroundContainer}>
             <Image source={background} style={styles.backgroundImage} />
             {user.photo ? (
                 <TouchableOpacity style={styles.profileImage}>
@@ -113,15 +113,15 @@ const Profile = () => {
                         <Text style={styles.titleParked}>Parked</Text>
                     </TouchableOpacity>
                 </View>
-                <ScrollView style={{ width: "100%" }}>
-                    <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
+                <View style={{ width: "100%" }}>
+                    <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%", alignItems: "center" }}>
                         {profileThoughts.map((thought, index) => (
                             <ProfileThought key={index} thought={thought} />
                         ))}
                     </View>
-                </ScrollView>
+                </View>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
