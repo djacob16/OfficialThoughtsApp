@@ -86,7 +86,6 @@ const Home = () => {
     useEffect(() => {
         const data = async () => {
             const loc = await getLocation();
-            console.log(loc);
             if (loc == "Permission to access location was denied") {
                 setLocationPermission(false)
             }

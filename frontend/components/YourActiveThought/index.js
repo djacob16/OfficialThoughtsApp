@@ -29,13 +29,11 @@ const YourActiveThought = ({ activeThought }) => {
         const init = async () => {
             setLikeCount(activeThought.likes);
             const isLiked = await checkLiked(activeThought);
-            console.log(isLiked)
             if (isLiked) {
                 setLiked(true)
             } else {
                 setLiked(false)
             }
-            console.log(activeThought.content, ": ", liked)
         }
         init();
     }, [])

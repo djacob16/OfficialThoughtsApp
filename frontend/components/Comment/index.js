@@ -18,8 +18,6 @@ const Comment = ({ comment, setParent, }) => {
     const [openReplySection, setOpenReplySection] = useState(false);
     const dispatch = useDispatch();
 
-    console.log(openReplySection);
-
     useEffect(() => {
         const init = async () => {
             setLikeCount(comment.likes);

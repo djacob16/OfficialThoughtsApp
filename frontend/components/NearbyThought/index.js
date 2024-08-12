@@ -24,9 +24,6 @@ const NearbyThought = ({ thought }) => {
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
 
-    console.log("thought", thought.comments.items.length);
-    console.log(thought.comments.items.length);
-
     const calcTotalComments = (thought) => {
         let total = 0;
         thought?.comments?.items.forEach((comment) => {

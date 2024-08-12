@@ -48,9 +48,6 @@ const NewThought = ({ hash }) => {
             setPickedImage(data.mediaPath);
             setImgData(data.mediaData);
             setKey(data.key);
-            console.log("key: ", data.key)
-            console.log("imgData: ", data.imageData)
-            console.log("pickedImage: ", pickedImage)
         }
     }
 
@@ -98,8 +95,6 @@ const NewThought = ({ hash }) => {
         dispatch(getOneUser());
     }, [dispatch]);
 
-
-    console.log(pickedImage.slice(-4));
     return (
         <View style={styles.container}>
             <View style={styles.inputTopContainer}>
