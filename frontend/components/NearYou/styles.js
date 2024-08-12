@@ -101,6 +101,11 @@ const styles = StyleSheet.create({
     },
     parkedText: {
         color: "yellow"
+    },
+    contentLoaderContainer: {
+        paddingHorizontal: 16,
+        marginTop: 20,
+        flex: 1,
     }
 
 })

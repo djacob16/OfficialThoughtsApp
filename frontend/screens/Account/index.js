@@ -64,9 +64,9 @@ const Account = () => {
     return (
         <View style={styles.backgroundContainer}>
             <Image source={background} style={styles.backgroundImage} />
-            {user.photo ? (
+            {user?.photo ? (
                 <TouchableOpacity style={styles.profileImage} onPress={selectImage}>
-                    <Image source={{ uri: user.photo }} style={{
+                    <Image source={{ uri: user?.photo }} style={{
                         objectFit: "cover", width: 169.346,
                         height: 169.346, borderRadius: 100
                     }} />

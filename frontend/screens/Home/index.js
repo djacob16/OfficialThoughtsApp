@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated, ScrollView, RefreshControl, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, Animated, RefreshControl, FlatList, Dimensions } from "react-native";
 import styles from "./styles";
 import { useDispatch } from "react-redux";
 import { signOut } from "aws-amplify/auth";
@@ -71,6 +71,45 @@ const Home = () => {
         ]
     };
 
+    const onRefresh = async () => {
+        setRefreshing(true);
+        const loc = await getLocation();
+        setLocation([loc.coords.longitude, loc.coords.latitude]);
+        setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
+        if (hash) {
+            await updateActiveUnparkedThoughts(hash);
+            dispatch(getNearbyThoughts(hash));
+        }
+        setRefreshing(false);
+    };
+
+    useEffect(() => {
+        const data = async () => {
+            const loc = await getLocation();
+            console.log(loc);
+            if (loc == "Permission to access location was denied") {
+                setLocationPermission(false)
+            }
+            if (loc) {
+                setLocation([loc.coords.longitude, loc.coords.latitude]);
+                setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
+                setLocationPermission(true);
+                dispatch(getNearbyThoughts(hash))
+            }
+        }
+        data();
+    }, [hash])
+
+    useEffect(() => {
+        const intervalId = setInterval(async () => {
+            const loc = await getLocation();
+            setLocation([loc.coords.longitude, loc.coords.latitude]);
+            setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
+            await updateActiveUnparkedThoughts(hash);
+        }, 500000)
+        return () => clearInterval(intervalId);
+    }, [location]);
+
     const onScroll = (event) => {
         const scrollY = event.nativeEvent.contentOffset.y;
         // Fade the logo as you scroll down, bring it back as you scroll up
@@ -87,43 +126,6 @@ const Home = () => {
             useNativeDriver: false
         }).start();
     };
-
-    const onRefresh = async () => {
-        setRefreshing(true);
-        const loc = await getLocation();
-        setLocation([loc.coords.longitude, loc.coords.latitude]);
-        setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
-        if (hash) {
-            await updateActiveUnparkedThoughts(hash);
-            dispatch(getNearbyThoughts(hash));
-        }
-        setRefreshing(false);
-    };
-
-    useEffect(() => {
-        const data = async () => {
-            const loc = await getLocation();
-            console.log(loc);
-            if (loc == "Permission to access location was denied") {
-                setLocationPermission(false)
-            } if (loc) {
-                setLocation([loc.coords.longitude, loc.coords.latitude]);
-                setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
-                setLocationPermission(true)
-            }
-        }
-        data();
-    }, [])
-
-    useEffect(() => {
-        const intervalId = setInterval(async () => {
-            const loc = await getLocation();
-            setLocation([loc.coords.longitude, loc.coords.latitude]);
-            setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9))
-            await updateActiveUnparkedThoughts(hash);
-        }, 500000)
-        return () => clearInterval(intervalId);
-    }, [location])
 
     return (
         <Animated.View style={[styles.bigContainer, { paddingTop: paddingTop }]}>
@@ -147,23 +149,21 @@ const Home = () => {
                         ))}
                     </View>
                 </View>
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ flexGrow: 1 }}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }
+                <FlatList
+                    data={[{ key: title }]}
+                    renderItem={() => (
+                        <>
+                            <NewThought hash={hash} />
+                            {!locationPermission && <Text style={{ color: "red", textAlign: "center" }}>Cannot show nearby thoughts because location was not allowed.</Text>}
+                            {title === "Near You" && <NearYou hash={hash} />}
+                            {title === "Your Thoughts" && <YourThoughts />}
+                        </>
+                    )}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    keyExtractor={() => "key"}
                     onScroll={onScroll}
                     scrollEventThrottle={16}
-                >
-                    <NewThought hash={hash} />
-                    {!locationPermission && <Text style={{ color: "white", paddingHorizontal: 16, textAlign: "center", color: "red" }}>can not show near you thoughts because location was not allowed</Text>}
-                    {hash && title === "Near You" && <NearYou hash={hash} />}
-                    {title === "Your Thoughts" && <YourThoughts />}
-                </ScrollView>
+                />
                 <TouchableOpacity onPress={handleSignOut}>
                     <Text>Go back</Text>
                 </TouchableOpacity>

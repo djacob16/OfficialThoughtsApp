@@ -79,7 +79,7 @@ const NearbyThought = ({ thought }) => {
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}>
             <View style={styles.profileContainer}>
-                {thought.author.photo ? (
+                {!thought.anonymous ? (
                     <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: thought.author.id })}>
                         <Image source={{ uri: thought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
                     </TouchableOpacity>
