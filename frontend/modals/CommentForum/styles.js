@@ -147,6 +147,9 @@ const styles = StyleSheet.create({
     },
     parkedText: {
         color: "yellow"
+    },
+    contentLoaderContainer: {
+        flex: 1,
     }
 })
 
