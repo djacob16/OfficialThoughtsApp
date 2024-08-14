@@ -9,40 +9,86 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: "row",
         borderBottomWidth: .5,
-        borderBottomColor: Colors.grayFont,
+        borderBottomColor: Colors.lightGray,
         justifyContent: "space-between",
-        paddingVertical: 10,
+        paddingVertical: 15,
         alignItems: "center",
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        marginBottom: 10
     },
     bodyContainer: {
         width: "100%",
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        height: 360
+    },
+    editContainer: {
+        width: "100%",
+        flexDirection: "row"
+    },
+    profileContainer: {
+        width: "15%",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        paddingTop: 5
+    },
+    userInfo: {
+        paddingVertical: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 8,
+    },
+    userName: {
+        color: Colors.whiteFont,
+        fontWeight: "500"
+    },
+    time: {
+        color: Colors.grayFont,
+        fontSize: 10
+    },
+    thoughtBody: {
+        width: "80%",
+        flexDirection: "column",
     },
     headerText: {
         color: Colors.whiteFont,
         fontSize: 18,
         fontWeight: "500"
     },
-    cancleText: {
+    cancelText: {
         color: Colors.whiteFont,
         fontSize: 15
     },
-    inputBottomLeftContainer: {
+    editButtonContainer: {
         flexDirection: "row",
         alignItems: "baseline",
         width: "100%",
-        marginBottom: 12,
-        justifyContent: "space-between",
-        alignItems: "center"
+        marginTop: 5,
+        marginBottom: 75,
+        justifyContent: "flex-end",
+        alignItems: "center",
+        paddingHorizontal: 16
     },
     icon: {
         width: 18,
         height: 18
     },
     input: {
-        marginTop: 25,
         color: Colors.whiteFont
+    },
+    photo: {
+        width: "100%",
+        height: 300,
+        borderRadius: 10,
+        marginTop: 20,
+        marginBottom: 20,
+        resizeMode: 'cover'
+    },
+    video: {
+        width: "100%",
+        height: 300,
+        marginBottom: 20,
+        borderRadius: 10,
+        marginTop: 20,
     },
     anonymous: {
         color: Colors.yellowFont
@@ -59,6 +105,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 25
     },
+
 
 })
 
