@@ -24,10 +24,14 @@ const YourThoughts = () => {
             <View style={styles.activeContainer}>
                 <Text style={styles.activeTitle}>On my mind</Text>
                 <View>
-                    {activeThoughts.length == 0 && (<Text style={styles.activeSubText}>Thoughts on your mind are actively seen by others around you</Text>)}
+                    {activeThoughts.length === 0 && (
+                        <Text style={styles.activeSubText}>
+                            Thoughts on your mind are actively seen by others around you
+                        </Text>
+                    )}
                     {activeThoughts.map((activeThought, index) => (
-                        <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.lightGray, marginBottom: 15 }} key={index}>
-                            <YourActiveThought key={index} activeThought={activeThought} />
+                        <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.lightGray, marginBottom: 15 }} key={activeThought.id}>
+                            <YourActiveThought activeThought={activeThought} />
                         </View>
                     ))}
                 </View>
@@ -35,13 +39,17 @@ const YourThoughts = () => {
             <View style={styles.inactiveContainer}>
                 <Text style={styles.inactiveTitle}>In memory</Text>
                 <View style={{ paddingHorizontal: 8 }}>
-                    {inactiveThoughts.length == 0 && (<Text style={styles.inactiveSubText}>Thoughts in memory are not actively seen by anyone near you</Text>)}
+                    {inactiveThoughts.length === 0 && (
+                        <Text style={styles.inactiveSubText}>
+                            Thoughts in memory are not actively seen by anyone near you
+                        </Text>
+                    )}
                     {inactiveThoughts.map((inactiveThought, index) => (
-                        <YourInactiveThought key={index} inactiveThought={inactiveThought} />
+                        <YourInactiveThought key={inactiveThought.id} inactiveThought={inactiveThought} />
                     ))}
                 </View>
             </View>
-        </View >
+        </View>
     );
 }
 

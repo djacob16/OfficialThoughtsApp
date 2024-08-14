@@ -18,37 +18,31 @@ import defaultProfilePic from "../../assets/defaultprofilepic.png"
 
 const YourActiveThought = ({ activeThought }) => {
     const navigation = useNavigation();
-    const [displayName, setDisplayName] = useState("");
     const user = useSelector((state) => state.userSlice.user);
     const [animatedValue] = useState(new Animated.Value(0));
-    const [fullAnimatedValue] = useState(new Animated.Value(1));
-    const [likeCount, setLikeCount] = useState(0);
+    const [likeCount, setLikeCount] = useState(activeThought.likes || 0);
     const [liked, setLiked] = useState(false);
 
-    useState(() => {
+    useEffect(() => {
         const init = async () => {
             setLikeCount(activeThought.likes);
             const isLiked = await checkLiked(activeThought);
-            if (isLiked) {
-                setLiked(true)
-            } else {
-                setLiked(false)
-            }
+            setLiked(isLiked);
         }
         init();
-    }, [])
+    }, [activeThought]);
 
     const handleLike = (activeThought) => {
-        setLiked(true)
-        setLikeCount(likeCount + 1)
-        likeThought(activeThought, true)
-    }
+        setLiked(true);
+        setLikeCount(prevLikeCount => prevLikeCount + 1);
+        likeThought(activeThought, true);
+    };
 
     const handleDislike = (activeThought) => {
-        setLiked(false)
-        setLikeCount(likeCount - 1)
-        likeThought(activeThought, false)
-    }
+        setLiked(false);
+        setLikeCount(prevLikeCount => prevLikeCount - 1);
+        likeThought(activeThought, false);
+    };
 
     useEffect(() => {
         Animated.timing(animatedValue, {
@@ -87,7 +81,6 @@ const YourActiveThought = ({ activeThought }) => {
         }).start(() => {
             animatedValue.setValue(1);
         });
-        setLiked(false)
     };
 
     const animatedStyle = {

@@ -38,7 +38,7 @@ const EditThought = () => {
             </View>
 
             <ScrollView style={styles.bodyContainer}>
-                <TextInput value={content} style={styles.input} onChangeText={setContent} multiline={true} />
+                <TextInput value={content} style={styles.input} onChangeText={setContent} multiline={true} autoFocus={true} />
 
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10, marginTop: 20 }}>
                     <TouchableOpacity style={styles.anonymousContainer} onPress={() => setAnonymous(!anonymous)} >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, Image, TextInput, FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import styles from "./styles";
 import { useRoute } from "@react-navigation/native";
@@ -21,6 +21,7 @@ const CommentForum = () => {
     const [localCommentCount, setLocalCommentCount] = useState(commentCount);
     const [content, setContent] = useState("");
     const [parent, setParent] = useState(thought);
+    const inputRef = useRef(null)
 
     const { nearbyComments, loading } = useSelector((state) => state.getNearbyCommentsSlice);
 
@@ -59,7 +60,7 @@ const CommentForum = () => {
     );
 
     const renderComment = ({ item }) => (
-        <Comment comment={item} setParent={setParent} />
+        <Comment comment={item} setParent={setParent} inputRef={inputRef} />
     );
 
     return (
@@ -96,6 +97,7 @@ const CommentForum = () => {
                 {/*input*/}
                 <View style={[styles.inputContainer, { height: inputHeight, minHeight: 60 }]}>
                     <TextInput
+                        ref={inputRef}
                         style={[styles.input, { height: inputHeight, minHeight: 20 }]}
                         value={content}
                         marginBottom={0}

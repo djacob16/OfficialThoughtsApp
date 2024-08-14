@@ -105,6 +105,7 @@ const Home = () => {
             setLocation([loc.coords.longitude, loc.coords.latitude]);
             setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
             await updateActiveUnparkedThoughts(hash);
+            console.log("updated location of thoughts successfully")
         }, 500000)
         return () => clearInterval(intervalId);
     }, [location]);

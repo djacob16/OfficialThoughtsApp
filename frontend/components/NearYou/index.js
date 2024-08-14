@@ -19,9 +19,7 @@ const NearYou = ({ hash }) => {
                 const storedThoughts = await AsyncStorage.getItem('nearbyThoughts');
 
                 if (storedThoughts) {
-                    console.log("Loaded from AsyncStorage:");
-                    // Dispatch an action to set these thoughts in your Redux store, if needed
-                    // e.g., dispatch(setNearbyThoughts(JSON.parse(storedThoughts)));
+                    console.log("Loaded from AsyncStorage");
                 } else {
                     dispatch(getNearbyThoughts(hash));
                 }
@@ -50,7 +48,7 @@ const NearYou = ({ hash }) => {
         <View style={{ flex: 1, marginBottom: 30 }}>
             {loading === "succeeded" ? (
                 <FlatList
-                    data={nearbyThoughts} // Limit to 3 items
+                    data={nearbyThoughts}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
                         <View style={{

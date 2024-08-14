@@ -5,7 +5,6 @@ import { generateClient } from "aws-amplify/api";
 export const getNearbyThoughts = createAsyncThunk(
     "data/nearby", async (hash) => {
         const slicedHash = hash.slice(0, 5)
-        console.log(slicedHash)
         const client = generateClient();
         try {
             const response = await client.graphql({

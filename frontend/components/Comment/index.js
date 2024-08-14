@@ -11,7 +11,7 @@ import Replies from "../Replies";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Comment = ({ comment, setParent, }) => {
+const Comment = ({ comment, setParent, inputRef }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
     const [replyCount, setReplyCount] = useState();
@@ -48,6 +48,7 @@ const Comment = ({ comment, setParent, }) => {
 
     const replyOnComment = () => {
         setParent(comment);
+        inputRef.current?.focus();
         setOpenReplySection(true)
     };
 

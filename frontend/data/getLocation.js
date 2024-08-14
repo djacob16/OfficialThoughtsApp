@@ -4,7 +4,6 @@ const getLocation = async () => {
     try {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status === "granted") {
-            console.log("permission was granted");
             let currentLocation = await Location.getCurrentPositionAsync({});
             return currentLocation;
         } else {

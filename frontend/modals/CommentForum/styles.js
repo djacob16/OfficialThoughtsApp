@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         width: "98%",
         paddingHorizontal: 20,
         paddingVertical: 5,
-        marginBottom: 60,
+        marginBottom: 90,
     },
     input: {
         flex: 1,
