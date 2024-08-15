@@ -1,3 +1,10 @@
 --- xcodebuild: WARNING: Using the first of multiple matching destinations:
 { platform:iOS Simulator, id:23A2E296-43E8-4058-A5B0-410CF5EA8E10, OS:17.5, name:iPhone 15 Pro }
 { platform:iOS Simulator, id:23A2E296-43E8-4058-A5B0-410CF5EA8E10, OS:17.5, name:iPhone 15 Pro }
+** BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftDriver\ Compilation\ Requirements AmplifyRTNWebBrowser normal arm64 com.apple.xcode.tools.swift.compiler (in target 'AmplifyRTNWebBrowser' from project 'Pods')
+	SwiftDriver\ Compilation AmplifyRTNWebBrowser normal arm64 com.apple.xcode.tools.swift.compiler (in target 'AmplifyRTNWebBrowser' from project 'Pods')
+(2 failures)

@@ -1,0 +1,33 @@
+{
+  "aws_project_region": "us-east-2",
+  "aws_appsync_graphqlEndpoint": "https://dkhel7ncljeuledzxt2ioukeni.appsync-api.us-east-2.amazonaws.com/graphql",
+  "aws_appsync_region": "us-east-2",
+  "aws_appsync_authenticationType": "API_KEY",
+  "aws_appsync_apiKey": "da2-nmjhinrafrg7no3ugb3amyhnti",
+  "aws_cognito_identity_pool_id": "us-east-2:1b0ea574-ddbf-4c4b-afc8-373035bee139",
+  "aws_cognito_region": "us-east-2",
+  "aws_user_pools_id": "us-east-2_EA0njbH5q",
+  "aws_user_pools_web_client_id": "5slmu3hjj6h2o0rgl0jne41cqj",
+  "oauth": {},
+  "aws_cognito_username_attributes": [
+    "EMAIL"
+  ],
+  "aws_cognito_social_providers": [],
+  "aws_cognito_signup_attributes": [
+    "FAMILY_NAME",
+    "NAME"
+  ],
+  "aws_cognito_mfa_configuration": "OFF",
+  "aws_cognito_mfa_types": [
+    "SMS"
+  ],
+  "aws_cognito_password_protection_settings": {
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": []
+  },
+  "aws_cognito_verification_mechanisms": [
+    "EMAIL"
+  ],
+  "aws_user_files_s3_bucket": "officialthoughtsapp1f893ea772a043c594941011a17a247be-staging",
+  "aws_user_files_s3_bucket_region": "us-east-2"
+}

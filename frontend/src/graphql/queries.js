@@ -114,11 +114,6 @@ export const listThoughts = /* GraphQL */ `
         anonymous
         createdAt
         updatedAt
-        author {
-          id
-          photo
-          displayName
-        }
         userThoughtsId
         __typename
       }
