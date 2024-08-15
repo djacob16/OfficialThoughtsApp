@@ -57,7 +57,7 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
                 <View style={styles.thoughtInteractions}>
                     <TouchableOpacity
                         style={styles.interactionNumber}
-                        onPress={localLiked ? () => handleLocalDislike() : () => handleLocalLike()}
+                        onPress={localLiked ? () => handleLocalDislike(thought) : () => handleLocalLike(thought)}
                     >
                         {localLiked ? (
                             <Image
