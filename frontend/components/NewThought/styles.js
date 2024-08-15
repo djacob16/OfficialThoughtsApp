@@ -5,7 +5,22 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.backgroundColor,
         width: "100%",
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        position: "relative"
+    },
+    loadingContainer: {
+        position: "absolute",
+        paddingHorizontal: 16,
+        paddingVertical: 4,
+        backgroundColor: Colors.lightGray,
+        justifyContent: "center",
+        alignItems: "center",
+        width: 200,
+        height: 50,
+        borderRadius: 10,
+        top: 200,
+        left: 100,
+        zIndex: 2,
     },
     title: {
         color: "white",

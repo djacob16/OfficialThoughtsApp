@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         width: "100%",
         paddingHorizontal: 8,
-        paddingBottom: 100
+        paddingBottom: 100,
+        zIndex: -1
     },
     activeTitle: {
         color: Colors.whiteFont,

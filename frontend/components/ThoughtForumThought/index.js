@@ -12,23 +12,19 @@ import formatDate from "../../data/formatDate";
 import { likeThought, checkLiked } from "../../data/likeThought";
 import { useRoute } from "@react-navigation/native";
 import defaultProfilePic from "../../assets/defaultprofilepic.png"
-
 const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleLike, commentCount, setParent }) => {
     const [localLiked, setLocalLiked] = useState(liked);
     const [localLikeCount, setlocalLikeCount] = useState(likeCount);
-
     const handleLocalLike = () => {
         setLocalLiked(!localLiked)
         setlocalLikeCount(localLikeCount + 1)
         handleLike(thought)
     }
-
     const handleLocalDislike = () => {
         setLocalLiked(!localLiked)
         setlocalLikeCount(localLikeCount - 1)
         handleDislike(thought)
     }
-
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
@@ -57,7 +53,7 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
                 <View style={styles.thoughtInteractions}>
                     <TouchableOpacity
                         style={styles.interactionNumber}
-                        onPress={localLiked ? () => handleLocalDislike(thought) : () => handleLocalLike(thought)}
+                        onPress={localLiked ? () => handleLocalDislike() : () => handleLocalLike()}
                     >
                         {localLiked ? (
                             <Image
@@ -97,5 +93,4 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
         </View>
     )
 }
-
 export default ThoughtForumThought;

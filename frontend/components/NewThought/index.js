@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { generateClient } from "aws-amplify/api";
 import { uploadThoughtMedia } from "../../data/uploadThoughtMedia";
 import { uploadData } from 'aws-amplify/storage';
+import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 
 const NewThought = ({ hash }) => {
     const client = generateClient();
@@ -33,6 +34,7 @@ const NewThought = ({ hash }) => {
     const [imgData, setImgData] = useState("");
     const [key, setKey] = useState("");
     const [uploadKey, setUploadKey] = useState("")
+    const [loading, setLoading] = useState(false);
 
     const user = useSelector((state) => state.userSlice.user);
 
@@ -52,6 +54,7 @@ const NewThought = ({ hash }) => {
     }
 
     const postNewThought = async () => {
+        setLoading(true)
         const bucket = "officialthoughtsapp1f893ea772a043c594941011a17a247be-staging";
         if (imgData && key) {
             try {
@@ -64,29 +67,58 @@ const NewThought = ({ hash }) => {
                 }).result;
                 let s3URL = `https://${bucket}.s3.us-east-2.amazonaws.com/public/${result.key}`;
                 if (content && hash) {
-                    setContent("");
-                    setPickedImage("");
-                    setUploadKey("");
                     const response = await postOneThought(content, active, parked, hash, anonymous, user, s3URL);
-                    s3URL = "";
-                    setImgData("");
-                    setKey("");
-                    setActive(true);
-                    setAnonymous(false);
-                    setParked(false);
+                    if (response.__typename == "Thought") {
+                        setContent("");
+                        setPickedImage("");
+                        setUploadKey("");
+                        s3URL = "";
+                        setImgData("");
+                        setKey("");
+                        setActive(true);
+                        setAnonymous(false);
+                        setParked(false);
+                        setLoading(false)
+                        dispatch(getNearbyThoughts(hash))
+                        Toast.show({
+                            type: 'success',
+                            text1: 'Thought posted successfully!',
+                        });
+                    } else {
+                        setLoading(false)
+                        Toast.show({
+                            type: 'error',
+                            text1: 'Error posting thought, please check your connection',
+                        });
+                    }
                 }
             } catch (error) {
                 console.log('Error : ', error);
             }
         } else {
             if (content && hash) {
-                setContent("");
-                setPickedImage("");
-                setUploadKey("");
                 const response = await postOneThought(content, active, parked, hash, anonymous, user);
-                setActive(true);
-                setAnonymous(false);
-                setParked(false);
+                if (response.__typename == "Thought") {
+                    setContent("");
+                    setPickedImage("");
+                    setUploadKey("");
+                    setActive(true);
+                    setAnonymous(false);
+                    setParked(false);
+                    setLoading(false)
+                    dispatch(getNearbyThoughts(hash))
+                    Toast.show({
+                        type: 'success',
+                        text1: 'Thought posted successfully!',
+                    });
+                } else {
+                    setLoading(false)
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Error posting thought, please check your connection',
+                    });
+                }
+
             }
         }
     }
@@ -97,6 +129,7 @@ const NewThought = ({ hash }) => {
 
     return (
         <View style={styles.container}>
+            {loading && <View style={styles.loadingContainer}><Text style={{ color: "white", fontSize: 15 }}>Posting thought...</Text></View>}
             <View style={styles.inputTopContainer}>
                 <Text style={styles.name}>Hey, {user?.displayName}</Text>
                 <TouchableOpacity style={styles.postButton} onPress={postNewThought}>

@@ -74,7 +74,7 @@ const NearbyThought = ({ thought }) => {
     };
 
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, commentCount })}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}>
             <View style={styles.profileContainer}>
                 {!thought.anonymous ? (
                     <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: thought.author.id })}>

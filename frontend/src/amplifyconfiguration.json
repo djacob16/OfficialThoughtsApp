@@ -1,9 +1,5 @@
 {
   "aws_project_region": "us-east-2",
-  "aws_appsync_graphqlEndpoint": "https://dkhel7ncljeuledzxt2ioukeni.appsync-api.us-east-2.amazonaws.com/graphql",
-  "aws_appsync_region": "us-east-2",
-  "aws_appsync_authenticationType": "API_KEY",
-  "aws_appsync_apiKey": "da2-nmjhinrafrg7no3ugb3amyhnti",
   "aws_cognito_identity_pool_id": "us-east-2:1b0ea574-ddbf-4c4b-afc8-373035bee139",
   "aws_cognito_region": "us-east-2",
   "aws_user_pools_id": "us-east-2_EA0njbH5q",
@@ -28,6 +24,10 @@
   "aws_cognito_verification_mechanisms": [
     "EMAIL"
   ],
+  "aws_appsync_graphqlEndpoint": "https://dkhel7ncljeuledzxt2ioukeni.appsync-api.us-east-2.amazonaws.com/graphql",
+  "aws_appsync_region": "us-east-2",
+  "aws_appsync_authenticationType": "API_KEY",
+  "aws_appsync_apiKey": "da2-54za2bmx2nc6naejkus5mfxjxi",
   "aws_user_files_s3_bucket": "officialthoughtsapp1f893ea772a043c594941011a17a247be-staging",
   "aws_user_files_s3_bucket_region": "us-east-2"
 }

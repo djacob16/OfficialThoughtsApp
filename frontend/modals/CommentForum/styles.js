@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
     },
     scrollViewContainer: {
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
     },
     ThoughtContainer: {
         borderBottomWidth: .5,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         flexDirection: "column",
         gap: 10,
-        marginBottom: 50,
+        paddingBottom: 100
     },
     commentContainer: {
         paddingLeft: 36,

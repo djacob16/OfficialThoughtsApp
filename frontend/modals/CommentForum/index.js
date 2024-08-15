@@ -6,61 +6,40 @@ import ThoughtForumThought from "../../components/ThoughtForumThought";
 import Comment from "../../components/Comment";
 import createOneComment from "../../data/createOneComment";
 import { getNearbyComments } from "../../slices/getNearbyComments";
-import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import replyOnComment from "../../data/replyOnComment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import sendArrow from "../../assets/sendArrow.png";
 import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
-import { likeThought } from "../../data/likeThought";
-import getLocation from "../../data/getLocation";
-import geohash from "ngeohash";
 
 const CommentForum = () => {
     const route = useRoute();
     const dispatch = useDispatch();
 
-    const { thought, likeCount: initialLikeCount, liked: initialLiked, commentCount: initialCommentCount } = route.params;
-    const [liked, setLiked] = useState(initialLiked);
-    const [likeCount, setLikeCount] = useState(initialLikeCount);
-    const [commentCount, setCommentCount] = useState(initialCommentCount);
+    const { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount } = route.params;
+    const [localCommentCount, setLocalCommentCount] = useState(commentCount);
 
     const [inputHeight, setInputHeight] = useState("auto");
     const [content, setContent] = useState("");
     const [parent, setParent] = useState(thought);
     const inputRef = useRef(null)
-    const [hash, setHash] = useState();
 
     const { nearbyComments, loading } = useSelector((state) => state.getNearbyCommentsSlice);
 
     const commentOnThought = async () => {
         setContent("");
-        setCommentCount(prevCount => prevCount + 1);
+        setCommentCount(localCommentCount + 1);
+        setLocalCommentCount(localCommentCount + 1);
         await createOneComment(thought, content);
         dispatch(getNearbyComments(thought));
-        await refeshNearYouPage(); // Dispatch nearby thoughts
     };
 
     const replyToComment = async () => {
         setContent("");
         await replyOnComment(parent, content);
-        setCommentCount(prevCount => prevCount + 1);
-        await refeshNearYouPage(); // Dispatch nearby thoughts
-    };
-
-    const handleLike = async (thoughtToLike) => {
-        setLiked(true);
-        setLikeCount(prevCount => prevCount + 1);
-        await likeThought(thoughtToLike, true);
-        await refeshNearYouPage(); // Dispatch nearby thoughts
-    };
-
-    const handleDislike = async (thoughtToDislike) => {
-        setLiked(false);
-        setLikeCount(prevCount => prevCount - 1);
-        await likeThought(thoughtToDislike, false);
-        await refeshNearYouPage(); // Dispatch nearby thoughts
+        setCommentCount(localCommentCount + 1);
+        setLocalCommentCount(localCommentCount + 1);
     };
 
     const clearOpenReplySectionState = async () => {
@@ -73,39 +52,14 @@ const CommentForum = () => {
         }
     };
 
-    const refeshNearYouPage = async () => {
-        try {
-            const loc = await getLocation();
-            const newHash = geohash.encode(loc.coords.latitude, loc.coords.longitude, 9);
-            setHash(newHash);
-            if (newHash) {
-                dispatch(getNearbyThoughts(newHash));
-            }
-        } catch (error) {
-            console.error("Error refreshing nearby thoughts:", error);
-        }
-    };
-
     useFocusEffect(
         React.useCallback(() => {
-            let isActive = true;
-
-            const fetchData = async () => {
-                if (isActive) {
-                    dispatch(getNearbyComments(thought));
-                }
-            };
-
-            fetchData();
-
+            dispatch(getNearbyComments(thought));
             return () => {
-                isActive = false;
-                console.log("modal closed");
                 clearOpenReplySectionState();
             };
-        }, [thought])
+        }, [])
     );
-
 
     const renderComment = ({ item }) => (
         <Comment comment={item} setParent={setParent} inputRef={inputRef} />
@@ -113,7 +67,7 @@ const CommentForum = () => {
 
     return (
         <View style={styles.container}>
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+            <KeyboardAvoidingView style={{ flex: 1, paddingBottom: 100 }} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
                 {loading == "succeeded" ? (
                     <FlatList
                         data={nearbyComments}
@@ -121,7 +75,7 @@ const CommentForum = () => {
                         keyExtractor={(item, index) => item.id || index.toString()}
                         ListHeaderComponent={
                             <>
-                                <ThoughtForumThought thought={thought} likeCount={likeCount} liked={liked} handleDislike={handleDislike} handleLike={handleLike} commentCount={commentCount} setParent={setParent} />
+                                <ThoughtForumThought thought={thought} liked={liked} likeCount={likeCount} handleDislike={handleDislike} handleLike={handleLike} commentCount={localCommentCount} setParent={setParent} />
                                 <Text style={{ color: "white", paddingTop: 16, paddingLeft: 16, fontSize: 18 }}>Comments</Text>
                             </>
                         }

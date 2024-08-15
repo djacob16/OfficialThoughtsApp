@@ -47,11 +47,11 @@ const NearYou = ({ hash }) => {
     }, [loading, reduxNearbyThoughts]);
 
     return (
-        <View style={{ flex: 1, marginBottom: 30 }}>
-            {nearbyThoughts.length > 0 ? (
+        <View style={{ flex: 1, marginBottom: 30, zIndex: -1 }}>
+            {loading === "succeeded" ? (
                 <FlatList
                     data={nearbyThoughts}
-                    keyExtractor={(item, index) => index.toString()}
+                    keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
                         <View style={{
                             borderBottomWidth: .5,

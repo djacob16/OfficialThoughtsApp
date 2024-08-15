@@ -12,9 +12,10 @@ const deleteOneThought = async (thoughtId) => {
                 }
             }
         })
-        return deletedThought;
+        return { status: "success" }
     } catch (error) {
         console.log(error)
+        return { status: "failed" }
     }
 }
 

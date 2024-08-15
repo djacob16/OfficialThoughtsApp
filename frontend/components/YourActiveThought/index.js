@@ -15,6 +15,7 @@ import deleteOneThought from "../../data/deleteOneThought";
 import editOneThought from "../../data/editOneThought";
 import { checkLiked, likeThought } from "../../data/likeThought";
 import defaultProfilePic from "../../assets/defaultprofilepic.png"
+import Toast from 'react-native-toast-message';
 
 const YourActiveThought = ({ activeThought }) => {
     const navigation = useNavigation();
@@ -59,8 +60,20 @@ const YourActiveThought = ({ activeThought }) => {
         navigation.navigate("EditThought", { activeThought });
     };
 
-    const deleteFunc = () => {
-        deleteOneThought(activeThought.id);
+    const deleteFunc = async () => {
+        const response = await deleteOneThought(activeThought.id);
+        console.log(response)
+        if (response.status === "success") {
+            Toast.show({
+                type: 'success',
+                text1: 'Thought deleted successfully!',
+            });
+        } else {
+            Toast.show({
+                type: 'error',
+                text1: 'Error deleting thought',
+            });
+        }
     };
 
     const toggleActiveStatus = async () => {

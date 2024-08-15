@@ -88,8 +88,7 @@ const Home = () => {
             const loc = await getLocation();
             if (loc == "Permission to access location was denied") {
                 setLocationPermission(false)
-            }
-            if (loc) {
+            } else if (loc) {
                 setLocation([loc.coords.longitude, loc.coords.latitude]);
                 setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
                 setLocationPermission(true);
@@ -97,7 +96,7 @@ const Home = () => {
             }
         }
         data();
-    }, [hash])
+    }, [])
 
     useEffect(() => {
         const intervalId = setInterval(async () => {
@@ -114,7 +113,7 @@ const Home = () => {
         const scrollY = event.nativeEvent.contentOffset.y;
         // Fade the logo as you scroll down, bring it back as you scroll up
         Animated.timing(logoOpacity, {
-            toValue: scrollY > 20 ? -1 : 1,
+            toValue: scrollY > 20 ? 0 : 1,
             duration: 30,
             useNativeDriver: true,
         }).start();
