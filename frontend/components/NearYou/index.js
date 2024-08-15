@@ -17,7 +17,6 @@ const NearYou = ({ hash }) => {
         const fetchData = async () => {
             if (hash) {
                 const storedThoughts = await AsyncStorage.getItem('nearbyThoughts');
-
                 if (storedThoughts) {
                     console.log("Loaded from AsyncStorage");
                 } else {

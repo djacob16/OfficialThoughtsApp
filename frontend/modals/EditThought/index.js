@@ -5,6 +5,7 @@ import styles from "./styles";
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Video from "react-native-video";
 import formatDate from "../../data/formatDate";
+import defaultProfilePic from "../../assets/defaultprofilepic.png"
 
 const EditThought = () => {
     const route = useRoute();
@@ -33,7 +34,7 @@ const EditThought = () => {
                 <ScrollView style={styles.bodyContainer}>
                     <View style={styles.editContainer}>
                         <View style={styles.profileContainer}>
-                            {activeThought.author.photo ? (
+                            {activeThought?.author?.photo ? (
                                 <Image source={{ uri: activeThought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
                             ) : (
                                 <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />

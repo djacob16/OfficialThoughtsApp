@@ -99,7 +99,7 @@ const YourActiveThought = ({ activeThought }) => {
         <Animated.View style={animatedStyle}>
             <View style={styles.container}>
                 <View style={styles.profileContainer}>
-                    {activeThought.author.photo ? (
+                    {activeThought && activeThought.author && activeThought.author.photo ? (
                         <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: activeThought.author.id })}>
                             <Image source={{ uri: activeThought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
                         </TouchableOpacity>

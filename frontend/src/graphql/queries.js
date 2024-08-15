@@ -103,6 +103,11 @@ export const listThoughts = /* GraphQL */ `
       items {
         id
         authorID
+        author {
+          id
+          photo
+          displayName
+        }
         content
         photo
         video
