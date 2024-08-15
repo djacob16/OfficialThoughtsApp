@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, FlatList } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "./styles";
@@ -10,7 +10,8 @@ import { Colors } from "../../constants/colors";
 
 const NearYou = ({ hash }) => {
     const dispatch = useDispatch();
-    const { nearbyThoughts, loading } = useSelector((state) => state.getNearbyThoughtsSlice);
+    const { nearbyThoughts: reduxNearbyThoughts, loading } = useSelector((state) => state.getNearbyThoughtsSlice);
+    const [nearbyThoughts, setNearbyThoughts] = useState([]);
 
     // loads nearby thoughts
     useEffect(() => {
@@ -19,6 +20,7 @@ const NearYou = ({ hash }) => {
                 const storedThoughts = await AsyncStorage.getItem('nearbyThoughts');
                 if (storedThoughts) {
                     console.log("Loaded from AsyncStorage");
+                    setNearbyThoughts(JSON.parse(storedThoughts));
                 } else {
                     dispatch(getNearbyThoughts(hash));
                 }
@@ -31,9 +33,10 @@ const NearYou = ({ hash }) => {
     // Store nearbyThoughts in AsyncStorage after loading succeeds
     useEffect(() => {
         if (loading === "succeeded") {
+            setNearbyThoughts(reduxNearbyThoughts);
             const storeData = async () => {
                 try {
-                    await AsyncStorage.setItem('nearbyThoughts', JSON.stringify(nearbyThoughts));
+                    await AsyncStorage.setItem('nearbyThoughts', JSON.stringify(reduxNearbyThoughts));
                 } catch (error) {
                     console.error("Error storing data in AsyncStorage:", error);
                 }
@@ -41,11 +44,11 @@ const NearYou = ({ hash }) => {
 
             storeData();
         }
-    }, [loading, nearbyThoughts]);
+    }, [loading, reduxNearbyThoughts]);
 
     return (
         <View style={{ flex: 1, marginBottom: 30 }}>
-            {loading === "succeeded" ? (
+            {nearbyThoughts.length > 0 ? (
                 <FlatList
                     data={nearbyThoughts}
                     keyExtractor={(item, index) => index.toString()}

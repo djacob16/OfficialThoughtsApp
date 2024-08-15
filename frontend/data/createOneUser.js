@@ -7,21 +7,35 @@ const createOneUser = async (username) => {
     const { userId } = await getCurrentUser()
     const userAttributes = await fetchUserAttributes();
     const client = generateClient();
-    const response = (await client.graphql({
-        query: createUser,
-        variables: {
-            input: {
-                id: userId,
-                photo: "",
-                name: userAttributes.name + " " + userAttributes.family_name,
-                displayName: username,
-                about: "",
-                totalThoughts: 0,
-                darkmode: true,
-            }
+    try {
+        if (userId) {
+            const response = (await client.graphql({
+                query: createUser,
+                variables: {
+                    input: {
+                        id: userId,
+                        photo: "",
+                        name: userAttributes.name + " " + userAttributes.family_name,
+                        displayName: username,
+                        about: "",
+                        totalThoughts: 0,
+                        darkmode: true,
+                    }
+                }
+            })).data.createUser;
+            return response;
+        } else {
+            console.log("no user id: ", userId)
         }
-    })).data.createUser;
-    return response;
+    } catch (error) {
+        console.log("Error creating user: ", error);
+        if (error.errors) {
+            error.errors.forEach(e => console.log("GraphQL error:", e.message));
+        }
+        if (error.networkError) {
+            console.log("Network error:", error.networkError);
+        }
+    }
 }
 
 export default createOneUser

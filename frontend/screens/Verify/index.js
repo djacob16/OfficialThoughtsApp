@@ -26,10 +26,10 @@ const Verify = () => {
                     navigation.navigate("Main");
                 }
             } catch (error) {
-                console.log(error)
+                console.log("error going to the home page: ", error)
             }
-        } catch (err) {
-            console.log(err.message)
+        } catch (error) {
+            console.log("error verifying user: ", error)
         }
     };
 
