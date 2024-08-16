@@ -27,6 +27,7 @@ const postThought = async (content, active, parked, hash, anonymous, user, s3URL
                     parked: parked,
                     geohash: hash,
                     likes: 0,
+                    // totalReplies: 0,
                     anonymous: anonymous,
                 }
             }

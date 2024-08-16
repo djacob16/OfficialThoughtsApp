@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles";
-import { View, Text, TouchableOpacity, Modal, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Modal, ActivityIndicator, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import formatDate from "../../data/formatDate";
 import FastImage from "react-native-fast-image";
@@ -14,6 +14,7 @@ import { likeThought, checkLiked } from "../../data/likeThought";
 import { useNavigation } from "@react-navigation/native";
 import defaultProfilePic from "../../assets/defaultprofilepic.png";
 import Video from "react-native-video";
+import xmark from "../../assets/xmark.png"
 
 const NearbyThought = ({ thought }) => {
     const { user } = useSelector((state) => state.userSlice);
@@ -170,7 +171,7 @@ const NearbyThought = ({ thought }) => {
             >
                 <View style={styles.modalContainer}>
                     <TouchableOpacity onPress={closeImage} style={styles.closeButton}>
-                        <Text style={styles.closeButtonText}>x</Text>
+                        <Image style={styles.closeButton} source={xmark} />
                     </TouchableOpacity>
                     <FastImage source={{ uri: thought.photo }} style={styles.fullScreenImage} resizeMode="contain" />
                 </View>

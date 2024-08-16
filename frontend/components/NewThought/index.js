@@ -45,7 +45,7 @@ const NewThought = ({ hash }) => {
     }
 
     const toS3 = async () => {
-        const data = await uploadThoughtMedia();
+        const data = await uploadThoughtMedia("New thought");
         if (data) {
             setPickedImage(data.mediaPath);
             setImgData(data.mediaData);
@@ -55,7 +55,7 @@ const NewThought = ({ hash }) => {
 
     const postNewThought = async () => {
         setLoading(true)
-        const bucket = "officialthoughtsapp1f893ea772a043c594941011a17a247be-staging";
+        const bucket = "thoughtsapp8fd738644ed04b61a716a9444c7fe4fb83473-staging";
         if (imgData && key) {
             try {
                 const result = await uploadData({

@@ -5,7 +5,7 @@ import { getCurrentUser } from "aws-amplify/auth";
 import { updateUser } from "../src/graphql/mutations";
 
 export const pickImage = async () => {
-    const bucket = "officialthoughtsapp1f893ea772a043c594941011a17a247be-staging";
+    const bucket = "thoughtsapp8fd738644ed04b61a716a9444c7fe4fb83473-staging";
 
     const fetchImage = async (uri) => {
         const response = await fetch(uri);
@@ -46,7 +46,7 @@ export const pickImage = async () => {
             let picture = await fetchImage(imagePath);
             const imageData = new File([picture], `photo.${imageExt}`);
             // Key is abritrary, but should be unique
-            const key = `photos/${Date.now()}-${imageData.name}`;
+            const key = `profilePictures/${Date.now()}-${imageData.name}`;
             const uploadedKey = await uploadFileToS3(imageData, key);
             const { userId } = await getCurrentUser();
             const s3URL = `https://${bucket}.s3.us-east-2.amazonaws.com/public/${uploadedKey}`

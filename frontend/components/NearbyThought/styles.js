@@ -144,16 +144,17 @@ const styles = StyleSheet.create({
         right: 10,
         zIndex: 1,
         backgroundColor: Colors.lightGray,
-        width: 40,
+        width: 30,
         alignItems: "center",
         justifyContent: "center",
-        height: 40,
+        height: 30,
         padding: 10,
-        borderRadius: 50
+        borderRadius: 60
     },
     closeButtonText: {
         color: Colors.whiteFont,
-        fontSize: 18,
+        width: 20,
+        height: 20,
         fontWeight: 'bold',
     },
     fullScreenImage: {
