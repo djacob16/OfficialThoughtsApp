@@ -96,7 +96,7 @@ const Home = () => {
             }
         }
         data();
-    }, [])
+    }, [hash])
 
     useEffect(() => {
         const intervalId = setInterval(async () => {

@@ -25,16 +25,6 @@ export const listNearbyThoughtsWithAuthor = /* GraphQL */ `
           photo
           displayName
         }
-        comments {
-          items {
-            id
-            replies {
-              items {
-                id
-              }
-            }
-          }
-        }
         __typename
       }
       nextToken
