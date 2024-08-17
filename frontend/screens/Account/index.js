@@ -82,11 +82,12 @@ const Account = () => {
                         console.log(err);
                     }
                 }
+                setPickedImage("")
+                console.log("pickedImage: ", pickedImage)
                 return result.key;
             } catch (error) {
                 //console.log('Error : ', error);
             }
-            setPickedImage("")
             return '';
         }
     };
@@ -124,9 +125,15 @@ const Account = () => {
             }
             <View style={styles.container}>
                 {pickedImage &&
-                    <TouchableOpacity onPress={uploadFileToS3}>
-                        <Text style={{ color: "yellow", textAlign: "center" }}>upload</Text>
-                    </TouchableOpacity>
+                    <View style={{ flexDirection: "row", gap: 12, width: "100%", justifyContent: "center", alignItems: "center" }}>
+                        <TouchableOpacity onPress={() => setPickedImage("")}>
+                            <Text style={{ color: "white", textAlign: "center" }}>clear</Text>
+                        </TouchableOpacity>
+                        <Text style={{ color: "white", textAlign: "center" }}>|</Text>
+                        <TouchableOpacity onPress={uploadFileToS3}>
+                            <Text style={{ color: "yellow", textAlign: "center" }}>upload</Text>
+                        </TouchableOpacity>
+                    </View>
                 }
                 <Text style={styles.name}>{user.name}</Text>
                 <View style={styles.verifiedContainer}>

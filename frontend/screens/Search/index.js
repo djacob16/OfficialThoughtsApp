@@ -93,28 +93,26 @@ const Search = () => {
                     ))
                 ) : (
                     <View>
-                        {isTextInputFocused && <Text style={{ color: "white" }}>recent searches</Text>}
+                        {isTextInputFocused && recentUsers.length > 0 && <Text style={{ color: "white" }}>recent searches</Text>}
                         {isTextInputFocused && recentUsers?.map((user, index) => (
-                            <View>
-
-                                <View>
-                                    <TouchableOpacity
-                                        key={user.id}
-                                        style={styles.userProfile}
-                                        onPress={() => {
-                                            navigation.navigate("Profile", { userId: user.id });
-                                        }}
-                                    >
-                                        <Image source={{ uri: user.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
-                                        <Text style={{ color: "white" }}>{user.displayName}</Text>
-                                    </TouchableOpacity>
-                                </View>
+                            <View key={index}>
+                                <TouchableOpacity
+                                    key={user.id}
+                                    style={styles.userProfile}
+                                    onPress={() => {
+                                        navigation.navigate("Profile", { userId: user.id });
+                                    }}
+                                >
+                                    <Image source={{ uri: user.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                                    <Text style={{ color: "white" }}>{user.displayName}</Text>
+                                </TouchableOpacity>
                             </View>
                         ))}
                     </View>
-                )}
-            </ScrollView>
-        </View>
+                )
+                }
+            </ScrollView >
+        </View >
     );
 };
 

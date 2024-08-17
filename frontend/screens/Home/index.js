@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, Animated, RefreshControl, FlatList, Dimensions } from "react-native";
 import styles from "./styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
 import { resetUser } from "../../slices/getOneUser";
@@ -15,6 +15,8 @@ import LogoHeader from "../../components/LogoHeader";
 import NearYou from "../../components/NearYou";
 import YourThoughts from "../../components/YourThoughts";
 import NewThought from "../../components/NewThought";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRoute } from "@react-navigation/native";
 
 const Home = () => {
     const [title, setTitle] = useState("Near You");
@@ -27,12 +29,14 @@ const Home = () => {
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
     const windowWidth = Dimensions.get('window').width;
+    const route = useRoute()
 
     const paddingTop = useRef(new Animated.Value(60)).current; // Initial padding top
     const logoOpacity = useRef(new Animated.Value(1)).current; // Initial opacity
 
     const handleSignOut = async () => {
         await signOut();
+        await AsyncStorage.setItem("recentUsers", JSON.stringify([]));
         navigation.navigate("Signin");
         dispatch(resetUser());
         dispatch(resetActiveThoughts());

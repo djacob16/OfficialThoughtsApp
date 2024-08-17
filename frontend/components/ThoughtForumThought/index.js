@@ -25,10 +25,12 @@ const ThoughtForumThought = ({ thought, likeCount, liked, handleDislike, handleL
         setlocalLikeCount(localLikeCount - 1)
         handleDislike(thought)
     }
+
+    console.log(thought);
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
-                {thought.author.photo ? (
+                {thought.author.photo && !thought.anonymous ? (
                     <Image source={{ uri: thought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
                 ) : (
                     <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />

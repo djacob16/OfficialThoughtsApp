@@ -17,7 +17,6 @@ import activityIcon from "../assets/activityIcon.png"
 const Tab = createBottomTabNavigator()
 
 const HomeTabNavigator = () => {
-    const route = useRoute()
     return (
         <Tab.Navigator screenOptions={{ tabBarStyle: { backgroundColor: Colors.backgroundColor, paddingVertical: 15 } }}>
             <Tab.Screen name={"Home"} component={Home} options={{

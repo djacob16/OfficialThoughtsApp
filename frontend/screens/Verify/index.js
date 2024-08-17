@@ -23,7 +23,7 @@ const Verify = () => {
                 const { isSignedIn, nextStep } = await signIn({ username: email, password });
                 const user = await createOneUser(username);
                 if (user) {
-                    navigation.navigate("Main");
+                    navigation.navigate("AllowLocation");
                 }
             } catch (error) {
                 console.log("error going to the home page: ", error)

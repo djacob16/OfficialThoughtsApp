@@ -8,6 +8,7 @@ import ThoughtForum from "../screens/ThoughtForum"
 import Signup from "../screens/Signup";
 import Verify from "../screens/Verify";
 import Profile from "../screens/Profile";
+import AllowLocation from "../screens/AllowLocation";
 import ForgotPassword from "../screens/ForgotPassword";
 import ResetPassword from "../screens/ResetPassword";
 import { useDispatch } from "react-redux";
@@ -39,6 +40,7 @@ const Router = () => {
                 <Stack.Screen name={"Signin"} component={Signin} options={{ headerShown: false }} />
                 <Stack.Screen name={"Signup"} component={Signup} options={{ headerShown: false }} />
                 <Stack.Screen name={"Verify"} component={Verify} options={{ headerShown: false }} />
+                <Stack.Screen name={"AllowLocation"} component={AllowLocation} options={{ headerShown: false }} />
                 <Stack.Screen name={"ForgotPassword"} component={ForgotPassword} options={{ headerShown: false }} />
                 <Stack.Screen name={"ResetPassword"} component={ResetPassword} options={{ headerShown: false }} />
                 <Stack.Screen name={"Main"} component={HomeTabNavigator} options={{ headerShown: false }} />

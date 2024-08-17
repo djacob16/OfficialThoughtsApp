@@ -80,18 +80,18 @@ const NearbyThought = ({ thought }) => {
             onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}
         >
             <View style={styles.profileContainer}>
-                {!thought.anonymous ? (
+                {!thought?.anonymous ? (
                     <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: thought.author.id })}>
                         <FastImage source={{ uri: thought.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
                     </TouchableOpacity>
                 ) : (
-                    <FastImage source={defaultProfilePic} style={styles.profileImage} />
+                    <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
                 )}
             </View>
             <View style={styles.midSectionContainer}>
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>
-                        {thought.anonymous ? (
+                        {thought?.anonymous ? (
                             <Text style={styles.userName}>Anonymous</Text>
                         ) : (
                             <TouchableOpacity onPress={() => navigation.navigate("Profile", { userId: thought.author.id })}>
