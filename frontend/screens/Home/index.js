@@ -37,6 +37,8 @@ const Home = () => {
     const handleSignOut = async () => {
         await signOut();
         await AsyncStorage.setItem("recentUsers", JSON.stringify([]));
+        await AsyncStorage.setItem("@hash", "");
+        await AsyncStorage.setItem("@location_permission", "");
         navigation.navigate("Signin");
         dispatch(resetUser());
         dispatch(resetActiveThoughts());
@@ -77,9 +79,10 @@ const Home = () => {
 
     const onRefresh = async () => {
         setRefreshing(true);
-        const loc = await getLocation();
-        setLocation([loc.coords.longitude, loc.coords.latitude]);
-        setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
+        // const loc = await getLocation();
+        // setLocation([loc.coords.longitude, loc.coords.latitude]);
+        // setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
+        const hash = await AsyncStorage.getItem('@hash')
         if (hash) {
             await updateActiveUnparkedThoughts(hash);
             dispatch(getNearbyThoughts(hash));
@@ -89,15 +92,19 @@ const Home = () => {
 
     useEffect(() => {
         const data = async () => {
-            const loc = await getLocation();
-            if (loc == "Permission to access location was denied") {
-                setLocationPermission(false)
-            } else if (loc) {
-                setLocation([loc.coords.longitude, loc.coords.latitude]);
-                setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
-                setLocationPermission(true);
-                dispatch(getNearbyThoughts(hash))
-            }
+            // const loc = await getLocation();
+            // if (loc == "Permission to access location was denied") {
+            //     setLocationPermission(false)
+            // } else if (loc) {
+            //     setLocation([loc.coords.longitude, loc.coords.latitude]);
+            //     setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
+            //     setLocationPermission(true);
+            //     dispatch(getNearbyThoughts(hash))
+            // }
+            const storedPermission = await AsyncStorage.getItem('@location_permission');
+            const storedHash = await AsyncStorage.getItem('@hash')
+            setLocationPermission(storedPermission)
+            dispatch(getNearbyThoughts(storedHash))
         }
         data();
     }, [hash])

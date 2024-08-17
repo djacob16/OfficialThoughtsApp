@@ -10,7 +10,7 @@ import geohash from "ngeohash";
 
 const AllowLocation = () => {
     const [location, setLocation] = useState([])
-    const [importedHash, setImportedHash] = useState("")
+    const [hash, setHash] = useState("")
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
     const navigation = useNavigation();
@@ -21,9 +21,9 @@ const AllowLocation = () => {
         try {
             const loc = await getLocation();
             setLocation([loc.coords.longitude, loc.coords.latitude]);
-            setImportedHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
-            if (importedHash) {
-                dispatch(getNearbyThoughts(importedHash));
+            setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
+            if (hash) {
+                dispatch(getNearbyThoughts(hash));
             }
             navigation.navigate("Main")
         } catch (error) {
@@ -34,7 +34,7 @@ const AllowLocation = () => {
     }
 
     console.log("location: ", location);
-    console.log("hash: ", importedHash);
+    console.log("hash: ", hash);
 
     return (
         <View style={styles.container}>
