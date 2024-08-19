@@ -13,6 +13,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 4,
         backgroundColor: Colors.lightGray,
+        flexDirection: "row",
+        gap: 12,
         justifyContent: "center",
         alignItems: "center",
         width: 200,
@@ -95,7 +97,14 @@ const styles = StyleSheet.create({
     notAnonymous: {
         color: Colors.whiteFont,
         fontSize: 12
-    }
+    },
+    video: {
+        width: "100%",
+        height: 300,
+        borderRadius: 10,
+        marginTop: 10,
+        resizeMode: 'cover'
+    },
 })
 
 export default styles;

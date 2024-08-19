@@ -1,51 +1,124 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated, RefreshControl, FlatList, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, Animated, RefreshControl, FlatList, Dimensions, AppState } from "react-native";
 import styles from "./styles";
-import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "aws-amplify/auth";
+// tools
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { resetUser } from "../../slices/getOneUser";
-import { resetActiveThoughts } from "../../slices/getActiveThoughts";
-import { resetInactiveThoughts } from "../../slices/getInactiveThoughts";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// helper functions
 import getLocation from "../../data/getLocation";
 import { getNearbyThoughts, resetNearbyThoughts } from "../../slices/getNearbyThoughts";
 import { updateActiveUnparkedThoughts } from "../../data/updateActiveUnparkedThoughts";
-import geohash from "ngeohash";
+import { startLocationSubscription, stopLocationSubscription } from "../../utils/locationSubscription";
+// sub components
+import CustomSpinner from "../../utils/customSpinner";
 import LogoHeader from "../../components/LogoHeader";
 import NearYou from "../../components/NearYou";
 import YourThoughts from "../../components/YourThoughts";
 import NewThought from "../../components/NewThought";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRoute } from "@react-navigation/native";
 
 const Home = () => {
+    // navigation related
     const [title, setTitle] = useState("Near You");
     const [titleId, setTitleId] = useState("1");
-    const [location, setLocation] = useState([]);
+    const windowWidth = Dimensions.get('window').width;
+    const navigation = useNavigation();
+    // location related
     const [hash, setHash] = useState();
     const [locationPermission, setLocationPermission] = useState(false);
+    // refresh related
     const [refreshing, setRefreshing] = useState(false);
     const dispatch = useDispatch();
+    // animation related
     const highlightPosition = useRef(new Animated.Value(0)).current;
-    const navigation = useNavigation();
-    const windowWidth = Dimensions.get('window').width;
-    const route = useRoute()
+    const paddingTop = useRef(new Animated.Value(60)).current;
+    const logoOpacity = useRef(new Animated.Value(1)).current;
+    // app state
+    const appState = useRef(AppState.currentState);
 
-    const paddingTop = useRef(new Animated.Value(60)).current; // Initial padding top
-    const logoOpacity = useRef(new Animated.Value(1)).current; // Initial opacity
+    // init
+    useEffect(() => {
+        const handleAppStateChange = async (nextAppState) => {
+            if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+                startLocationSubscription()
+                const newHash = await AsyncStorage.getItem("@hash")
+                setHash(newHash)
+            }
+            appState.current = nextAppState;
+            console.log('AppState', appState.current);
+        };
+        const subscription = AppState.addEventListener('change', handleAppStateChange);
+        return () => {
+            subscription.remove();
+        };
+    }, []);
+    useEffect(() => {
+        const initializeLocation = async () => {
+            const storedPermission = await AsyncStorage.getItem('@location_permission');
+            const storedHash = await AsyncStorage.getItem('@hash');
 
-    const handleSignOut = async () => {
-        await signOut();
-        await AsyncStorage.setItem("recentUsers", JSON.stringify([]));
-        await AsyncStorage.setItem("@hash", "");
-        await AsyncStorage.setItem("@location_permission", "");
-        navigation.navigate("Signin");
-        dispatch(resetUser());
-        dispatch(resetActiveThoughts());
-        dispatch(resetInactiveThoughts());
-        dispatch(resetNearbyThoughts());
-    }
+            if (!storedPermission || !storedHash) {
+                await getLocation();
+                const updatedPermission = await AsyncStorage.getItem('@location_permission');
+                if (updatedPermission === "granted") {
+                    setLocationPermission(true);
+                    const updatedHash = await AsyncStorage.getItem('@hash');
+                    setHash(updatedHash);
+                } else {
+                    setLocationPermission(false);
+                }
+            } else {
+                startLocationSubscription()
+                setHash(storedHash);
+                setLocationPermission(true)
+                console.log("init ran")
+            }
+        };
 
+        initializeLocation();
+    }, []);
+
+    // refresh
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await getLocation()
+        const storedHash = await AsyncStorage.getItem('@hash');
+        if (storedHash) {
+            await updateActiveUnparkedThoughts(storedHash);
+            dispatch(getNearbyThoughts(storedHash));
+        } else {
+            setLocationPermission(false)
+        }
+        setRefreshing(false);
+    };
+
+    // animations 
+    const onScroll = (event) => {
+        const scrollY = event.nativeEvent.contentOffset.y;
+        // Fade the logo
+        Animated.timing(logoOpacity, {
+            toValue: scrollY > 20 ? 0 : 1,
+            duration: 30,
+            useNativeDriver: true,
+        }).start();
+
+        // Adjust paddingTop 
+        Animated.timing(paddingTop, {
+            toValue: scrollY > 20 ? 0 : 60,
+            duration: 80,
+            useNativeDriver: false
+        }).start();
+    };
+    const titleIdFunc = (id, title) => {
+        setTitleId(id);
+        setTitle(title);
+        Animated.spring(highlightPosition, {
+            toValue: id === "1" ? 0 : 1,
+            useNativeDriver: true
+        }).start();
+    };
+
+    // navigator data
     const homeScreens = [
         {
             id: "1",
@@ -56,16 +129,6 @@ const Home = () => {
             title: "Your Thoughts"
         }
     ]
-
-    const titleIdFunc = (id, title) => {
-        setTitleId(id);
-        setTitle(title);
-        Animated.spring(highlightPosition, {
-            toValue: id === "1" ? 0 : 1,
-            useNativeDriver: true
-        }).start();
-    };
-
     const highlightStyle = {
         transform: [
             {
@@ -75,66 +138,6 @@ const Home = () => {
                 })
             }
         ]
-    };
-
-    const onRefresh = async () => {
-        setRefreshing(true);
-        // const loc = await getLocation();
-        // setLocation([loc.coords.longitude, loc.coords.latitude]);
-        // setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
-        const hash = await AsyncStorage.getItem('@hash')
-        if (hash) {
-            await updateActiveUnparkedThoughts(hash);
-            dispatch(getNearbyThoughts(hash));
-        }
-        setRefreshing(false);
-    };
-
-    useEffect(() => {
-        const data = async () => {
-            // const loc = await getLocation();
-            // if (loc == "Permission to access location was denied") {
-            //     setLocationPermission(false)
-            // } else if (loc) {
-            //     setLocation([loc.coords.longitude, loc.coords.latitude]);
-            //     setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
-            //     setLocationPermission(true);
-            //     dispatch(getNearbyThoughts(hash))
-            // }
-            const storedPermission = await AsyncStorage.getItem('@location_permission');
-            const storedHash = await AsyncStorage.getItem('@hash')
-            setLocationPermission(storedPermission)
-            dispatch(getNearbyThoughts(storedHash))
-        }
-        data();
-    }, [hash])
-
-    useEffect(() => {
-        const intervalId = setInterval(async () => {
-            const loc = await getLocation();
-            setLocation([loc.coords.longitude, loc.coords.latitude]);
-            setHash(geohash.encode(loc.coords.latitude, loc.coords.longitude, 9));
-            await updateActiveUnparkedThoughts(hash);
-            console.log("updated location of thoughts successfully")
-        }, 500000)
-        return () => clearInterval(intervalId);
-    }, [location]);
-
-    const onScroll = (event) => {
-        const scrollY = event.nativeEvent.contentOffset.y;
-        // Fade the logo as you scroll down, bring it back as you scroll up
-        Animated.timing(logoOpacity, {
-            toValue: scrollY > 20 ? 0 : 1,
-            duration: 30,
-            useNativeDriver: true,
-        }).start();
-
-        // Adjust paddingTop based on scroll position
-        Animated.timing(paddingTop, {
-            toValue: scrollY > 20 ? 0 : 60,
-            duration: 80,
-            useNativeDriver: false
-        }).start();
     };
 
     return (
@@ -165,24 +168,24 @@ const Home = () => {
                         <>
                             <NewThought hash={hash} />
                             {!locationPermission && <Text style={{ color: "red", textAlign: "center" }}>Cannot show nearby thoughts because location was not allowed.</Text>}
-                            {title === "Near You" && <NearYou hash={hash} />}
+                            {title === "Near You" && <NearYou />}
                             {title === "Your Thoughts" && <YourThoughts />}
                         </>
                     )}
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            colors={['#ffffff']} // Set the spinner color to white
+                            progressBackgroundColor="#000000" // Optional: Set the background color of the spinner
+                        />
+                    }
                     keyExtractor={() => "key"}
+                    ListHeaderComponent={refreshing ? <CustomSpinner /> : null}
                     onScroll={onScroll}
-                    scrollEventThrottle={16}
+                    scrollEventThrottle={5}
                 />
-                <TouchableOpacity onPress={handleSignOut}>
-                    <Text>Go back</Text>
-                </TouchableOpacity>
-                {locationPermission &&
-                    <>
-                        <Text>{location}</Text>
-                        <Text>{hash}</Text>
-                    </>
-                }
+                <Text>{hash}</Text>
             </View>
         </Animated.View>
     );

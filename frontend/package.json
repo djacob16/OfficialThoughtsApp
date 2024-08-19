@@ -27,6 +27,8 @@
     "expo": "~51.0.26",
     "expo-location": "^17.0.1",
     "expo-status-bar": "~1.12.1",
+    "geohash": "^0.0.1",
+    "geolib": "^3.3.4",
     "ngeohash": "^0.6.3",
     "react": "18.2.0",
     "react-content-loader": "^7.0.2",

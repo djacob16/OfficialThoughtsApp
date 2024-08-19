@@ -14,9 +14,11 @@ import { getCurrentUser } from "@aws-amplify/auth";
 import YourActiveThought from "../../components/YourActiveThought";
 import { Colors } from "../../constants/colors";
 import { uploadThoughtMedia } from "../../data/uploadThoughtMedia";
+import useSignOut from "../../data/signout";
 
 const Account = () => {
     const [image, setImage] = useState("");
+    const { signout } = useSignOut()
     const { user } = useSelector((state) => state.userSlice);
     console.log(user)
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
@@ -116,10 +118,16 @@ const Account = () => {
             ) :
                 (
                     <TouchableOpacity style={styles.profileImage} onPress={selectImage}>
-                        <Image source={pickedImage ? pickedImage : defaultProfilePic} style={{
-                            objectFit: "contain", width: 169.346,
-                            height: 169.346, borderRadius: 100
-                        }} />
+                        {pickedImage ? (
+                            <Image source={{ uri: pickedImage }} style={{
+                                objectFit: "cover", width: 169.346,
+                                height: 169.346, borderRadius: 100
+                            }} />) : (
+                            <Image source={defaultProfilePic} style={{
+                                objectFit: "cover", width: 169.346,
+                                height: 169.346, borderRadius: 100
+                            }} />
+                        )}
                     </TouchableOpacity>
                 )
             }
@@ -173,7 +181,9 @@ const Account = () => {
                         </View>
                     ))}
                 </View>
-
+                <TouchableOpacity onPress={signout}>
+                    <Text>Go back</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
 

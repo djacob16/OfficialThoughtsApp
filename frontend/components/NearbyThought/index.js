@@ -15,6 +15,8 @@ import { useNavigation } from "@react-navigation/native";
 import defaultProfilePic from "../../assets/defaultprofilepic.png";
 import Video from "react-native-video";
 import xmark from "../../assets/xmark.png"
+import { getDistance } from 'geolib';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NearbyThought = ({ thought }) => {
     const { user } = useSelector((state) => state.userSlice);
@@ -23,6 +25,7 @@ const NearbyThought = ({ thought }) => {
     const [commentCount, setCommentCount] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
     const [imageLoading, setImageLoading] = useState(true);
+    const [userHash, setUserHash] = useState('');
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -31,6 +34,7 @@ const NearbyThought = ({ thought }) => {
             setLikeCount(thought.likes);
             const isLiked = await checkLiked(thought);
             setLiked(isLiked);
+            setUserHash(await AsyncStorage.getItem('@hash'))
         };
         init();
 
@@ -73,6 +77,33 @@ const NearbyThought = ({ thought }) => {
     const closeImage = () => {
         setModalVisible(false);
     };
+
+    // const decodeGeohash = (inputGeohash) => {
+    //     if (inputGeohash) {
+    //         const decoded = geohash.decode(inputGeohash);
+    //         if (decoded && decoded.lat && decoded.lon) {
+    //             return { latitude: decoded.lat, longitude: decoded.lon };
+    //         } else {
+    //             throw new Error('Geohash decode did not return a valid result');
+    //         }
+    //     }
+    //     throw new Error('Invalid geohash');
+    // };
+
+
+    // // Function to calculate the distance between two geohashes
+    // const calculateDistance = (thoughtHash, userHash) => {
+    //     decodeGeohash(thoughtHash);
+    //     decodeGeohash(userHash);
+
+    //     // // Calculate the distance using geolib
+    //     // const distance = getDistance(
+    //     //     { latitude: thoughtLat, longitude: thoughtLon },
+    //     //     { latitude: userLat, longitude: userLon }
+    //     // );
+
+    //     // return distance; // Distance in meters
+    // };
 
     return (
         <TouchableOpacity
@@ -147,12 +178,15 @@ const NearbyThought = ({ thought }) => {
                         <FastImage source={commentIcon} style={styles.icon} />
                         <Text style={styles.number}>{commentCount}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity>
                         <FastImage source={shareIcon} style={styles.icon} />
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <FastImage source={threeDots} style={styles.threeDotsIcon} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    <View style={styles.parkedDistance}>
+                        <Text style={styles.parkedText}>{thought.geohash}</Text>
+                    </View>
                 </View>
             </View>
             <View style={styles.parkedDistanceContainer}>

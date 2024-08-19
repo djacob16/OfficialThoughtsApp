@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { listNearbyThoughtsWithAuthor } from "../utils/customQueries";
 import { generateClient } from "aws-amplify/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const getNearbyThoughts = createAsyncThunk(
     "data/nearby", async (hash) => {
@@ -23,6 +24,7 @@ export const getNearbyThoughts = createAsyncThunk(
             });
             const nearbyThoughtList = response.data.listThoughts.items;
             const sortedThoughts = nearbyThoughtList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            await AsyncStorage.setItem('@nearbyThoughts', JSON.stringify(sortedThoughts));
             return sortedThoughts
         } catch (error) {
             console.log(error);

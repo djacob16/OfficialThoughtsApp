@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, TextInput } from "react-native";
+import { Text, View, Image, TouchableOpacity, TextInput, ActivityIndicator } from "react-native";
 import Video from "react-native-video"
 import styles from './styles';
 import camIcon from "../../assets/camera-01.png"
@@ -20,6 +20,7 @@ import { generateClient } from "aws-amplify/api";
 import { uploadThoughtMedia } from "../../data/uploadThoughtMedia";
 import { uploadData } from 'aws-amplify/storage';
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NewThought = ({ hash }) => {
     const client = generateClient();
@@ -54,9 +55,9 @@ const NewThought = ({ hash }) => {
     }
 
     const postNewThought = async () => {
-        setLoading(true)
         const bucket = "thoughtsapp8fd738644ed04b61a716a9444c7fe4fb83473-staging";
         if (imgData && key) {
+            setLoading(true)
             try {
                 const result = await uploadData({
                     key: key,
@@ -97,6 +98,7 @@ const NewThought = ({ hash }) => {
             }
         } else {
             if (content && hash) {
+                setLoading(true)
                 const response = await postOneThought(content, active, parked, hash, anonymous, user);
                 if (response.__typename == "Thought") {
                     setContent("");
@@ -129,7 +131,11 @@ const NewThought = ({ hash }) => {
 
     return (
         <View style={styles.container}>
-            {loading && <View style={styles.loadingContainer}><Text style={{ color: "white", fontSize: 15 }}>Posting thought...</Text></View>}
+            {loading &&
+                <View style={styles.loadingContainer}>
+                    <Text style={{ color: "white", fontSize: 15 }}>Posting thought</Text>
+                    <ActivityIndicator></ActivityIndicator>
+                </View>}
             <View style={styles.inputTopContainer}>
                 <Text style={styles.name}>Hey, {user?.displayName}</Text>
                 <TouchableOpacity style={styles.postButton} onPress={postNewThought}>
@@ -147,7 +153,7 @@ const NewThought = ({ hash }) => {
                 value={content}
                 onChangeText={setContent} />
             {pickedImage.slice(-4) === ".jpg" && <Image source={{ uri: pickedImage }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }} />}
-            {pickedImage.slice(-4) === ".mp4" && <Video source={{ uri: pickedImage }} resizeMode="contain" controls={true} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }} />}
+            {pickedImage.slice(-4) === ".mp4" && <Video source={{ uri: pickedImage }} resizeMode="contain" controls={true} style={styles.video} />}
             <View style={styles.inputBottomContainer}>
                 <View style={styles.inputBottomLeftContainer}>
                     <Image source={camIcon} style={styles.icon} />
