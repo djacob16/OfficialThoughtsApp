@@ -19,9 +19,20 @@ import EditThought from "../modals/EditThought";
 import onRemoveThought from "../subscriptions/subscribeToDeleteThought";
 import onUpdateUser from "../subscriptions/subscribeToUser";
 import Search from "../screens/Search";
+import NewThoughtModal from "../modals/NewThoughtModal";
+import ConnectSpotify from "../modals/ConnectSpotify";
 
 
 const Stack = createNativeStackNavigator();
+
+const linking = {
+    prefixes: ['thoughtsapp://'],
+    config: {
+        screens: {
+            Main: 'callback',
+        },
+    },
+};
 
 const Router = () => {
     const dispatch = useDispatch();
@@ -35,7 +46,7 @@ const Router = () => {
     }, [dispatch])
 
     return (
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
             <Stack.Navigator>
                 <Stack.Screen name={"Signin"} component={Signin} options={{ headerShown: false }} />
                 <Stack.Screen name={"Signup"} component={Signup} options={{ headerShown: false }} />
@@ -46,6 +57,8 @@ const Router = () => {
                 <Stack.Screen name={"Main"} component={HomeTabNavigator} options={{ headerShown: false }} />
                 <Stack.Screen name={"EditThought"} component={EditThought} options={{ presentation: 'modal', headerShown: false }} />
                 <Stack.Screen name={"CommentForum"} component={CommentForum} options={{ presentation: 'modal', headerShown: false }} />
+                <Stack.Screen name={"ConnectSpotify"} component={ConnectSpotify} options={{ presentation: 'modal', headerShown: false }} />
+                <Stack.Screen name={"NewThoughtModal"} component={NewThoughtModal} options={{ presentation: 'modal', headerShown: false }} />
                 <Stack.Screen name={"ThoughtForum"} component={ThoughtForum} options={{ headerShown: false }} />
                 <Stack.Screen name={"Profile"} component={Profile} options={{ headerShown: false }} />
                 <Stack.Screen name={"Search"} component={Search} options={{ headerShown: false }} />

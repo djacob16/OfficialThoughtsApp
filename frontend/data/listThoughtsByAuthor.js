@@ -1,16 +1,20 @@
-import { listThoughtsWithAuthor } from "../utils/customQueries";
+import { listNearbyThoughtsWithAuthor } from "../utils/customQueries";
 import { generateClient } from "aws-amplify/api";
 
 const listThoughtsByAuthor = async (id) => {
     const client = generateClient();
     try {
         const response = await client.graphql({
-            query: listThoughtsWithAuthor,
+            query: listNearbyThoughtsWithAuthor,
             variables: {
                 filter: {
                     authorID: {
                         eq: id
-                    }
+                    },
+                    and: [
+                        { anonymous: { eq: false } },
+                        { active: { eq: true } }
+                    ],
                 }
             }
         })

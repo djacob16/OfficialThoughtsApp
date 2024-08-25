@@ -13,6 +13,6 @@ export const store = configureStore({
         getInactiveThoughtsSlice: getInactiveThoughtsSlice,
         getNearbyThoughtsSlice: getNearbyThoughtsSlice,
         getNearbyCommentsSlice: getNearbyCommentsSlice,
-        getNearbyRepliesSlice: getNearbyRepliesSlice
+        getNearbyRepliesSlice: getNearbyRepliesSlice,
     },
 });

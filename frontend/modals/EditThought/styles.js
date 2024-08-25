@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         color: Colors.whiteFont,
         fontSize: 15
     },
-    editButtonContainer: {
+    saveButtonContainer: {
         flexDirection: "row",
         alignItems: "baseline",
         width: "100%",
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
         height: 18
     },
     input: {
-        color: Colors.whiteFont
+        color: Colors.whiteFont,
+        height: 55
     },
     photo: {
         width: "100%",
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     notAnonymous: {
         color: Colors.whiteFont
     },
-    editButton: {
+    saveButton: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -104,6 +105,59 @@ const styles = StyleSheet.create({
         height: 30,
         backgroundColor: "white",
         borderRadius: 25
+    },
+    inputContainer: {
+        height: 35,
+        width: "100%",
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.lightGray,
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center"
+    },
+    inputOption: {
+        height: 35,
+        width: "90%",
+        color: Colors.whiteFont
+    },
+    saveButton: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 80,
+        height: 30,
+        backgroundColor: "white",
+        borderRadius: 25,
+    },
+    invalidSaveButton: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 80,
+        height: 30,
+        backgroundColor: Colors.sectionGrey,
+        borderWidth: 1,
+        borderColor: Colors.whiteFont,
+        borderRadius: 25,
+    },
+    saveText: {
+        color: "black"
+    },
+    invalidSaveText: {
+        color: Colors.grayFont
+    },
+    addOptionsContainer: {
+        width: "35%",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingVertical: 5,
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: Colors.lightGray,
+    },
+    addOptionText: {
+        color: Colors.whiteFont,
+        fontSize: 14,
     },
 
 

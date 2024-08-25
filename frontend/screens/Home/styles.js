@@ -4,7 +4,6 @@ import { Colors } from "../../constants/colors";
 const styles = StyleSheet.create({
     bigContainer: {
         flex: 1,
-        paddingTop: 60,
         backgroundColor: Colors.backgroundColor,
     },
     container: {

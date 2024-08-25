@@ -1,45 +1,84 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { View, Text, TouchableOpacity, Image, TextInput, FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import styles from "./styles";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import ThoughtForumThought from "../../components/ThoughtForumThought";
 import Comment from "../../components/Comment";
 import createOneComment from "../../data/createOneComment";
 import { getNearbyComments } from "../../slices/getNearbyComments";
+import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import replyOnComment from "../../data/replyOnComment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import sendArrow from "../../assets/sendArrow.png";
 import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
+import { Audio } from 'expo-av';
+
 
 const CommentForum = () => {
     const route = useRoute();
     const dispatch = useDispatch();
+    const navigation = useNavigation()
 
-    const { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount } = route.params;
+    const {
+        thought,
+        likeCount,
+        liked,
+        handleLike,
+        handleDislike,
+        commentCount,
+        setCommentCount,
+        answered,
+        setAnswered,
+        localVoteCount,
+        setLocalVoteCount,
+        answeredOption,
+        setAnsweredOption,
+        track } = route.params;
     const [localCommentCount, setLocalCommentCount] = useState(commentCount);
 
     const [inputHeight, setInputHeight] = useState("auto");
     const [content, setContent] = useState("");
     const [parent, setParent] = useState(thought);
+    console.log(parent)
     const inputRef = useRef(null)
+
+    const [sound, setSound] = useState(null);
+    const [isPlaying, setIsPlaying] = useState(true);
+
+    const soundRef = useRef(sound);
+    const isPlayingRef = useRef(isPlaying);
+    const trackRef = useRef(track);
+    const [progress, setProgress] = useState(0);
+
 
     const { nearbyComments, loading } = useSelector((state) => state.getNearbyCommentsSlice);
 
+
     const commentOnThought = async () => {
-        setContent("");
-        setCommentCount(localCommentCount + 1);
-        setLocalCommentCount(localCommentCount + 1);
-        await createOneComment(thought, content);
-        dispatch(getNearbyComments(thought));
+        if (content.length > 0) {
+            setContent("");
+            setCommentCount(localCommentCount + 1);
+            setLocalCommentCount(localCommentCount + 1);
+            await createOneComment(thought, content);
+            dispatch(getNearbyComments(thought));
+            const hash = await AsyncStorage.getItem("@hash")
+            console.log(hash)
+            dispatch(getNearbyThoughts(hash))
+            console.log("dispatch worked")
+        }
     };
 
     const replyToComment = async () => {
-        setContent("");
-        await replyOnComment(parent, content);
-        setCommentCount(localCommentCount + 1);
-        setLocalCommentCount(localCommentCount + 1);
+        if (content.length > 0) {
+            setContent("");
+            await replyOnComment(thought, parent, content);
+            setCommentCount(localCommentCount + 1);
+            setLocalCommentCount(localCommentCount + 1);
+            const hash = await AsyncStorage.getItem("@hash")
+            dispatch(getNearbyThoughts(hash))
+        }
     };
 
     const clearOpenReplySectionState = async () => {
@@ -52,13 +91,87 @@ const CommentForum = () => {
         }
     };
 
+
+    useEffect(() => {
+        soundRef.current = sound;
+        isPlayingRef.current = isPlaying;
+        trackRef.current = track;
+        console.log(
+            "loop"
+        )
+    }, [sound, isPlaying, track]);
+
+    const playSound = useCallback(async () => {
+        if (trackRef.current && trackRef.current.preview_url) {
+            try {
+                if (soundRef.current) {
+                    await soundRef.current.unloadAsync();
+                }
+                const { sound: newSound } = await Audio.Sound.createAsync(
+                    { uri: trackRef.current.preview_url },
+                    { shouldPlay: true }
+                );
+
+                soundRef.current = newSound;
+                setSound(newSound);
+                setIsPlaying(true);
+
+                newSound.setOnPlaybackStatusUpdate((status) => {
+                    if (status.isLoaded && status.isPlaying) {
+                        const currentProgress = status.positionMillis / status.durationMillis;
+                        setProgress(currentProgress);
+                    }
+                    if (status.didJustFinish) {
+                        soundRef.current.unloadAsync();
+                        setSound(null);
+                        setIsPlaying(false);
+                        setProgress(0)
+                    }
+                });
+
+                await newSound.playAsync();
+            } catch (error) {
+                console.error("Error playing sound:", error);
+            }
+        }
+    }, []);
+
+
+    const togglePlayPause = useCallback(async () => {
+        if (soundRef.current) {
+            if (isPlayingRef.current) {
+                await soundRef.current.pauseAsync();
+                setIsPlaying(false);
+            } else {
+                await soundRef.current.playAsync();
+                setIsPlaying(true);
+            }
+        } else {
+            playSound();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (track && track.preview_url) {
+            playSound();
+        }
+    }, [track, playSound]);
+
     useFocusEffect(
-        React.useCallback(() => {
+        useCallback(() => {
             dispatch(getNearbyComments(thought));
             return () => {
                 clearOpenReplySectionState();
+                const currentSound = soundRef.current;
+                if (soundRef.current) {
+                    soundRef.current.stopAsync().then(() => {
+                        soundRef.current.unloadAsync();
+                        setSound(null);
+                        setIsPlaying(false);
+                    });
+                }
             };
-        }, [])
+        }, [dispatch, thought])
     );
 
     const renderComment = ({ item }) => (
@@ -75,7 +188,24 @@ const CommentForum = () => {
                         keyExtractor={(item, index) => item.id || index.toString()}
                         ListHeaderComponent={
                             <>
-                                <ThoughtForumThought thought={thought} liked={liked} likeCount={likeCount} handleDislike={handleDislike} handleLike={handleLike} commentCount={localCommentCount} setParent={setParent} />
+                                <ThoughtForumThought
+                                    thought={thought}
+                                    liked={liked}
+                                    likeCount={likeCount}
+                                    handleDislike={handleDislike}
+                                    handleLike={handleLike}
+                                    commentCount={localCommentCount}
+                                    setParent={setParent}
+                                    answered={answered}
+                                    setAnswered={setAnswered}
+                                    localVoteCount={localVoteCount}
+                                    setLocalVoteCount={setLocalVoteCount}
+                                    answeredOption={answeredOption}
+                                    setAnsweredOption={setAnsweredOption}
+                                    togglePlayPause={togglePlayPause}
+                                    isPlaying={isPlaying}
+                                    track={track}
+                                    progress={progress} />
                                 <Text style={{ color: "white", paddingTop: 16, paddingLeft: 16, fontSize: 18 }}>Comments</Text>
                             </>
                         }

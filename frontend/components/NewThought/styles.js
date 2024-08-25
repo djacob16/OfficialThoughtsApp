@@ -105,6 +105,53 @@ const styles = StyleSheet.create({
         marginTop: 10,
         resizeMode: 'cover'
     },
+    trackContainer: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        gap: 8,
+        alignItems: "flex-start",
+        paddingVertical: 10
+    },
+    trackContainerHighlighted: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        gap: 8,
+        alignItems: "flex-start",
+        paddingVertical: 10,
+        backgroundColor: Colors.sectionGrey
+    },
+    trackInfoContainer: {
+        width: "65%",
+        gap: 5
+    },
+    playButtonContainer: {
+        flex: 1,
+        height: 55,
+        alignSelf: "center",
+        borderWidth: 1,
+        borderColor: "red",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    trackTitle: {
+        color: "white",
+        fontSize: 17,
+        fontWeight: "500"
+    },
+    artistTitle: {
+        color: Colors.grayFont,
+        fontSize: 13,
+        fontWeight: "500"
+    },
+    notSupported: {
+        color: Colors.redFont,
+        fontSize: 10,
+        fontWeight: "500"
+    },
 })
 
 export default styles;

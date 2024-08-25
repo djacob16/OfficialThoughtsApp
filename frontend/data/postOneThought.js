@@ -3,7 +3,7 @@ import { generateClient } from "aws-amplify/api";
 import { getCurrentUser } from "@aws-amplify/auth";
 import { updateUser } from "../src/graphql/mutations";
 
-const postThought = async (content, active, parked, hash, anonymous, user, s3URL) => {
+const postThought = async (content, active, parked, hash, anonymous, user, s3URL, poll, music) => {
     const client = generateClient();
     const { userId } = await getCurrentUser();
     try {
@@ -23,11 +23,13 @@ const postThought = async (content, active, parked, hash, anonymous, user, s3URL
                     authorID: userId,
                     content: content,
                     photo: s3URL,
+                    music: music,
                     active: active,
                     parked: parked,
                     geohash: hash,
                     likes: 0,
-                    // totalReplies: 0,
+                    poll: poll,
+                    totalReplies: 0,
                     anonymous: anonymous,
                 }
             }

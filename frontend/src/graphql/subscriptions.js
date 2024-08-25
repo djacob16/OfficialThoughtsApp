@@ -108,14 +108,19 @@ export const onCreateThought = /* GraphQL */ `
       }
       content
       photo
-      video
       music
       active
       parked
       geohash
       likes
+      totalReplies
+      poll
       anonymous
       comments {
+        nextToken
+        __typename
+      }
+      options {
         nextToken
         __typename
       }
@@ -146,14 +151,19 @@ export const onUpdateThought = /* GraphQL */ `
       }
       content
       photo
-      video
       music
       active
       parked
       geohash
       likes
+      totalReplies
+      poll
       anonymous
       comments {
+        nextToken
+        __typename
+      }
+      options {
         nextToken
         __typename
       }
@@ -184,20 +194,160 @@ export const onDeleteThought = /* GraphQL */ `
       }
       content
       photo
-      video
       music
       active
       parked
       geohash
       likes
+      totalReplies
+      poll
       anonymous
       comments {
+        nextToken
+        __typename
+      }
+      options {
         nextToken
         __typename
       }
       createdAt
       updatedAt
       userThoughtsId
+      __typename
+    }
+  }
+`;
+export const onCreateOption = /* GraphQL */ `
+  subscription OnCreateOption($filter: ModelSubscriptionOptionFilterInput) {
+    onCreateOption(filter: $filter) {
+      id
+      content
+      votes
+      parentThought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      createdAt
+      updatedAt
+      thoughtOptionsId
+      __typename
+    }
+  }
+`;
+export const onUpdateOption = /* GraphQL */ `
+  subscription OnUpdateOption($filter: ModelSubscriptionOptionFilterInput) {
+    onUpdateOption(filter: $filter) {
+      id
+      content
+      votes
+      parentThought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      createdAt
+      updatedAt
+      thoughtOptionsId
+      __typename
+    }
+  }
+`;
+export const onDeleteOption = /* GraphQL */ `
+  subscription OnDeleteOption($filter: ModelSubscriptionOptionFilterInput) {
+    onDeleteOption(filter: $filter) {
+      id
+      content
+      votes
+      parentThought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      createdAt
+      updatedAt
+      thoughtOptionsId
+      __typename
+    }
+  }
+`;
+export const onCreatePollAnswers = /* GraphQL */ `
+  subscription OnCreatePollAnswers(
+    $filter: ModelSubscriptionPollAnswersFilterInput
+  ) {
+    onCreatePollAnswers(filter: $filter) {
+      thoughtID
+      userID
+      optionID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdatePollAnswers = /* GraphQL */ `
+  subscription OnUpdatePollAnswers(
+    $filter: ModelSubscriptionPollAnswersFilterInput
+  ) {
+    onUpdatePollAnswers(filter: $filter) {
+      thoughtID
+      userID
+      optionID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeletePollAnswers = /* GraphQL */ `
+  subscription OnDeletePollAnswers(
+    $filter: ModelSubscriptionPollAnswersFilterInput
+  ) {
+    onDeletePollAnswers(filter: $filter) {
+      thoughtID
+      userID
+      optionID
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -225,12 +375,13 @@ export const onCreateComment = /* GraphQL */ `
         authorID
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt
@@ -275,12 +426,13 @@ export const onUpdateComment = /* GraphQL */ `
         authorID
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt
@@ -325,12 +477,13 @@ export const onDeleteComment = /* GraphQL */ `
         authorID
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt

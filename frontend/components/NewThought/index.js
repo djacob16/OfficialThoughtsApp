@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableOpacity, TextInput, ActivityIndicator } from "react-native";
+import { Text, View, Image, TouchableOpacity, TextInput, ActivityIndicator, Linking } from "react-native";
 import Video from "react-native-video"
 import styles from './styles';
 import camIcon from "../../assets/camera-01.png"
@@ -21,6 +21,13 @@ import { uploadThoughtMedia } from "../../data/uploadThoughtMedia";
 import { uploadData } from 'aws-amplify/storage';
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { launchCamera } from 'react-native-image-picker';
+import { useNavigation } from "@react-navigation/native";
+import playIcon from "../../assets/play.circle.png";
+import pauseIcon from "../../assets/pause.circle.fill.png";
+import spotifyLogo from "../../assets/spotifyLogo.png"
+import { Audio } from 'expo-av';
+import { Colors } from "../../constants/colors";
 
 const NewThought = ({ hash }) => {
     const client = generateClient();
@@ -36,6 +43,10 @@ const NewThought = ({ hash }) => {
     const [key, setKey] = useState("");
     const [uploadKey, setUploadKey] = useState("")
     const [loading, setLoading] = useState(false);
+    const navigation = useNavigation()
+    const [track, setTrack] = useState("")
+    const [playingTrackId, setPlayingTrackId] = useState(null);
+    const [sound, setSound] = useState(null);
 
     const user = useSelector((state) => state.userSlice.user);
 
@@ -48,9 +59,16 @@ const NewThought = ({ hash }) => {
     const toS3 = async () => {
         const data = await uploadThoughtMedia("New thought");
         if (data) {
-            setPickedImage(data.mediaPath);
-            setImgData(data.mediaData);
-            setKey(data.key);
+            if (data?.error) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.error,
+                });
+            } else {
+                setPickedImage(data.mediaPath);
+                setImgData(data.mediaData);
+                setKey(data.key);
+            }
         }
     }
 
@@ -67,8 +85,8 @@ const NewThought = ({ hash }) => {
                     }
                 }).result;
                 let s3URL = `https://${bucket}.s3.us-east-2.amazonaws.com/public/${result.key}`;
-                if (content && hash) {
-                    const response = await postOneThought(content, active, parked, hash, anonymous, user, s3URL);
+                if (hash) {
+                    const response = await postOneThought(content, active, parked, hash, anonymous, user, s3URL, false, "");
                     if (response.__typename == "Thought") {
                         setContent("");
                         setPickedImage("");
@@ -79,6 +97,7 @@ const NewThought = ({ hash }) => {
                         setActive(true);
                         setAnonymous(false);
                         setParked(false);
+                        setTrack(null)
                         setLoading(false)
                         dispatch(getNearbyThoughts(hash))
                         Toast.show({
@@ -97,13 +116,14 @@ const NewThought = ({ hash }) => {
                 console.log('Error : ', error);
             }
         } else {
-            if (content && hash) {
+            if (content.trim().length > 0 && hash) {
                 setLoading(true)
-                const response = await postOneThought(content, active, parked, hash, anonymous, user);
+                const response = await postOneThought(content, active, parked, hash, anonymous, user, "", false, track.id);
                 if (response.__typename == "Thought") {
                     setContent("");
                     setPickedImage("");
                     setUploadKey("");
+                    setTrack(null)
                     setActive(true);
                     setAnonymous(false);
                     setParked(false);
@@ -129,15 +149,53 @@ const NewThought = ({ hash }) => {
         dispatch(getOneUser());
     }, [dispatch]);
 
+    const openCamera = async () => {
+        const result = await launchCamera({ mediaType: 'photo', cameraType: 'back', })
+        console.log("result: ", result);
+    }
+
+    const toNewThoughtModal = (type) => {
+        navigation.navigate("NewThoughtModal", { type, setTrack })
+    }
+
+    const playPreview = async (previewUrl, trackId) => {
+        try {
+            if (sound) {
+                await sound.unloadAsync();
+                setPlayingTrackId(null);
+            }
+            const { sound: newSound } = await Audio.Sound.createAsync({ uri: previewUrl });
+            setSound(newSound);
+            setPlayingTrackId(trackId);
+            newSound.setOnPlaybackStatusUpdate((status) => {
+                if (status.didJustFinish) {
+                    // Reset the play button state when the track finishes
+                    setPlayingTrackId(null);
+                }
+            });
+            await newSound.playAsync();
+        } catch (error) {
+            console.log("Error playing preview:", error);
+        }
+    };
+
+    const pausePreview = async () => {
+        if (sound) {
+            await sound.pauseAsync();
+            setPlayingTrackId(null);
+        }
+    };
+
     return (
         <View style={styles.container}>
             {loading &&
                 <View style={styles.loadingContainer}>
                     <Text style={{ color: "white", fontSize: 15 }}>Posting thought</Text>
                     <ActivityIndicator></ActivityIndicator>
-                </View>}
+                </View>
+            }
             <View style={styles.inputTopContainer}>
-                <Text style={styles.name}>Hey, {user?.displayName}</Text>
+                <Text style={styles.name}>Hey, {anonymous ? "anonymous" : user?.displayName}</Text>
                 <TouchableOpacity style={styles.postButton} onPress={postNewThought}>
                     <Text>Post</Text>
                 </TouchableOpacity>
@@ -152,17 +210,56 @@ const NewThought = ({ hash }) => {
                 placeholderTextColor={"#ffffffa6"}
                 value={content}
                 onChangeText={setContent} />
-            {pickedImage.slice(-4) === ".jpg" && <Image source={{ uri: pickedImage }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }} />}
+            {(pickedImage.slice(-4) === ".jpg" || pickedImage.slice(-4) === ".png") &&
+                <Image source={{ uri: pickedImage }} style={{ width: "100%", height: 250, marginBottom: 20, borderRadius: 10 }} />}
             {pickedImage.slice(-4) === ".mp4" && <Video source={{ uri: pickedImage }} resizeMode="contain" controls={true} style={styles.video} />}
+            {track &&
+                <View style={styles.trackContainer}>
+                    <Image source={{ uri: track?.album?.images[0]?.url }} resizeMode="cover" style={{ width: 55, height: 55, borderRadius: 5 }} />
+                    <View style={styles.trackInfoContainer}>
+                        <Text style={styles.trackTitle}>{track.name}</Text>
+                        <Text style={styles.artistTitle}>- {track.artists.map(artist => artist.name).join(', ')}</Text>
+                    </View>
+                    {track.preview_url ? (
+                        <TouchableOpacity
+                            onPress={() => {
+                                if (playingTrackId === track.id) {
+                                    pausePreview();
+                                } else {
+                                    playPreview(track.preview_url, track.id);
+                                }
+                            }}
+                        >
+                            <Image
+                                source={playingTrackId === track.id ? pauseIcon : playIcon}
+                                style={{ width: 44, height: 44 }}
+                            />
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flex: 1 }} onPress={() => { Linking.openURL(item.external_urls.spotify) }}>
+                            <Image source={spotifyLogo} style={{ width: 30, height: 30 }} />
+                        </TouchableOpacity>
+                    )
+                    }
+                </View>
+            }
             <View style={styles.inputBottomContainer}>
                 <View style={styles.inputBottomLeftContainer}>
-                    <Image source={camIcon} style={styles.icon} />
+                    <TouchableOpacity onPress={() => toNewThoughtModal("camera")} >
+                        <Image source={camIcon} style={styles.icon} />
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={toS3}>
                         <Image source={picIcon} style={styles.icon} />
                     </TouchableOpacity>
-                    <Image source={musicIcon} style={styles.icon} />
-                    <Image source={giphyIcon} style={styles.icon} />
-                    <Image source={pollIcon} style={styles.icon} />
+                    <TouchableOpacity onPress={() => toNewThoughtModal("music")}>
+                        <Image source={musicIcon} style={styles.icon} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => toNewThoughtModal("gif")}>
+                        <Image source={giphyIcon} style={styles.icon} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => toNewThoughtModal("poll")}>
+                        <Image source={pollIcon} style={styles.icon} />
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.inputBottomRightContainer}>
                     <TouchableOpacity onPress={() => setActive(!active)}>

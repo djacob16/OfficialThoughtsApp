@@ -10,6 +10,7 @@ import defaultProfilePic from "../../assets/defaultprofilepic.png";
 import Replies from "../Replies";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 const Comment = ({ comment, setParent, inputRef }) => {
     const [likeCount, setLikeCount] = useState(0);
@@ -17,6 +18,7 @@ const Comment = ({ comment, setParent, inputRef }) => {
     const [replyCount, setReplyCount] = useState();
     const [openReplySection, setOpenReplySection] = useState(false);
     const dispatch = useDispatch();
+    const navigation = useNavigation()
 
     useEffect(() => {
         const init = async () => {
@@ -59,23 +61,28 @@ const Comment = ({ comment, setParent, inputRef }) => {
         AsyncStorage.setItem(`openReplySection-${comment.id}`, JSON.stringify(newState));
     };
 
+    const toProfile = (userId) => {
+        navigation.goBack(); // Close the modal
+        navigation.navigate('Profile', { userId });
+    }
+
     return (
         <View style={styles.commentContainer}>
             <View style={styles.profileContainer}>
                 {comment.author.photo ? (
-                    <Image source={{ uri: comment.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                    <TouchableOpacity onPress={() => toProfile(comment.author.id)}>
+                        <Image source={{ uri: comment.author.photo }} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                    </TouchableOpacity>
                 ) : (
-                    <Image source={defaultProfilePic} style={{ width: 30, height: 30, borderRadius: 20 }} />
+                    <Image source={defaultProfilePic} style={{ width: 25, height: 25, borderRadius: 20 }} />
                 )}
             </View>
             <View>
                 <View style={styles.thoughtBody}>
                     <View style={styles.userInfo}>
-                        {comment.anonymous ? (
-                            <Text style={styles.userName}>Anonymous</Text>
-                        ) : (
+                        <TouchableOpacity onPress={() => toProfile(comment.author.id)}>
                             <Text style={styles.userName}>{comment?.author?.displayName}</Text>
-                        )}
+                        </TouchableOpacity>
                         <Text style={styles.time}>{formatDate(comment.createdAt)}</Text>
                     </View>
                     <View style={styles.thoughtContent}>

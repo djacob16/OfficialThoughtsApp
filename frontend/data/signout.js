@@ -19,6 +19,10 @@ const useSignOut = () => {
             await AsyncStorage.setItem("recentUsers", JSON.stringify([]));
             await AsyncStorage.setItem("@hash", "");
             await AsyncStorage.setItem("@location_permission", "");
+            await AsyncStorage.setItem("spotifyAuth", "false");
+            await AsyncStorage.setItem("spotiyAccessToken", "");
+            await AsyncStorage.setItem("spotiyRefreshToken", "");
+            await AsyncStorage.setItem('spotifyRefreshToken', "");
             await stopLocationSubscription()
 
             // Reset the state

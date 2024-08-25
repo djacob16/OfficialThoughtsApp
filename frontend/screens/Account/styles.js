@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.backgroundColor,
         width: "100%",
-        position: "relative",
     },
     backgroundImage: {
         width: "100%",
@@ -25,7 +24,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         zIndex: 1,
         backgroundColor: Colors.backgroundColor,
-        paddingVertical: 110
+        paddingTop: 110,
+        paddingBottom: 50,
     },
     profileImage: {
         position: "absolute",
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         width: "28%",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: Colors.lightGray,
+        backgroundColor: Colors.sectionGrey,
         borderRadius: 15,
         gap: -10,
         paddingVertical: 5
@@ -135,7 +135,29 @@ const styles = StyleSheet.create({
     thought: {
         color: Colors.whiteFont,
         fontSize: 18
-    }
+    },
+    optionsContainer: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        position: "absolute",
+        bottom: 0,
+        left: 20
+    },
+    signoutContainer: {
+        width: "40%",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingVertical: 10,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: Colors.lightGray,
+    },
+    signoutText: {
+        color: Colors.grayFont,
+        fontSize: 14,
+    },
 })
 
 export default styles;

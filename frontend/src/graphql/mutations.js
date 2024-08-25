@@ -1,6 +1,18 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const exchangeSpotifyCodeForToken = /* GraphQL */ `
+  mutation ExchangeSpotifyCodeForToken($code: String, $refreshToken: String) {
+    exchangeSpotifyCodeForToken(code: $code, refreshToken: $refreshToken) {
+      accessToken
+      refreshToken
+      expiresIn
+      tokenType
+      error
+      __typename
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -120,14 +132,19 @@ export const createThought = /* GraphQL */ `
       }
       content
       photo
-      video
       music
       active
       parked
       geohash
       likes
+      totalReplies
+      poll
       anonymous
       comments {
+        nextToken
+        __typename
+      }
+      options {
         nextToken
         __typename
       }
@@ -161,14 +178,19 @@ export const updateThought = /* GraphQL */ `
       }
       content
       photo
-      video
       music
       active
       parked
       geohash
       likes
+      totalReplies
+      poll
       anonymous
       comments {
+        nextToken
+        __typename
+      }
+      options {
         nextToken
         __typename
       }
@@ -202,20 +224,172 @@ export const deleteThought = /* GraphQL */ `
       }
       content
       photo
-      video
       music
       active
       parked
       geohash
       likes
+      totalReplies
+      poll
       anonymous
       comments {
+        nextToken
+        __typename
+      }
+      options {
         nextToken
         __typename
       }
       createdAt
       updatedAt
       userThoughtsId
+      __typename
+    }
+  }
+`;
+export const createOption = /* GraphQL */ `
+  mutation CreateOption(
+    $input: CreateOptionInput!
+    $condition: ModelOptionConditionInput
+  ) {
+    createOption(input: $input, condition: $condition) {
+      id
+      content
+      votes
+      parentThought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      createdAt
+      updatedAt
+      thoughtOptionsId
+      __typename
+    }
+  }
+`;
+export const updateOption = /* GraphQL */ `
+  mutation UpdateOption(
+    $input: UpdateOptionInput!
+    $condition: ModelOptionConditionInput
+  ) {
+    updateOption(input: $input, condition: $condition) {
+      id
+      content
+      votes
+      parentThought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      createdAt
+      updatedAt
+      thoughtOptionsId
+      __typename
+    }
+  }
+`;
+export const deleteOption = /* GraphQL */ `
+  mutation DeleteOption(
+    $input: DeleteOptionInput!
+    $condition: ModelOptionConditionInput
+  ) {
+    deleteOption(input: $input, condition: $condition) {
+      id
+      content
+      votes
+      parentThought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      createdAt
+      updatedAt
+      thoughtOptionsId
+      __typename
+    }
+  }
+`;
+export const createPollAnswers = /* GraphQL */ `
+  mutation CreatePollAnswers(
+    $input: CreatePollAnswersInput!
+    $condition: ModelPollAnswersConditionInput
+  ) {
+    createPollAnswers(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      optionID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updatePollAnswers = /* GraphQL */ `
+  mutation UpdatePollAnswers(
+    $input: UpdatePollAnswersInput!
+    $condition: ModelPollAnswersConditionInput
+  ) {
+    updatePollAnswers(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      optionID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deletePollAnswers = /* GraphQL */ `
+  mutation DeletePollAnswers(
+    $input: DeletePollAnswersInput!
+    $condition: ModelPollAnswersConditionInput
+  ) {
+    deletePollAnswers(input: $input, condition: $condition) {
+      thoughtID
+      userID
+      optionID
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -246,12 +420,13 @@ export const createComment = /* GraphQL */ `
         authorID
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt
@@ -299,12 +474,13 @@ export const updateComment = /* GraphQL */ `
         authorID
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt
@@ -352,12 +528,13 @@ export const deleteComment = /* GraphQL */ `
         authorID
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt

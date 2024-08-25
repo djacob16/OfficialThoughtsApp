@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import styles from "./styles";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { confirmResetPassword } from 'aws-amplify/auth';
+import Toast from "react-native-toast-message";
 
 const ResetPassword = () => {
     const navigation = useNavigation();
@@ -18,10 +19,14 @@ const ResetPassword = () => {
         if (password == confirmPassword) {
             try {
                 await confirmResetPassword({ username: email, confirmationCode: code, newPassword: password });
+                Toast.show({
+                    type: 'success',
+                    text1: 'Password changed successfully!',
+                });
                 navigation.navigate("Signin")
             } catch (error) {
                 console.log(error);
-                setError(error)
+                setError(error.message)
             }
         } else {
             setError("Passwords do not match")

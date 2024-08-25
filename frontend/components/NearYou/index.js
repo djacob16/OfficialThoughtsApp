@@ -14,23 +14,6 @@ const NearYou = () => {
     const { nearbyThoughts: reduxNearbyThoughts, loading } = useSelector((state) => state.getNearbyThoughtsSlice);
     const [nearbyThoughts, setNearbyThoughts] = useState([]);
 
-    // Store nearbyThoughts in AsyncStorage after loading succeeds
-    useEffect(() => {
-        if (loading === "succeeded") {
-            setNearbyThoughts(reduxNearbyThoughts);
-            const storeData = async () => {
-                try {
-                    await AsyncStorage.setItem('nearbyThoughts', JSON.stringify(reduxNearbyThoughts));
-                    console.log("async storage has been updated with new thoughts")
-                } catch (error) {
-                    console.error("Error storing data in AsyncStorage:", error);
-                }
-            };
-
-            storeData();
-        }
-    }, [loading, reduxNearbyThoughts]);
-
     // loads nearby thoughts
     useEffect(() => {
         const fetchData = async () => {
@@ -55,12 +38,32 @@ const NearYou = () => {
         fetchData();
     }, []);
 
+    // Store nearbyThoughts in AsyncStorage after loading succeeds
+    useEffect(() => {
+        if (loading === "succeeded") {
+            setNearbyThoughts(reduxNearbyThoughts);
+            const storeData = async () => {
+                try {
+                    await AsyncStorage.setItem('nearbyThoughts', JSON.stringify(reduxNearbyThoughts));
+                    console.log("async storage has been updated with new thoughts")
+                } catch (error) {
+                    console.error("Error storing data in AsyncStorage:", error);
+                }
+            };
+
+            storeData();
+        }
+    }, [loading, reduxNearbyThoughts]);
+
+    console.log(loading)
+
+
     return (
         <View style={{ flex: 1, marginBottom: 30, zIndex: -1 }}>
-            {loading == "succeeded" || "idel" ? (
-                nearbyThoughts || reduxNearbyThoughts.length > 0 ? (
+            {loading == "succeeded" ? (
+                reduxNearbyThoughts.length > 0 ? (
                     <FlatList
-                        data={nearbyThoughts}
+                        data={reduxNearbyThoughts}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
                             <View style={{

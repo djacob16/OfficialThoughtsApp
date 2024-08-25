@@ -40,16 +40,30 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 300,
         borderRadius: 10,
-        marginTop: 10,
         resizeMode: 'cover'
+    },
+    hiddenImage: {
+        width: "100%",
+        height: 300,
+        borderRadius: 10,
+        backgroundColor: Colors.sectionGrey,
     },
     video: {
         width: "100%",
         height: 300,
-        // aspectRatio: .565,
-        marginBottom: 20,
         borderRadius: 10,
         marginTop: 10,
+        resizeMode: 'cover'
+    },
+    mediaContainer: {
+        position: 'relative',
+        paddingTop: 8
+    },
+    loader: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: [{ translateX: -25 }, { translateY: -25 }],
     },
     thoughtTags: {
         flexDirection: "row",
@@ -123,7 +137,92 @@ const styles = StyleSheet.create({
     },
     profileContainer: {
         width: "9%"
-    }
+    },
+    optionsContainer: {
+        paddingTop: 10,
+        width: "100%",
+        gap: 8
+    },
+    optionContainer: {
+        width: "100%",
+        borderWidth: 1,
+        borderRadius: 12,
+        borderColor: Colors.lightGray,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 10
+    },
+    optionContainerHighlighted: {
+        width: "100%",
+        borderWidth: 1,
+        borderRadius: 12,
+        backgroundColor: Colors.sectionGrey,
+        borderColor: Colors.whiteFont,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 10
+    },
+    optionText: {
+        color: Colors.whiteFont
+    },
+    trackContainer: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        gap: 8,
+        alignItems: "flex-start",
+        paddingVertical: 10
+    },
+    trackContainerHighlighted: {
+        width: "100%",
+        paddingHorizontal: 8,
+        borderRadius: 12,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        gap: 8,
+        alignItems: "flex-start",
+        paddingVertical: 10,
+        backgroundColor: Colors.sectionGrey,
+    },
+    albumImageContianer: {
+        width: "25%",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    trackInfoContainer: {
+        width: "60%",
+        gap: 5,
+    },
+    playButtonContainer: {
+        width: "10%",
+        height: 55,
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "cetner",
+        paddingTop: 5,
+    },
+    trackTitle: {
+        color: "white",
+        fontSize: 14,
+        fontWeight: "500"
+    },
+    artistTitle: {
+        color: Colors.grayFont,
+        fontSize: 13,
+        fontWeight: "500"
+    },
+    notSupported: {
+        color: Colors.redFont,
+        fontSize: 10,
+        fontWeight: "500"
+    },
 })
 
 export default styles

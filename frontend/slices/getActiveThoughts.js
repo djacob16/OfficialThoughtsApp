@@ -2,13 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCurrentUser } from "aws-amplify/auth";
 import { generateClient } from "aws-amplify/api";
 import { listThoughts } from '../src/graphql/queries';
+import { listNearbyThoughtsWithAuthor } from "../utils/customQueries";
 
 export const getActiveThoughts = createAsyncThunk("data/getActiveThoughts", async () => {
     const client = generateClient()
     const { userId } = await getCurrentUser();
     try {
         const response = await client.graphql({
-            query: listThoughts,
+            query: listNearbyThoughtsWithAuthor,
             variables: {
                 filter: {
                     authorID: { eq: userId },
@@ -20,6 +21,7 @@ export const getActiveThoughts = createAsyncThunk("data/getActiveThoughts", asyn
         });
         const thoughtsList = response.data.listThoughts.items;
         const sortedThoughts = thoughtsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        // console.log("active thoughts")
         return sortedThoughts;
     } catch (error) {
         console.log(error)

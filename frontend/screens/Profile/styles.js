@@ -2,46 +2,49 @@ import { StyleSheet } from "react-native";
 import { Colors } from "../../constants/colors";
 
 const styles = StyleSheet.create({
-    backgroundContainer: {
+    loadingContainer: {
+        backgroundColor: Colors.backgroundColor,
+        width: "100%",
         flex: 1,
+    },
+    backgroundContainer: {
         backgroundColor: Colors.backgroundColor,
         width: "100%",
         position: "relative",
     },
     backgroundImage: {
         width: "100%",
-        width: 500,
         objectFit: "contain",
         position: "absolute",
-        top: -150,
-        right: -55,
+        top: -245,
+        left: -2,
         zIndex: -1,
+        alignSelf: "center"
     },
     container: {
         flex: 1,
-        marginTop: 150,
+        marginTop: 125,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         zIndex: 1,
         backgroundColor: Colors.backgroundColor,
-        paddingVertical: 110
+        paddingTop: 70,
+        paddingBottom: 70
     },
     profileImage: {
         position: "absolute",
         width: "100%",
         alignSelf: "center",
         backgroundColor: Colors.yellowFont,
-        width: 169.346,
-        height: 169.346,
+        width: 160.346,
+        height: 160.346,
         borderRadius: 100,
-        top: 80,
+        top: 60,
         zIndex: 4
     },
     name: {
         fontSize: 30,
         color: Colors.whiteFont,
-        textAlign: "center",
-        paddingBottom: 14.78,
         fontWeight: "700"
     },
     verifiedContainer: {
@@ -49,18 +52,38 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
-        gap: 5,
-        marginBottom: 15
+        gap: 8,
+        borderColor: "white",
+        marginBottom: 5
     },
-    verified: {
+    verifiedIcon: {
+    },
+    joinedText: {
+        color: Colors.grayFont,
         fontSize: 14,
-        color: Colors.whiteFont,
+        alignSelf: "center",
+        marginBottom: 5
     },
     description: {
         textAlign: "center",
         fontSize: 16,
         color: Colors.whiteFont,
-        marginBottom: 24.07
+        marginBottom: 15
+    },
+    friendsContainer: {
+        alignSelf: "center",
+        width: "55%",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingVertical: 10,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: Colors.lightGray,
+        marginBottom: 15
+    },
+    friendsText: {
+        color: Colors.grayFont,
+        fontSize: 14,
     },
     profileData: {
         flexDirection: "row",
@@ -133,7 +156,67 @@ const styles = StyleSheet.create({
     thought: {
         color: Colors.whiteFont,
         fontSize: 18
-    }
+    },
+    toggleViewContainer: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        paddingHorizontal: 16
+    },
+    viewIcons: {
+        width: 30,
+        height: 30,
+        position: "absolute",
+        right: 0,
+        bottom: 25
+    },
+    navigator: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 15,
+        width: "100%",
+        height: 44,
+        position: "relative",
+        marginBottom: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.lightGray
+    },
+    highlight: {
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        borderBottomWidth: 2,
+        borderBottomColor: "#FBD157",
+        width: "20%",
+        zIndex: -1,
+    },
+    navigatorText: {
+        width: "25%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12
+    },
+    backArrowContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        position: "relative",
+        top: 60,
+        left: 10,
+        width: "10%"
+    },
+    backArrowIcon: {
+        width: 40,
+        height: 40,
+    },
+    line: {
+        width: "100%",
+        borderColor: Colors.sectionGrey,
+        borderWidth: .5,
+        marginBottom: 20
+    },
 })
 
 export default styles;

@@ -29,11 +29,11 @@ const HomeTabNavigator = () => {
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused, size }) => (<Image source={focused ? searchIconFocused : searchIcon} style={{ width: 48, height: 48 }} />)
             }} />
-            <Tab.Screen name={"Activity"} component={Search} options={{
+            {/* <Tab.Screen name={"Activity"} component={Search} options={{
                 headerShown: false,
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused, size }) => (<Image source={focused ? activityIcon : activityIcon} style={{ width: 48, height: 48 }} />)
-            }} />
+            }} /> */}
             <Tab.Screen name={"Account"} component={Account} options={{
                 headerShown: false,
                 tabBarShowLabel: false,

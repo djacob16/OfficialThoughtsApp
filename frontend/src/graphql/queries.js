@@ -75,14 +75,19 @@ export const getThought = /* GraphQL */ `
       }
       content
       photo
-      video
       music
       active
       parked
       geohash
       likes
+      totalReplies
+      poll
       anonymous
       comments {
+        nextToken
+        __typename
+      }
+      options {
         nextToken
         __typename
       }
@@ -103,23 +108,113 @@ export const listThoughts = /* GraphQL */ `
       items {
         id
         authorID
-        author {
-          id
-          photo
-          displayName
-        }
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt
         userThoughtsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getOption = /* GraphQL */ `
+  query GetOption($id: ID!) {
+    getOption(id: $id) {
+      id
+      content
+      votes
+      parentThought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
+      createdAt
+      updatedAt
+      thoughtOptionsId
+      __typename
+    }
+  }
+`;
+export const listOptions = /* GraphQL */ `
+  query ListOptions(
+    $filter: ModelOptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOptions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        content
+        votes
+        createdAt
+        updatedAt
+        thoughtOptionsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getPollAnswers = /* GraphQL */ `
+  query GetPollAnswers($thoughtID: ID!, $userID: ID!) {
+    getPollAnswers(thoughtID: $thoughtID, userID: $userID) {
+      thoughtID
+      userID
+      optionID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listPollAnswers = /* GraphQL */ `
+  query ListPollAnswers(
+    $thoughtID: ID
+    $userID: ModelIDKeyConditionInput
+    $filter: ModelPollAnswersFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listPollAnswers(
+      thoughtID: $thoughtID
+      userID: $userID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        thoughtID
+        userID
+        optionID
+        createdAt
+        updatedAt
         __typename
       }
       nextToken
@@ -150,12 +245,13 @@ export const getComment = /* GraphQL */ `
         authorID
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt
@@ -406,12 +502,13 @@ export const thoughtsByGeoHash = /* GraphQL */ `
         authorID
         content
         photo
-        video
         music
         active
         parked
         geohash
         likes
+        totalReplies
+        poll
         anonymous
         createdAt
         updatedAt

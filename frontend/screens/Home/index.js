@@ -11,11 +11,12 @@ import { getNearbyThoughts, resetNearbyThoughts } from "../../slices/getNearbyTh
 import { updateActiveUnparkedThoughts } from "../../data/updateActiveUnparkedThoughts";
 import { startLocationSubscription, stopLocationSubscription } from "../../utils/locationSubscription";
 // sub components
-import CustomSpinner from "../../utils/customSpinner";
 import LogoHeader from "../../components/LogoHeader";
 import NearYou from "../../components/NearYou";
 import YourThoughts from "../../components/YourThoughts";
 import NewThought from "../../components/NewThought";
+// spotify tokens related
+import { refreshAccessToken } from "../../data/exchangeCodeForToken";
 
 const Home = () => {
     // navigation related
@@ -25,7 +26,7 @@ const Home = () => {
     const navigation = useNavigation();
     // location related
     const [hash, setHash] = useState();
-    const [locationPermission, setLocationPermission] = useState(false);
+    const [locationPermission, setLocationPermission] = useState(true);
     // refresh related
     const [refreshing, setRefreshing] = useState(false);
     const dispatch = useDispatch();
@@ -40,9 +41,21 @@ const Home = () => {
     useEffect(() => {
         const handleAppStateChange = async (nextAppState) => {
             if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+                // sets new hash
                 startLocationSubscription()
                 const newHash = await AsyncStorage.getItem("@hash")
                 setHash(newHash)
+
+                // refreshes token 
+                const storedRefreshToken = await AsyncStorage.getItem('spotifyRefreshToken');
+                const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
+                const expiryTime = new Date(expiryString);
+                const currentTime = new Date();
+                if (currentTime >= expiryTime) {
+                    await refreshAccessToken()
+                    console.log("access token has been updated")
+                }
+                console.log("access token has been updated")
             }
             appState.current = nextAppState;
             console.log('AppState', appState.current);
@@ -52,6 +65,7 @@ const Home = () => {
             subscription.remove();
         };
     }, []);
+
     useEffect(() => {
         const initializeLocation = async () => {
             const storedPermission = await AsyncStorage.getItem('@location_permission');
@@ -64,6 +78,7 @@ const Home = () => {
                     setLocationPermission(true);
                     const updatedHash = await AsyncStorage.getItem('@hash');
                     setHash(updatedHash);
+                    startLocationSubscription()
                 } else {
                     setLocationPermission(false);
                 }
@@ -73,6 +88,17 @@ const Home = () => {
                 setLocationPermission(true)
                 console.log("init ran")
             }
+
+            // refreshes token 
+            const storedRefreshToken = await AsyncStorage.getItem('spotifyRefreshToken');
+            const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
+            const expiryTime = new Date(expiryString);
+            const currentTime = new Date();
+            if (currentTime >= expiryTime) {
+                await refreshAccessToken()
+                console.log("NEW access token has been updated")
+            }
+            console.log("access token has been updated")
         };
 
         initializeLocation();
@@ -81,14 +107,25 @@ const Home = () => {
     // refresh
     const onRefresh = async () => {
         setRefreshing(true);
-        await getLocation()
         const storedHash = await AsyncStorage.getItem('@hash');
         if (storedHash) {
             await updateActiveUnparkedThoughts(storedHash);
             dispatch(getNearbyThoughts(storedHash));
         } else {
-            setLocationPermission(false)
+            await getLocation()
+            const updatedHash = await AsyncStorage.getItem('@hash');
+            await updateActiveUnparkedThoughts(updatedHash);
+            dispatch(getNearbyThoughts(updatedHash));
         }
+        const storedRefreshToken = await AsyncStorage.getItem('spotifyRefreshToken');
+        const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
+        const expiryTime = new Date(expiryString);
+        const currentTime = new Date();
+        if (currentTime >= expiryTime) {
+            await refreshAccessToken()
+            console.log("NEW access token has been updated")
+        }
+        console.log("access token has been updated")
         setRefreshing(false);
     };
 
@@ -176,16 +213,17 @@ const Home = () => {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={onRefresh}
-                            colors={['#ffffff']} // Set the spinner color to white
-                            progressBackgroundColor="#000000" // Optional: Set the background color of the spinner
+                            tintColor="#ffffff"
+                            colors={["#1E1E1E"]}
+
+
                         />
                     }
                     keyExtractor={() => "key"}
-                    ListHeaderComponent={refreshing ? <CustomSpinner /> : null}
                     onScroll={onScroll}
                     scrollEventThrottle={5}
                 />
-                <Text>{hash}</Text>
+                {/* <Text>{hash}</Text> */}
             </View>
         </Animated.View>
     );

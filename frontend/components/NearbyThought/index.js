@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./styles";
 import { View, Text, TouchableOpacity, Modal, ActivityIndicator, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,57 +17,113 @@ import Video from "react-native-video";
 import xmark from "../../assets/xmark.png"
 import { getDistance } from 'geolib';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
+import { vote, checkAnswered } from "../../data/voteOnPoll";
+import mute from "../../assets/speaker.slash.fill.png";
+import unmute from "../../assets/speaker.wave.2.fill.png";
+import spotifyLogo from "../../assets/spotifyLogo.png"
+import { Audio } from 'expo-av';
+import { Colors } from "../../constants/colors";
+import DancingBars from "../DancingBars";
+import { refreshAccessToken } from "../../data/exchangeCodeForToken";
 
 const NearbyThought = ({ thought }) => {
     const { user } = useSelector((state) => state.userSlice);
+    const dispatch = useDispatch();
     const [likeCount, setLikeCount] = useState(0);
     const [liked, setLiked] = useState(false);
-    const [commentCount, setCommentCount] = useState(0);
+    const [answered, setAnswered] = useState(false);
+    const [localVoteCount, setLocalVoteCount] = useState(0)
+    const [answeredOption, setAnsweredOption] = useState("");
+    const [commentCount, setCommentCount] = useState(0)
     const [modalVisible, setModalVisible] = useState(false);
     const [imageLoading, setImageLoading] = useState(true);
     const [userHash, setUserHash] = useState('');
     const navigation = useNavigation();
+    const [track, setTrack] = useState(null)
+    const [spotifyAuth, setSpotifyAuth] = useState(true)
+    const [loadingSong, setLoadingSong] = useState(false)
 
     useEffect(() => {
         const init = async () => {
-            setCommentCount(calcTotalComments(thought));
+            setCommentCount(thought.totalReplies)
             setLikeCount(thought.likes);
             const isLiked = await checkLiked(thought);
             setLiked(isLiked);
             setUserHash(await AsyncStorage.getItem('@hash'))
+            const answerId = await checkAnswered(thought);
+            if (answerId) {
+                for (option of thought.options.items) {
+                    if (option.id == answerId) {
+                        setLocalVoteCount(option.votes)
+                    }
+                }
+                setAnsweredOption(answerId)
+                setAnswered(true)
+            }
         };
         init();
 
-        if (thought.photo?.slice(-4) === ".jpg") {
+        if (thought.photo?.slice(-4) === ".jpg" || thought.photo?.slice(-4) === ".png") {
             FastImage.preload([{ uri: thought.photo }]);
         }
     }, [thought]);
 
-    const calcTotalComments = (thought) => {
-        let total = 0;
-        // thought?.comments?.items.forEach((comment) => {
-        //     if (comment) {
-        //         total += 1;
-        //     }
-        //     comment?.replies?.items.forEach((reply) => {
-        //         if (reply) {
-        //             total += 1;
-        //         }
-        //     });
-        // });
-        return total;
-    };
+    useEffect(() => {
+        getSong()
+    }, [])
 
-    const handleLike = (thought) => {
+    const getSong = async () => {
+        const spotifyAuth = await AsyncStorage.getItem("spotifyAuth")
+        if (spotifyAuth && spotifyAuth == "true") {
+            setSpotifyAuth(true)
+            setLoadingSong(true)
+            const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
+            const expiryTime = new Date(expiryString);
+            const currentTime = new Date();
+            if (currentTime >= expiryTime) {
+                await refreshAccessToken()
+                console.log("NEW access token has been updated")
+            }
+            const accessToken = await AsyncStorage.getItem("spotifyAccessToken")
+            if (thought.music) {
+                try {
+                    const response = await fetch(`https://api.spotify.com/v1/tracks/${thought.music}`, {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    });
+
+                    if (!response.ok) {
+                        setSpotifyAuth(true)
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const trackData = await response.json();
+                    setTrack(trackData)
+                    setLoadingSong(false)
+                } catch (error) {
+                    console.log("Error: ", error)
+                    setLoadingSong(false)
+                }
+            }
+        } else {
+            setSpotifyAuth(false)
+        }
+    }
+
+    const handleLike = async (thought) => {
         setLiked(true);
         setLikeCount(likeCount + 1);
-        likeThought(thought, true);
+        await likeThought(thought, true);
+        // dispatch(getNearbyThoughts(userHash))
     };
 
-    const handleDislike = (thought) => {
+    const handleDislike = async (thought) => {
         setLiked(false);
         setLikeCount(likeCount - 1);
-        likeThought(thought, false);
+        await likeThought(thought, false);
+        // dispatch(getNearbyThoughts(userHash))
     };
 
     const openImage = () => {
@@ -78,37 +134,32 @@ const NearbyThought = ({ thought }) => {
         setModalVisible(false);
     };
 
-    // const decodeGeohash = (inputGeohash) => {
-    //     if (inputGeohash) {
-    //         const decoded = geohash.decode(inputGeohash);
-    //         if (decoded && decoded.lat && decoded.lon) {
-    //             return { latitude: decoded.lat, longitude: decoded.lon };
-    //         } else {
-    //             throw new Error('Geohash decode did not return a valid result');
-    //         }
-    //     }
-    //     throw new Error('Invalid geohash');
-    // };
-
-
-    // // Function to calculate the distance between two geohashes
-    // const calculateDistance = (thoughtHash, userHash) => {
-    //     decodeGeohash(thoughtHash);
-    //     decodeGeohash(userHash);
-
-    //     // // Calculate the distance using geolib
-    //     // const distance = getDistance(
-    //     //     { latitude: thoughtLat, longitude: thoughtLon },
-    //     //     { latitude: userLat, longitude: userLon }
-    //     // );
-
-    //     // return distance; // Distance in meters
-    // };
+    const onVote = async (option, thought) => {
+        await vote(thought, option);
+        setAnsweredOption(option.id)
+        setLocalVoteCount(option.votes + 1)
+        setAnswered(true)
+    }
 
     return (
         <TouchableOpacity
             style={styles.container}
-            onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}
+            onPress={() => navigation.navigate("CommentForum", {
+                thought,
+                likeCount,
+                liked,
+                handleLike,
+                handleDislike,
+                commentCount,
+                setCommentCount,
+                answered,
+                setAnswered,
+                localVoteCount,
+                setLocalVoteCount,
+                answeredOption,
+                setAnsweredOption,
+                track
+            })}
         >
             <View style={styles.profileContainer}>
                 {!thought?.anonymous ? (
@@ -133,9 +184,9 @@ const NearbyThought = ({ thought }) => {
                     </View>
                     <View style={styles.thoughtContent}>
                         <Text style={styles.content}>{thought.content}</Text>
-                        {thought.photo && (
+                        {thought?.photo?.length > 0 && (
                             <>
-                                {thought.photo.slice(-4) === ".jpg" && (
+                                {(thought.photo.slice(-4) === ".jpg" || thought.photo?.slice(-4) === ".png") && (
                                     <View style={styles.mediaContainer}>
                                         {imageLoading && <ActivityIndicator style={styles.loader} />}
                                         <TouchableOpacity onPress={openImage}>
@@ -161,6 +212,74 @@ const NearbyThought = ({ thought }) => {
                                 )}
                             </>
                         )}
+                        {spotifyAuth ? (
+                            <>
+                                {thought?.music && track &&
+                                    <>
+                                        {loadingSong ? (
+                                            <View style={styles.trackContainerHighlighted}>
+                                                <View style={styles.albumImageContianer}>
+                                                    <View style={{ width: 55, height: 55, borderRadius: 5, backgroundColor: Colors.lightGray }} />
+                                                </View>
+                                                <View style={styles.trackInfoContainer}>
+                                                    <View style={{ width: 145, height: 15, borderRadius: 5, backgroundColor: Colors.lightGray }}></View>
+                                                    <View style={{ width: 55, height: 15, borderRadius: 5, backgroundColor: Colors.lightGray }}></View>
+                                                </View>
+                                                <View style={styles.playButtonContainer}>
+                                                    <Image source={spotifyLogo} style={{ width: 25, height: 25, opacity: 0.5 }} />
+                                                </View>
+                                            </View>
+                                        ) : (
+                                            <View style={styles.trackContainerHighlighted}>
+                                                <View style={styles.albumImageContianer}>
+                                                    <Image source={{ uri: track?.album?.images[0]?.url }} resizeMode="cover" style={{ width: 55, height: 55, borderRadius: 5 }} />
+                                                </View>
+                                                <View style={styles.trackInfoContainer}>
+                                                    <Text style={styles.trackTitle}>{track.name}</Text>
+                                                    <Text style={styles.artistTitle}>- {track.artists.map(artist => artist.name).join(', ')}</Text>
+                                                </View>
+                                                {track.preview_url ? (
+                                                    <View style={styles.playButtonContainer}>
+                                                        <DancingBars />
+                                                    </View>
+                                                ) : (
+                                                    <View style={styles.playButtonContainer}>
+                                                        <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flex: 1, borderRadius: 50 }}>
+                                                            <Image source={spotifyLogo} style={{ width: 25, height: 25, opacity: 0.5 }} />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                )}
+                                            </View>
+                                        )}
+
+                                    </>
+                                }
+                            </>
+                        ) : (
+                            <>
+                                <TouchableOpacity style={styles.trackContainerHighlighted} onPress={() => navigation.navigate("ConnectSpotify")}>
+                                    <View style={styles.albumImageContianer}>
+                                        <View style={{ width: 55, height: 55, borderRadius: 5, backgroundColor: Colors.lightGray, justifyContent: "center", alignItems: "center" }}>
+                                            <Image source={spotifyLogo} style={{ width: 25, height: 25, opacity: 0.5 }} />
+                                        </View>
+                                    </View>
+                                    <View style={styles.trackInfoContainer}>
+                                        <Text style={{ color: "white" }}>To expienece music on our app, connect to spotify </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </>
+                        )}
+
+                        {thought.poll && (
+                            <View style={styles.optionsContainer}>
+                                {thought.options.items.map((option, index) => (
+                                    <TouchableOpacity key={index} style={answeredOption == option.id ? styles.optionContainerHighlighted : styles.optionContainer} onPress={answered ? () => { } : () => onVote(option, thought)}>
+                                        <Text style={styles.optionText}>{option.content}</Text>
+                                        {answered && <Text style={styles.optionText}>{answeredOption == option.id ? localVoteCount : option.votes}</Text>}
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        )}
                     </View>
                 </View>
                 <View style={styles.thoughtInteractions}>
@@ -173,7 +292,22 @@ const NearbyThought = ({ thought }) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.interactionNumber}
-                        onPress={() => navigation.navigate("CommentForum", { thought, likeCount, liked, handleLike, handleDislike, commentCount, setCommentCount })}
+                        onPress={() => navigation.navigate("CommentForum", {
+                            thought,
+                            likeCount,
+                            liked,
+                            handleLike,
+                            handleDislike,
+                            commentCount,
+                            setCommentCount,
+                            answered,
+                            setAnswered,
+                            localVoteCount,
+                            setLocalVoteCount,
+                            answeredOption,
+                            setAnsweredOption,
+                            track
+                        })}
                     >
                         <FastImage source={commentIcon} style={styles.icon} />
                         <Text style={styles.number}>{commentCount}</Text>
@@ -185,7 +319,7 @@ const NearbyThought = ({ thought }) => {
                         <FastImage source={threeDots} style={styles.threeDotsIcon} />
                     </TouchableOpacity> */}
                     <View style={styles.parkedDistance}>
-                        <Text style={styles.parkedText}>{thought.geohash}</Text>
+                        {/* <Text style={styles.parkedText}>{thought.geohash}</Text> */}
                     </View>
                 </View>
             </View>
@@ -201,7 +335,7 @@ const NearbyThought = ({ thought }) => {
                 visible={modalVisible}
                 transparent={true}
                 animationType="fade"
-                onRequestClose={closeImage}
+            // onRequestClose={closeImage}
             >
                 <View style={styles.modalContainer}>
                     <TouchableOpacity onPress={closeImage} style={styles.closeButton}>
@@ -210,7 +344,7 @@ const NearbyThought = ({ thought }) => {
                     <FastImage source={{ uri: thought.photo }} style={styles.fullScreenImage} resizeMode="contain" />
                 </View>
             </Modal>
-        </TouchableOpacity>
+        </TouchableOpacity >
     );
 };
 

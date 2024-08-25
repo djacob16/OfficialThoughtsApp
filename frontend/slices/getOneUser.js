@@ -12,11 +12,12 @@ export const getOneUser = createAsyncThunk(
                 query: getUser,
                 variables: {
                     id: userId
-                }
+                },
+                // authMode: 'iam'
             })).data.getUser
             return user
         } catch (error) {
-            console.log(error.message);
+            console.log("coming from getOneUser: ", error);
             return rejectWithValue(error.message);
         }
     }

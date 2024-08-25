@@ -2,7 +2,7 @@
   "expo": {
     "name": "Thoughts",
     "slug": "frontend",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,7 +14,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "thoughts.app.com",
-      "buildNumber": "15",
+      "buildNumber": "2",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "This app requires access to your photo library to allow you to upload photos to your thoughts."
       }

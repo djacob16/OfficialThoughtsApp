@@ -14,7 +14,7 @@ const createOneUser = async (username) => {
                 variables: {
                     input: {
                         id: userId,
-                        photo: "",
+                        photo: "https://thoughtsapp8fd738644ed04b61a716a9444c7fe4fb83473-staging.s3.us-east-2.amazonaws.com/public/profilePictures/1724096951336-photo.jpg",
                         name: userAttributes.name + " " + userAttributes.family_name,
                         displayName: username,
                         about: "",

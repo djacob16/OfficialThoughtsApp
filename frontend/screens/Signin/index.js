@@ -1,39 +1,68 @@
-import { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Animated, Easing, ActivityIndicator } from "react-native";
 import styles from "./styles";
-import { signInWithRedirect, signUp, getCurrentUser, signIn, resendSignUpCode } from "aws-amplify/auth";
-import { Hub } from "@aws-amplify/core";
+import Video from "react-native-video";
+// import bgVid from "../../assets/shortBgVid.mp4";
+import { signIn } from "@aws-amplify/auth";
+import logo from "../../assets/logo.png"
+import { getCurrentUser } from "@aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
-import LogoHeader from "../../components/LogoHeader";
-import { useDispatch } from "react-redux";
-import { getOneUser } from "../../slices/getOneUser";
 
 const Signin = () => {
-    const [error, setError] = useState("");
-    const [invalid, setInvalid] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [invalid, setInvalid] = useState(false);
+    const [focused, setFocused] = useState(false);
     const navigation = useNavigation();
-    const dispatch = useDispatch();
+    const [loadingSignin, setLoadingSignin] = useState(false)
 
-    const signInWithGoogle = () => {
-        signInWithRedirect({ provider: "Google" })
-        const unsubscribe = Hub.listen("auth", ({ payload }) => {
-            if (payload.event == "signedIn") {
-                dispatch(getOneUser());
+    const containerHeight = useRef(new Animated.Value(50)).current;
+
+    useEffect(() => {
+        const keyboardWillShowListener = Keyboard.addListener("keyboardWillShow", () => {
+            animateContainerHeight(50);
+        });
+        const keyboardWillHideListener = Keyboard.addListener("keyboardWillHide", () => {
+            animateContainerHeight(50);
+        });
+
+        return () => {
+            keyboardWillHideListener.remove();
+            keyboardWillShowListener.remove();
+        };
+    }, []);
+
+    const animateContainerHeight = (toValue) => {
+        Animated.timing(containerHeight, {
+            toValue,
+            duration: 200,
+            easing: Easing.out(Easing.ease),
+            useNativeDriver: false,
+        }).start();
+    };
+
+    const login = async () => {
+        setError("");
+        setLoadingSignin(true)
+        try {
+            const { isSignedIn, nextStep } = await signIn({ username: email, password });
+            if (isSignedIn) {
                 navigation.navigate("Main");
             }
-            switch (payload.event) {
-                case "signInWithRedirect":
-                    navigation.navigate("Main")
-                    break;
-                case "signInWithRedirect_failure":
-                    setError("An error has occurred during the OAuth flow.");
-                    break;
+            setLoadingSignin(false)
+            setEmail("");
+            setPassword("");
+            if (nextStep?.signInStep === "CONFIRM_SIGN_UP") {
+                resendSignUpCode({ username: email });
+                navigation.navigate("Verify", { email });
             }
-        });
-        return () => unsubscribe();
-    }
+        } catch (err) {
+            console.log(err);
+            setError(err.message);
+            setLoadingSignin(false)
+        }
+    };
 
     useEffect(() => {
         setError("")
@@ -51,68 +80,61 @@ const Signin = () => {
         checkLoggedin();
     }, [])
 
-    const login = async () => {
-        setError("")
-        try {
-            const { isSignedIn, nextStep } = await signIn({ username: email, password });
-            if (isSignedIn) {
-                navigation.navigate("Main");
-            }
-            setEmail("")
-            setPassword("")
-            if (nextStep?.signInStep === "CONFIRM_SIGN_UP") {
-                resendSignUpCode({ username: email })
-                navigation.navigate("Verify", { email })
-            }
-        } catch (err) {
-            console.log(err);
-            setError(err.message)
-        }
-    }
-
     return (
-        <View style={styles.container}>
-            <LogoHeader />
-            <View style={styles.inputContainer}>
-                <TextInput
-                    autoCapitalize={"none"}
-                    style={styles.input}
-                    placeholder="Enter email"
-                    onChangeText={setEmail}
-                    value={email}
-                    placeholderTextColor={"gray"}>
-                </TextInput>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.container}>
+            <View style={styles.black}>
+                {/* <Video source={{ uri: ("../../assets/shortBgVid.mp4") }} muted={true} style={styles.video} rate={.8} /> */}
+                <Animated.View style={[styles.signinContainer, { top: containerHeight }]}>
+                    <View style={styles.logoContainer}>
+                        <Image source={logo} style={styles.logo} />
+                        <Text style={styles.welcomeTitle}>Welcome to Thoughts</Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            autoCapitalize={"none"}
+                            style={styles.input}
+                            placeholder="Enter email"
+                            onChangeText={setEmail}
+                            value={email}
+                            placeholderTextColor={"gray"}
+                        />
+                    </View>
+                    <View style={invalid ? styles.inputContainerTwo : styles.inputContainer}>
+                        <TextInput
+                            autoCapitalize={"none"}
+                            style={styles.input}
+                            placeholder="Enter password"
+                            onFocus={() => setFocused(true)}
+                            onChangeText={setPassword}
+                            value={password}
+                            placeholderTextColor={"gray"}
+                        />
+                    </View>
+                    {error && <Text style={styles.error}>{error}</Text>}
+                    {loadingSignin ? (
+                        <TouchableOpacity style={styles.inputContainer}>
+                            <Text style={styles.buttonText}>Signing in...</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity onPress={login} style={styles.inputContainer}>
+                            <Text style={styles.buttonText}>Sign in</Text>
+                        </TouchableOpacity>
+                    )}
+                    <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.navigate("ForgotPassword")}>
+                        <Text style={styles.buttonText}>Forgot password?</Text>
+                    </TouchableOpacity>
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 17 }}>
+                        <View style={styles.line}></View>
+                        <Text style={styles.orText}>or</Text>
+                        <View style={styles.line}></View>
+                    </View>
+                    <TouchableOpacity onPress={() => navigation.navigate("Signup")} style={styles.createAccountContainer}>
+                        <Text style={styles.createAccountText}>Create an account</Text>
+                    </TouchableOpacity>
+                </Animated.View>
             </View>
-            <View style={invalid ? styles.inputContainerTwo : styles.inputContainer}>
-                <TextInput
-                    autoCapitalize={"none"}
-                    style={styles.input}
-                    placeholder="Enter password"
-                    onChangeText={setPassword}
-                    value={password}
-                    placeholderTextColor={"gray"}>
-                </TextInput>
-            </View>
-            {error && <Text style={styles.error}>{error}</Text>}
-            <TouchableOpacity onPress={login} style={styles.inputContainer}>
-                <Text style={styles.buttonText}>Sign in</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.navigate("ForgotPassword")}>
-                <Text style={styles.buttonText}>Forgot password?</Text>
-            </TouchableOpacity>
-            <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginBottom: 17 }}>
-                <View style={styles.line}></View>
-                <Text style={styles.orText}>or</Text>
-                <View style={styles.line}></View>
-            </View>
-            {/* <TouchableOpacity onPress={() => signInWithGoogle()} style={styles.inputContainer}>
-                <Text style={styles.buttonText}>Continue on with google</Text>
-            </TouchableOpacity> */}
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")} style={styles.createAccountContainer}>
-                <Text style={styles.createAccountText}>Create an account</Text>
-            </TouchableOpacity>
-        </View>
-    )
-}
+        </TouchableWithoutFeedback >
+    );
+};
 
 export default Signin;

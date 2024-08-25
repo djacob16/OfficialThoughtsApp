@@ -2,7 +2,7 @@ import styles from "./styles";
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native"
 import background from "../../assets/profileBackground.png"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import verifiedIcon from "../../assets/verifiedIcon.png"
 import mappinGreen from "../../assets/mappinGreen.png"
 import formatDate from "../../data/formatDate";
@@ -15,18 +15,25 @@ import YourActiveThought from "../../components/YourActiveThought";
 import { Colors } from "../../constants/colors";
 import { uploadThoughtMedia } from "../../data/uploadThoughtMedia";
 import useSignOut from "../../data/signout";
+import NearbyThought from "../../components/NearbyThought";
+import { getOneUser } from "../../slices/getOneUser";
+import { getActiveThoughts } from "../../slices/getActiveThoughts";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
+import { useNavigation } from "@react-navigation/native";
 
 const Account = () => {
     const [image, setImage] = useState("");
     const { signout } = useSignOut()
     const { user } = useSelector((state) => state.userSlice);
-    console.log(user)
+    const dispatch = useDispatch();
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
     const [parkedThoughts, setParkedThoughts] = useState(0);
     const [pickedImage, setPickedImage] = useState("");
     const [imgData, setImgData] = useState("");
     const [key, setKey] = useState("");
     const [loadingUpload, setLoadingUpload] = useState(false);
+    const navigation = useNavigation()
 
     const calcParkedThoughts = () => {
         let parkedThoughts = 0;
@@ -86,6 +93,9 @@ const Account = () => {
                 }
                 setPickedImage("")
                 console.log("pickedImage: ", pickedImage)
+                dispatch(getActiveThoughts())
+                const hash = await AsyncStorage.getItem("@hash")
+                dispatch(getNearbyThoughts(hash))
                 return result.key;
             } catch (error) {
                 //console.log('Error : ', error);
@@ -143,7 +153,7 @@ const Account = () => {
                         </TouchableOpacity>
                     </View>
                 }
-                <Text style={styles.name}>{user.name}</Text>
+                <Text style={styles.name}>{user?.name}</Text>
                 <View style={styles.verifiedContainer}>
                     <Image source={verifiedIcon} />
                     <Text style={styles.verified}>Verified User</Text>
@@ -155,7 +165,7 @@ const Account = () => {
                         <Text style={styles.title}>Total thoughts</Text>
                     </TouchableOpacity>
                     <View style={styles.data}>
-                        <Text style={styles.number}>2000</Text>
+                        <Text style={styles.number}>---</Text>
                         <Text style={styles.title}>Reactions</Text>
                     </View>
                     <TouchableOpacity style={styles.dataLast}>
@@ -166,26 +176,26 @@ const Account = () => {
                         <Text style={styles.titleParked}>Parked</Text>
                     </TouchableOpacity>
                 </View>
-                {activeThoughts[0] &&
-                    <View style={styles.latestThoughtContainer}>
-                        <View style={styles.titleTimeContainer}>
-                            <Text style={styles.latestThought}>Latest Thought</Text>
-                            <Text style={styles.time}>{formatDate(activeThoughts[0]?.createdAt)}</Text>
-                        </View>
-                        <Text style={styles.thought}>{activeThoughts[0]?.content}</Text>
-                    </View>}
                 <View style={{ marginTop: 20 }}>
-                    {activeThoughts.slice(1, activeThoughts.length).map((activeThought, index) => (
+                    {activeThoughts.map((activeThought, index) => (
+                        !activeThought.anonymous &&
                         <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.lightGray, marginBottom: 15 }} key={index}>
-                            <YourActiveThought key={index} activeThought={activeThought} />
+                            <NearbyThought key={index} thought={activeThought} />
                         </View>
                     ))}
                 </View>
-                <TouchableOpacity onPress={signout}>
-                    <Text>Go back</Text>
-                </TouchableOpacity>
+                <View style={styles.optionsContainer}>
+                    <TouchableOpacity style={styles.signoutContainer} onPress={signout}>
+                        <Text style={styles.signoutText}>Sign out</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.signoutContainer} onPress={() => navigation.navigate("ConnectSpotify")}>
+                        <Text style={styles.signoutText}>Connect Spotify</Text>
+                    </TouchableOpacity>
+                </View>
+
             </View>
-        </ScrollView>
+
+        </ScrollView >
 
     )
 }
