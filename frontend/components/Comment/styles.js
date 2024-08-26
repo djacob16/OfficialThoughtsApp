@@ -3,7 +3,7 @@ import { Colors } from "../../constants/colors";
 
 const styles = StyleSheet.create({
     commentContainer: {
-        paddingLeft: 36,
+        paddingHorizontal: 36,
         flex: 1,
         paddingVertical: 8,
         borderBottomWidth: .5,
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
         fontSize: 10
     },
     thoughtContent: {
+        paddingHorizontal: 15,
         marginBottom: 15
     },
     content: {

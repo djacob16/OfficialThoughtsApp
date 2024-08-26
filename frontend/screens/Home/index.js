@@ -48,14 +48,16 @@ const Home = () => {
 
                 // refreshes token 
                 const storedRefreshToken = await AsyncStorage.getItem('spotifyRefreshToken');
-                const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
-                const expiryTime = new Date(expiryString);
-                const currentTime = new Date();
-                if (currentTime >= expiryTime) {
-                    await refreshAccessToken()
+                if (storedRefreshToken !== null) {
+                    const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
+                    const expiryTime = new Date(expiryString);
+                    const currentTime = new Date();
+                    if (currentTime >= expiryTime) {
+                        await refreshAccessToken()
+                        console.log("access token has been updated")
+                    }
                     console.log("access token has been updated")
                 }
-                console.log("access token has been updated")
             }
             appState.current = nextAppState;
             console.log('AppState', appState.current);
@@ -77,6 +79,7 @@ const Home = () => {
                 if (updatedPermission === "granted") {
                     setLocationPermission(true);
                     const updatedHash = await AsyncStorage.getItem('@hash');
+                    dispatch(getNearbyThoughts(updatedHash));
                     setHash(updatedHash);
                     startLocationSubscription()
                 } else {
@@ -91,14 +94,16 @@ const Home = () => {
 
             // refreshes token 
             const storedRefreshToken = await AsyncStorage.getItem('spotifyRefreshToken');
-            const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
-            const expiryTime = new Date(expiryString);
-            const currentTime = new Date();
-            if (currentTime >= expiryTime) {
-                await refreshAccessToken()
-                console.log("NEW access token has been updated")
+            if (storedRefreshToken !== null) {
+                const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
+                const expiryTime = new Date(expiryString);
+                const currentTime = new Date();
+                if (currentTime >= expiryTime) {
+                    await refreshAccessToken()
+                    console.log("access token has been updated")
+                }
+                console.log("access token has been updated")
             }
-            console.log("access token has been updated")
         };
 
         initializeLocation();
@@ -118,14 +123,16 @@ const Home = () => {
             dispatch(getNearbyThoughts(updatedHash));
         }
         const storedRefreshToken = await AsyncStorage.getItem('spotifyRefreshToken');
-        const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
-        const expiryTime = new Date(expiryString);
-        const currentTime = new Date();
-        if (currentTime >= expiryTime) {
-            await refreshAccessToken()
-            console.log("NEW access token has been updated")
+        if (storedRefreshToken !== null) {
+            const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
+            const expiryTime = new Date(expiryString);
+            const currentTime = new Date();
+            if (currentTime >= expiryTime) {
+                await refreshAccessToken()
+                console.log("access token has been updated")
+            }
+            console.log("access token has been updated")
         }
-        console.log("access token has been updated")
         setRefreshing(false);
     };
 

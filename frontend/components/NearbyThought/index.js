@@ -75,6 +75,7 @@ const NearbyThought = ({ thought }) => {
 
     const getSong = async () => {
         const spotifyAuth = await AsyncStorage.getItem("spotifyAuth")
+        console.log(spotifyAuth)
         if (spotifyAuth && spotifyAuth == "true") {
             setSpotifyAuth(true)
             setLoadingSong(true)
@@ -183,7 +184,7 @@ const NearbyThought = ({ thought }) => {
                         <Text style={styles.time}>{formatDate(thought.createdAt)}</Text>
                     </View>
                     <View style={styles.thoughtContent}>
-                        <Text style={styles.content}>{thought.content}</Text>
+                        {thought.content && <Text style={styles.content}>{thought.content}</Text>}
                         {thought?.photo?.length > 0 && (
                             <>
                                 {(thought.photo.slice(-4) === ".jpg" || thought.photo?.slice(-4) === ".png") && (

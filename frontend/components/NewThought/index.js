@@ -54,6 +54,7 @@ const NewThought = ({ hash }) => {
         setPickedImage("");
         setImgData("");
         setKey("");
+        setTrack(null)
     }
 
     const toS3 = async () => {
@@ -116,7 +117,7 @@ const NewThought = ({ hash }) => {
                 console.log('Error : ', error);
             }
         } else {
-            if (content.trim().length > 0 && hash) {
+            if ((content.trim().length > 0 && hash) || (track && hash)) {
                 setLoading(true)
                 const response = await postOneThought(content, active, parked, hash, anonymous, user, "", false, track.id);
                 if (response.__typename == "Thought") {
@@ -142,6 +143,11 @@ const NewThought = ({ hash }) => {
                 }
 
             }
+        }
+        if (sound) {
+            await sound.pauseAsync();
+            await sound.unloadAsync();
+            setPlayingTrackId(null);
         }
     }
 
@@ -200,9 +206,6 @@ const NewThought = ({ hash }) => {
                     <Text>Post</Text>
                 </TouchableOpacity>
             </View>
-            {pickedImage && <TouchableOpacity onPress={clearImage}>
-                <Text style={{ color: "white" }}>Clear</Text>
-            </TouchableOpacity>}
             <TextInput
                 multiline
                 style={styles.input}
@@ -229,6 +232,7 @@ const NewThought = ({ hash }) => {
                                     playPreview(track.preview_url, track.id);
                                 }
                             }}
+                            style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
                         >
                             <Image
                                 source={playingTrackId === track.id ? pauseIcon : playIcon}
@@ -245,26 +249,26 @@ const NewThought = ({ hash }) => {
             }
             <View style={styles.inputBottomContainer}>
                 <View style={styles.inputBottomLeftContainer}>
-                    <TouchableOpacity onPress={() => toNewThoughtModal("camera")} >
+                    {!track && < TouchableOpacity onPress={() => toNewThoughtModal("camera")} >
                         <Image source={camIcon} style={styles.icon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={toS3}>
+                    </TouchableOpacity>}
+                    {!track && <TouchableOpacity onPress={toS3}>
                         <Image source={picIcon} style={styles.icon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toNewThoughtModal("music")}>
+                    </TouchableOpacity>}
+                    {!imgData && <TouchableOpacity onPress={() => toNewThoughtModal("music")}>
                         <Image source={musicIcon} style={styles.icon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toNewThoughtModal("gif")}>
+                    </TouchableOpacity>}
+                    {!track && !imgData && <TouchableOpacity onPress={() => toNewThoughtModal("gif")}>
                         <Image source={giphyIcon} style={styles.icon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toNewThoughtModal("poll")}>
+                    </TouchableOpacity>}
+                    {!track && !imgData && < TouchableOpacity onPress={() => toNewThoughtModal("poll")}>
                         <Image source={pollIcon} style={styles.icon} />
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
                 <View style={styles.inputBottomRightContainer}>
-                    <TouchableOpacity onPress={() => setActive(!active)}>
-                        <Image source={active ? activeBulb : inactiveBulb} style={styles.icon} />
-                    </TouchableOpacity>
+                    {(pickedImage || track) && <TouchableOpacity onPress={clearImage}>
+                        <Text style={{ color: "white" }}>Clear</Text>
+                    </TouchableOpacity>}
                     <TouchableOpacity onPress={() => setParked(!parked)}>
                         <Image source={parked ? yellowPin : whitePin} style={styles.icon} />
                     </TouchableOpacity>

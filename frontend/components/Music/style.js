@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: "100%",
-        paddingHorizontal: 8,
+        paddingTop: 10,
         paddingBottom: 50
     },
     trackContainer: {
@@ -81,6 +81,79 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 16,
     },
+    navigator: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 15,
+        width: "100%",
+        height: 44,
+        position: "relative",
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.lightGray
+    },
+    highlight: {
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        borderBottomWidth: 2,
+        borderBottomColor: "#FBD157",
+        width: "40%",
+        zIndex: -1,
+    },
+    navigatorText: {
+        width: "50%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+    },
+    searchContainer: {
+        fontSize: 35,
+        fontWeight: "600",
+        color: "#FFF",
+        width: "100%",
+    },
+    searchInputContainer: {
+        height: 45,
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 10,
+    },
+    textInputContainer: {
+        height: "100%",
+        backgroundColor: Colors.sectionGrey,
+        borderRadius: 15,
+        paddingHorizontal: 22,
+        flexDirection: "row",
+        alignItems: "center",
+        flex: 1
+    },
+    searchIcon: {
+        position: "absolute",
+        left: 10,
+        width: 30,
+        height: 30,
+    },
+    input: {
+        height: "100%",
+        width: '100%',
+        color: "white",
+        paddingLeft: 24
+    },
+    textInputFocused: {
+        height: "100%",
+        width: '100%',
+        color: "white",
+        paddingLeft: 24
+    },
+    searchResultsPage: {
+        zIndex: 1,
+        flex: 1,
+        backgroundColor: Colors.sectionGrey
+    }
 })
 
 export default styles

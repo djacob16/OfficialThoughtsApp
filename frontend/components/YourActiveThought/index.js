@@ -231,7 +231,7 @@ const YourActiveThought = ({ activeThought }) => {
                         <Text style={styles.time}>{formatDate(activeThought.createdAt)}</Text>
                     </View>
                     <View style={styles.thoughtContent}>
-                        <Text style={styles.content}>{activeThought.content}</Text>
+                        {activeThought.content && <Text style={styles.content}>{activeThought.content}</Text>}
                         <TouchableOpacity>
                             {(activeThought.photo?.slice(-4) === ".jpg" || activeThought.photo?.slice(-4) === ".png") && <Image source={{ uri: activeThought.photo }} style={styles.photo} />}
                             {activeThought.photo?.slice(-4) === ".mp4" && <Video source={{ uri: activeThought.photo }} resizeMode="contain" controls={true} style={styles.video} />}

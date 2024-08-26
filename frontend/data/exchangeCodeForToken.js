@@ -16,6 +16,8 @@ export const makeExchange = async (code) => {
         }
 
         const { accessToken, refreshToken: newRefreshToken, expiresIn } = response.data.exchangeSpotifyCodeForToken;
+        console.log("access token", accessToken);
+
 
         await AsyncStorage.setItem('spotifyAccessToken', accessToken);
         await AsyncStorage.setItem('spotifyRefreshToken', newRefreshToken);

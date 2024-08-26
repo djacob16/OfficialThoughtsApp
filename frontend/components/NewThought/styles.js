@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
         alignItems: "baseline",
         width: "40%",
         marginBottom: 12,
-        justifyContent: "space-between",
-        alignItems: "center"
+        gap: 20,
+        alignItems: "flex-start"
     },
     inputBottomRightContainer: {
         flexDirection: "row",
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
         gap: 12
     },
     icon: {
-        width: 18,
-        height: 18
+        width: 22,
+        height: 22
     },
     anonymousContainer: {
         alignItems: "baseline",
@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         gap: 8,
         alignItems: "flex-start",
-        paddingVertical: 10
+        paddingVertical: 10,
+        marginBottom: 10,
     },
     trackContainerHighlighted: {
         width: "100%",

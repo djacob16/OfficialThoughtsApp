@@ -114,7 +114,7 @@ const ThoughtForumThought = ({ thought,
                         <Text style={styles.time}>{formatDate(thought.createdAt)}</Text>
                     </View>
                     <View style={styles.thoughtContent}>
-                        <Text style={styles.content}>{thought.content}</Text>
+                        {thought.content && <Text style={styles.content}>{thought.content}</Text>}
                         {thought.photo && (
                             <>
                                 {thought.photo.slice(-4) === ".jpg" && (
@@ -147,7 +147,7 @@ const ThoughtForumThought = ({ thought,
                             <>
                                 {thought?.music && track &&
                                     <>
-                                        <View style={styles.trackContainerHighlighted}>
+                                        <TouchableOpacity style={styles.trackContainerHighlighted} onPress={togglePlayPause}>
                                             <View style={styles.albumImageContianer}>
                                                 <Image source={{ uri: track?.album?.images[0]?.url }} resizeMode="cover" style={{ width: 55, height: 55, borderRadius: 5 }} />
                                             </View>
@@ -176,7 +176,7 @@ const ThoughtForumThought = ({ thought,
                                                     </TouchableOpacity>
                                                 </View>
                                             )}
-                                        </View>
+                                        </TouchableOpacity>
 
                                     </>
                                 }

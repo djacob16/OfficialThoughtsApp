@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     content: {
-        color: Colors.whiteFont
+        color: Colors.whiteFont,
+        paddingBottom: 10
     },
     photo: {
         width: "100%",

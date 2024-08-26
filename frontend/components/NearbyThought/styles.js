@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     icon: {
-        width: 22,
-        height: 22
+        width: 26,
+        height: 26
     },
     threeDotsIcon: {
         width: 17,

@@ -177,7 +177,7 @@ const YourInactiveThought = ({ inactiveThought }) => {
                         <Text style={styles.time}>{formatDate(inactiveThought.createdAt)}</Text>
                     </View>
                     <View style={styles.thoughtContent}>
-                        <Text style={styles.content}>{inactiveThought.content}</Text>
+                        {inactiveThought.content && <Text style={styles.content}>{inactiveThought.content}</Text>}
                         {(inactiveThought.photo?.slice(-4) === ".jpg" || inactiveThought.photo?.slice(-4) === ".png") && <Image source={{ uri: inactiveThought.photo }} style={styles.photo} />}
                         {inactiveThought.photo?.slice(-4) === ".mp4" && <Video source={{ uri: inactiveThought.photo }} resizeMode="contain" controls={true} style={styles.video} />}
                         {spotifyAuth ? (

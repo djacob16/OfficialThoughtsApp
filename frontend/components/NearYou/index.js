@@ -39,21 +39,21 @@ const NearYou = () => {
     }, []);
 
     // Store nearbyThoughts in AsyncStorage after loading succeeds
-    useEffect(() => {
-        if (loading === "succeeded") {
-            setNearbyThoughts(reduxNearbyThoughts);
-            const storeData = async () => {
-                try {
-                    await AsyncStorage.setItem('nearbyThoughts', JSON.stringify(reduxNearbyThoughts));
-                    console.log("async storage has been updated with new thoughts")
-                } catch (error) {
-                    console.error("Error storing data in AsyncStorage:", error);
-                }
-            };
+    // useEffect(() => {
+    //     if (loading === "succeeded") {
+    //         setNearbyThoughts(reduxNearbyThoughts);
+    //         const storeData = async () => {
+    //             try {
+    //                 await AsyncStorage.setItem('nearbyThoughts', JSON.stringify(reduxNearbyThoughts));
+    //                 console.log("async storage has been updated with new thoughts")
+    //             } catch (error) {
+    //                 console.error("Error storing data in AsyncStorage:", error);
+    //             }
+    //         };
 
-            storeData();
-        }
-    }, [loading, reduxNearbyThoughts]);
+    //         storeData();
+    //     }
+    // }, [loading, reduxNearbyThoughts]);
 
     console.log(loading)
 
