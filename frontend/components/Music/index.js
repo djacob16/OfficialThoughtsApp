@@ -237,7 +237,7 @@ const Music = ({ setTrack }) => {
 
             const data = await response.json()
             if (data && data.items) {
-                console.log(data.items)
+                console.log("YOUR TOP TRACKSSS: ", data.items)
                 return data.items;
             } else {
                 console.log("No tracks found in the response");

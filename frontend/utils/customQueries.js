@@ -107,6 +107,7 @@ export const listRepliesWithAuthor = /* GraphQL */ `
   }
 `;
 
+
 // export const listThoughtsWithAuthor = /* GraphQL */ `
 //   query listNearbyThoughtsWithAuthor(
 //     $filter: ModelThoughtFilterInput

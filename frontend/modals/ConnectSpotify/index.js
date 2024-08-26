@@ -19,6 +19,7 @@ const ConnectSpotify = () => {
     const redirectUri = 'thoughtsapp://callback';
     const scopes = 'user-read-email user-read-private streaming user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-recently-played playlist-read-private user-top-read';
     const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    console.log(authUrl)
     const [hash, setHash] = useState("")
 
     useEffect(() => {

@@ -13,6 +13,7 @@ import Search from "../screens/Search";
 import searchIcon from "../assets/search.png"
 import searchIconFocused from "../assets/searchFocused.png"
 import activityIcon from "../assets/activityIcon.png"
+import Activity from "../screens/Activity";
 
 const Tab = createBottomTabNavigator()
 
@@ -29,11 +30,11 @@ const HomeTabNavigator = () => {
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused, size }) => (<Image source={focused ? searchIconFocused : searchIcon} style={{ width: 48, height: 48 }} />)
             }} />
-            {/* <Tab.Screen name={"Activity"} component={Search} options={{
+            <Tab.Screen name={"Activity"} component={Activity} options={{
                 headerShown: false,
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused, size }) => (<Image source={focused ? activityIcon : activityIcon} style={{ width: 48, height: 48 }} />)
-            }} /> */}
+            }} />
             <Tab.Screen name={"Account"} component={Account} options={{
                 headerShown: false,
                 tabBarShowLabel: false,

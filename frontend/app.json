@@ -14,7 +14,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "thoughts.app.com",
-      "buildNumber": "3",
+      "buildNumber": "4",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "This app requires access to your photo library to allow you to upload photos to your thoughts."
       }
@@ -32,6 +32,7 @@
       "eas": {
         "projectId": "aa11616b-b557-43c5-b69a-bc36d96733e9"
       }
-    }
+    },
+    "scheme": "thoughtsapp"
   }
 }

@@ -21,6 +21,7 @@ import onUpdateUser from "../subscriptions/subscribeToUser";
 import Search from "../screens/Search";
 import NewThoughtModal from "../modals/NewThoughtModal";
 import ConnectSpotify from "../modals/ConnectSpotify";
+import Activity from "../screens/Activity";
 
 
 const Stack = createNativeStackNavigator();
@@ -62,6 +63,7 @@ const Router = () => {
                 <Stack.Screen name={"ThoughtForum"} component={ThoughtForum} options={{ headerShown: false }} />
                 <Stack.Screen name={"Profile"} component={Profile} options={{ headerShown: false }} />
                 <Stack.Screen name={"Search"} component={Search} options={{ headerShown: false }} />
+                <Stack.Screen name={"Activity"} component={Activity} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
