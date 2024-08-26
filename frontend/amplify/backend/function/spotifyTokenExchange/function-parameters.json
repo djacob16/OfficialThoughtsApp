@@ -1,0 +1,9 @@
+{
+  "lambdaLayers": [],
+  "environmentVariables": {
+    "SPOTIFY_CLIENT_ID": "71e9447c39c94c559d7949f70136da52",
+    "SPOTIFY_CLIENT_SECRET": "661dd876b4d5407baaa924fc984531e7",
+    "REDIRECT_URI": "thoughtsapp://callback"
+  },
+  "permissions": {}
+}

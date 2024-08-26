@@ -1,0 +1,29 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-thoughtsapp-staging-83473-authRole",
+      "UnauthRoleArn": "arn:aws:iam::992382609736:role/amplify-thoughtsapp-staging-83473-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::992382609736:role/amplify-thoughtsapp-staging-83473-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-thoughtsapp-staging-83473-deployment",
+      "UnauthRoleName": "amplify-thoughtsapp-staging-83473-unauthRole",
+      "StackName": "amplify-thoughtsapp-staging-83473",
+      "StackId": "arn:aws:cloudformation:us-east-2:992382609736:stack/amplify-thoughtsapp-staging-83473/b2614a10-5bea-11ef-8b9e-02c5769d2151",
+      "AmplifyAppId": "dzrro1pb9itgl"
+    },
+    "categories": {
+      "auth": {
+        "ThoughtsApp": {}
+      },
+      "function": {
+        "spotifyTokenExchange": {
+          "deploymentBucketName": "amplify-thoughtsapp-staging-83473-deployment",
+          "s3Key": "amplify-builds/spotifyTokenExchange-396c654d576439644c7a-build.zip"
+        }
+      },
+      "storage": {
+        "s3e3a3d873": {}
+      }
+    }
+  }
+}

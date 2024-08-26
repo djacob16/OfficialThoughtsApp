@@ -1,3 +1,1 @@
---- xcodebuild: WARNING: Using the first of multiple matching destinations:
-{ platform:iOS Simulator, id:A05CDEA6-6634-43C0-87A5-8F12F6B2EBD7, OS:17.5, name:iPhone 15 Pro Max }
-{ platform:iOS Simulator, id:A05CDEA6-6634-43C0-87A5-8F12F6B2EBD7, OS:17.5, name:iPhone 15 Pro Max }
+2024-08-26 13:58:43.158 xcodebuild[63380:6425188] DVTCoreDeviceEnabledState: DVTCoreDeviceEnabledState_Disabled set via user default (DVTEnableCoreDevice=disabled)

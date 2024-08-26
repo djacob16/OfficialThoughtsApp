@@ -1,0 +1,14 @@
+{
+  "resourceName": "s3e3a3d873",
+  "policyUUID": "e3a3d873",
+  "bucketName": "thoughtsapp8fd738644ed04b61a716a9444c7fe4fb",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

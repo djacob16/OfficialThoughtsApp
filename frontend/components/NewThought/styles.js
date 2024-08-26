@@ -69,15 +69,15 @@ const styles = StyleSheet.create({
     inputBottomLeftContainer: {
         flexDirection: "row",
         alignItems: "baseline",
-        width: "40%",
+        width: "50%",
         marginBottom: 12,
-        gap: 20,
+        justifyContent: "space-between",
         alignItems: "flex-start"
     },
     inputBottomRightContainer: {
         flexDirection: "row",
         justifyContent: "flex-end",
-        width: "60%",
+        width: "50%",
         marginBottom: 12,
         gap: 12
     },

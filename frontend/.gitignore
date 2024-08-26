@@ -1,8 +1,6 @@
 
 
 #amplify-do-not-edit-begin
-amplify/
-ios/
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
@@ -15,6 +13,7 @@ dist/
 node_modules/
 aws-exports.js
 awsconfiguration.json
+amplifyconfiguration.json
 amplifyconfiguration.dart
 amplify-build-config.json
 amplify-gradle-config.json

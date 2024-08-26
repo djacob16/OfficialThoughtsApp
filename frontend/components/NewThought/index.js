@@ -261,7 +261,7 @@ const NewThought = ({ hash }) => {
                     {!track && !imgData && <TouchableOpacity onPress={() => toNewThoughtModal("gif")}>
                         <Image source={giphyIcon} style={styles.icon} />
                     </TouchableOpacity>}
-                    {!track && !imgData && < TouchableOpacity onPress={() => toNewThoughtModal("poll")}>
+                    {!track && !imgData && <TouchableOpacity onPress={() => toNewThoughtModal("poll")}>
                         <Image source={pollIcon} style={styles.icon} />
                     </TouchableOpacity>}
                 </View>

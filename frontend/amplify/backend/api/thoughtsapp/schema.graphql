@@ -1,0 +1,95 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+
+type User @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  id: ID!
+  photo: String
+  name: String!
+  displayName: String!
+  about: String
+  totalThoughts: Int!
+  thoughts: [Thought] @hasMany
+  comments: [Comment] @hasMany
+  replies: [Reply] @hasMany
+  darkmode: Boolean
+  reactions: Int
+}
+
+type Thought @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  id: ID!
+  authorID: ID!
+  author: User! @belongsTo(fields: ["authorID"])
+  content: String!
+  photo: String
+  music: String
+  active: Boolean!
+  parked: Boolean!
+  geohash: String! @index(name: "byGeohash", queryField: "thoughtsByGeoHash")
+  likes: Int!
+  totalReplies: Int!
+  poll: Boolean!
+  anonymous: Boolean!
+  comments: [Comment] @hasMany
+  options: [Option] @hasMany
+}
+
+type Option @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  id: ID!
+  content: String!
+  votes: Int!
+  parentThought: Thought! @belongsTo
+}
+
+type pollAnswers @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  thoughtID: ID! @primaryKey(sortKeyFields: ["userID"])
+  userID: ID!
+  optionID: ID!
+}
+
+type Comment @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  id: ID!
+  authorID: ID!
+  author: User! @belongsTo(fields: ["authorID"])
+  thought: Thought! @belongsTo
+  content: String!
+  likes: Int!
+  anonymous: Boolean!
+  replies: [Reply] @hasMany
+}
+
+type Reply @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  id: ID!
+  authorID: ID!
+  author: User! @belongsTo(fields: ["authorID"])
+  comment: Comment! @belongsTo
+  content: String!
+  likes: Int!
+  anonymous: Boolean!
+}
+
+type ThoughtLike @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  thoughtID: ID! @primaryKey(sortKeyFields: ["userID"])
+  userID: ID!
+}
+
+type CommentLike @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  commentID: ID! @primaryKey(sortKeyFields: ["userID"])
+  userID: ID!
+}
+
+type ReplyLike @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
+  replyID: ID! @primaryKey(sortKeyFields: ["userID"])
+  userID: ID!
+}
+
+type Mutation {
+  exchangeSpotifyCodeForToken(code: String, refreshToken: String): SpotifyTokenResponse
+}
+
+type SpotifyTokenResponse {
+  accessToken: String
+  refreshToken: String
+  expiresIn: Int
+  tokenType: String
+  error: String
+}
