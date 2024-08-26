@@ -51,26 +51,26 @@ const Activity = () => {
 
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
 
-    useEffect(() => {
-        const allActivity = async () => {
-            try {
-                const activityPromises = activeThoughts.map(async (activeThought) => {
-                    const data = await getActivity(activeThought.thoughtID);
-                    console.log(`all activity::`, data);
-                    return { data };
-                });
+    // useEffect(() => {
+    //     const allActivity = async () => {
+    //         try {
+    //             const activityPromises = activeThoughts.map(async (activeThought) => {
+    //                 const data = await getActivity(activeThought.thoughtID);
+    //                 console.log(`all activity::`, data);
+    //                 return { data };
+    //             });
 
-                const allActivityData = await Promise.all(activityPromises);
-                console.log("All activity data:", allActivityData[0].data.items[0].userId);
+    //             const allActivityData = await Promise.all(activityPromises);
+    //             console.log("All activity data:", allActivityData[0].data.items[0].userId);
 
-                // You can do something with allActivityData here if needed
-            } catch (error) {
-                console.error("Error fetching activity:", error);
-            }
-        };
+    //             // You can do something with allActivityData here if needed
+    //         } catch (error) {
+    //             console.error("Error fetching activity:", error);
+    //         }
+    //     };
 
-        allActivity();
-    }, [activeThoughts]); // Add activeThoughts as a dependency if it's not constant
+    //     allActivity();
+    // }, [activeThoughts]); // Add activeThoughts as a dependency if it's not constant
 
 
 
