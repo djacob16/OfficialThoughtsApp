@@ -40,7 +40,7 @@ const Router = () => {
 
     useEffect(() => {
         onThought(dispatch)
-        // onEditThought(dispatch)
+        onEditThought(dispatch)
         onRemoveThought(dispatch)
         onUpdateUser(dispatch)
         dispatch(getOneUser())
