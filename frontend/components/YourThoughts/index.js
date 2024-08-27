@@ -19,6 +19,11 @@ const YourThoughts = () => {
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
     const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice);
 
+    useEffect(() => {
+        console.log("ACTIVE THOUGHTS: ", activeThoughts)
+    }, [activeThoughts])
+
+
     return (
         <View style={styles.container}>
             <View style={styles.activeContainer}>
