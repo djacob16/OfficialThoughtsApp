@@ -119,7 +119,7 @@ const NewThought = ({ hash }) => {
         } else {
             if ((content.trim().length > 0 && hash) || (track && hash)) {
                 setLoading(true)
-                const response = await postOneThought(content, active, parked, hash, anonymous, user, "", false, track.id);
+                const response = await postOneThought(content, active, parked, hash, anonymous, user, "", false, track?.id);
                 if (response.__typename == "Thought") {
                     setContent("");
                     setPickedImage("");

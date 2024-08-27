@@ -14,6 +14,10 @@ export const getUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      thoughtLikes {
+        nextToken
+        __typename
+      }
       comments {
         nextToken
         __typename
@@ -80,6 +84,10 @@ export const getThought = /* GraphQL */ `
       parked
       geohash
       likes
+      thoughtLikes {
+        nextToken
+        __typename
+      }
       totalReplies
       poll
       anonymous
@@ -366,9 +374,42 @@ export const getThoughtLike = /* GraphQL */ `
   query GetThoughtLike($thoughtID: ID!, $userID: ID!) {
     getThoughtLike(thoughtID: $thoughtID, userID: $userID) {
       thoughtID
+      thought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
       createdAt
       updatedAt
+      userThoughtLikesId
+      thoughtThoughtLikesId
       __typename
     }
   }
@@ -395,6 +436,8 @@ export const listThoughtLikes = /* GraphQL */ `
         userID
         createdAt
         updatedAt
+        userThoughtLikesId
+        thoughtThoughtLikesId
         __typename
       }
       nextToken

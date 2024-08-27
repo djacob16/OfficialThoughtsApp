@@ -36,6 +36,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 12,
     },
+    timeHeader: {
+        color: "white",
+        fontSize: 20,
+        paddingLeft: 20,
+        fontWeight: "500"
+    }
 })
 
 export default styles;

@@ -14,6 +14,10 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      thoughtLikes {
+        nextToken
+        __typename
+      }
       comments {
         nextToken
         __typename
@@ -43,6 +47,10 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      thoughtLikes {
+        nextToken
+        __typename
+      }
       comments {
         nextToken
         __typename
@@ -69,6 +77,10 @@ export const onDeleteUser = /* GraphQL */ `
       about
       totalThoughts
       thoughts {
+        nextToken
+        __typename
+      }
+      thoughtLikes {
         nextToken
         __typename
       }
@@ -113,6 +125,10 @@ export const onCreateThought = /* GraphQL */ `
       parked
       geohash
       likes
+      thoughtLikes {
+        nextToken
+        __typename
+      }
       totalReplies
       poll
       anonymous
@@ -156,6 +172,10 @@ export const onUpdateThought = /* GraphQL */ `
       parked
       geohash
       likes
+      thoughtLikes {
+        nextToken
+        __typename
+      }
       totalReplies
       poll
       anonymous
@@ -199,6 +219,10 @@ export const onDeleteThought = /* GraphQL */ `
       parked
       geohash
       likes
+      thoughtLikes {
+        nextToken
+        __typename
+      }
       totalReplies
       poll
       anonymous
@@ -634,9 +658,42 @@ export const onCreateThoughtLike = /* GraphQL */ `
   ) {
     onCreateThoughtLike(filter: $filter) {
       thoughtID
+      thought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
       createdAt
       updatedAt
+      userThoughtLikesId
+      thoughtThoughtLikesId
       __typename
     }
   }
@@ -647,9 +704,42 @@ export const onUpdateThoughtLike = /* GraphQL */ `
   ) {
     onUpdateThoughtLike(filter: $filter) {
       thoughtID
+      thought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
       createdAt
       updatedAt
+      userThoughtLikesId
+      thoughtThoughtLikesId
       __typename
     }
   }
@@ -660,9 +750,42 @@ export const onDeleteThoughtLike = /* GraphQL */ `
   ) {
     onDeleteThoughtLike(filter: $filter) {
       thoughtID
+      thought {
+        id
+        authorID
+        content
+        photo
+        music
+        active
+        parked
+        geohash
+        likes
+        totalReplies
+        poll
+        anonymous
+        createdAt
+        updatedAt
+        userThoughtsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
       createdAt
       updatedAt
+      userThoughtLikesId
+      thoughtThoughtLikesId
       __typename
     }
   }

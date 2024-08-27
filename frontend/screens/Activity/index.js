@@ -1,15 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View, Image, TouchableOpacity, Animated, Dimensions } from "react-native";
+import { Text, View, Image, TouchableOpacity, Animated, Dimensions, ScrollView } from "react-native";
 import styles from "./styles";
 import getActivity from "../../data/getActivity";
 import { useSelector } from "react-redux";
+import LogoHeader from "../../components/LogoHeader";
+import { getLikesForThought, getCommentsForThought } from "../../data/getActivity";
+import LikeItem from "../../components/LikeItem";
 
 const Activity = () => {
+    // navigator
     const windowWidth = Dimensions.get('window').width;
     const [title, setTitle] = useState("Notifications");
     const [titleId, setTitleId] = useState("1");
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const borderColorAnim = useRef(new Animated.Value(0)).current;
+
+    // activity
+    const [allActivity, setAllActivity] = useState([]);
+    const [todayActivity, setTodayActivity] = useState([]);
+    const [yesterdayActivity, setYesterdayActivity] = useState([]);
+    const [lastWeekActivity, setLastWeekActivity] = useState([]);
+
 
     // Navigator and animations
     const titleIdFunc = (id, title) => {
@@ -50,32 +61,71 @@ const Activity = () => {
     ];
 
     const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
+    const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice);
 
-    // useEffect(() => {
-    //     const allActivity = async () => {
-    //         try {
-    //             const activityPromises = activeThoughts.map(async (activeThought) => {
-    //                 const data = await getActivity(activeThought.thoughtID);
-    //                 console.log(`all activity::`, data);
-    //                 return { data };
-    //             });
+    // load data
+    useEffect(() => {
+        const combinedThoughts = [...activeThoughts, ...inactiveThoughts];
 
-    //             const allActivityData = await Promise.all(activityPromises);
-    //             console.log("All activity data:", allActivityData[0].data.items[0].userId);
+        const fetchAllActivity = async () => {
+            const activityLikes = await Promise.all(
+                combinedThoughts.map(async (thought) => {
+                    const likes = await getLikesForThought(thought.id);
+                    return likes
+                })
+            );
 
-    //             // You can do something with allActivityData here if needed
-    //         } catch (error) {
-    //             console.error("Error fetching activity:", error);
-    //         }
-    //     };
+            const activityComments = await Promise.all(
+                combinedThoughts.map(async (thought) => {
+                    const comments = await getCommentsForThought(thought.id)
+                    return comments
+                })
+            )
 
-    //     allActivity();
-    // }, [activeThoughts]); // Add activeThoughts as a dependency if it's not constant
+            const combinedActivity = [...activityLikes.flat(), ...activityComments.flat()];
+            const sortedActivity = combinedActivity.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
+            const now = new Date();
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const yesterdayStart = new Date(todayStart);
+            yesterdayStart.setDate(yesterdayStart.getDate() - 1);
+            const lastWeekStart = new Date(todayStart);
+            lastWeekStart.setDate(lastWeekStart.getDate() - 7);
 
+            const todayTime = todayStart.getTime();
+            const yesterdayTime = yesterdayStart.getTime();
+            const lastWeekTime = lastWeekStart.getTime();
+
+            const groupedActivity = {
+                today: [],
+                yesterday: [],
+                lastWeek: []
+            };
+
+            for (const activity of sortedActivity) {
+                const activityTime = new Date(activity.createdAt).getTime();
+
+                if (activityTime >= todayTime) {
+                    groupedActivity.today.push(activity);
+                } else if (activityTime >= yesterdayTime) {
+                    groupedActivity.yesterday.push(activity);
+                } else if (activityTime >= lastWeekTime) {
+                    groupedActivity.lastWeek.push(activity);
+                } else {
+                    break; // Activities are sorted, so we can stop once we're past last week
+                }
+            }
+
+            setTodayActivity(groupedActivity.today);
+            setYesterdayActivity(groupedActivity.yesterday);
+            setLastWeekActivity(groupedActivity.lastWeek);
+        }
+        fetchAllActivity()
+    }, [activeThoughts, inactiveThoughts])
 
     return (
         <View style={styles.container}>
+            {/* <LogoHeader /> */}
             <View style={styles.navigator}>
                 <Animated.View style={[styles.highlight, highlightStyle]} />
                 {activityCategories.map((data, index) => (
@@ -91,9 +141,46 @@ const Activity = () => {
                 ))}
             </View>
             {title == "Notifications" &&
-                <View>
-                    <Text>Notifs here</Text>
-                </View>
+                <ScrollView style={{ paddingTop: 20 }}>
+                    <Text style={styles.timeHeader}>Today</Text>
+                    {todayActivity.map((item, index) => {
+                        if (item.__typename === "ThoughtLike") {
+                            return (
+                                <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                    <LikeItem item={item} />
+                                </View>
+                            )
+                        } if (item.__typename === "Comment") {
+                            return <Text key={index}>Comments</Text>;
+                        } if (item.__typename === "Reply") {
+                            return <Text key={index}>Replies</Text>;
+                        }
+                    })}
+                    <Text style={styles.timeHeader}>Yesterday</Text>
+                    {yesterdayActivity.map((item, index) => {
+                        if (item.__typename === "ThoughtLike") {
+                            return (
+                                <LikeItem item={item} key={index} />
+                            )
+                        } if (item.__typename === "Comment") {
+                            return <Text key={index}>Comments</Text>;
+                        } if (item.__typename === "Reply") {
+                            return <Text key={index}>Replies</Text>;
+                        }
+                    })}
+                    <Text style={styles.timeHeader}>This last week</Text>
+                    {lastWeekActivity.map((item, index) => {
+                        if (item.__typename === "ThoughtLike") {
+                            return (
+                                <LikeItem item={item} key={index} />
+                            )
+                        } if (item.__typename === "Comment") {
+                            return <Text key={index}>Comments</Text>;
+                        } if (item.__typename === "Reply") {
+                            return <Text key={index}>Replies</Text>;
+                        }
+                    })}
+                </ScrollView>
             }
             {title == "Your replies" &&
                 <View>

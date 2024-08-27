@@ -107,48 +107,59 @@ export const listRepliesWithAuthor = /* GraphQL */ `
   }
 `;
 
-
-// export const listThoughtsWithAuthor = /* GraphQL */ `
-//   query listNearbyThoughtsWithAuthor(
-//     $filter: ModelThoughtFilterInput
-//     $limit: Int
-//     $nextToken: String
-//   ) {
-//     listThoughts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-//       items {
-//         id
-//         authorID
-//         content
-//         photo
-//         video
-//         music
-//         active
-//         parked
-//         geohash
-//         likes
-//         totalReplies
-//         anonymous
-//         createdAt
-//         updatedAt
-//         author {
-//           id
-//           photo
-//           displayName
-//         }
-//         comments {
-//           items {
-//             id
-//             replies {
-//               items {
-//                 id
-//               }
-//             }
-//           }
-//         }
-//         __typename
-//       }
-//       nextToken
-//       __typename
-//     }
-//   }
-// `;
+export const listThoughtLikesWithUser = /* GraphQL */ `
+  query ListThoughtLikes(
+    $thoughtID: ID
+    $userID: ModelIDKeyConditionInput
+    $filter: ModelThoughtLikeFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listThoughtLikes(
+      thoughtID: $thoughtID
+      userID: $userID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        thoughtID
+        thought {
+          id
+          authorID
+          content
+          photo
+          music
+          active
+          parked
+          geohash
+          likes
+          totalReplies
+          poll
+          options {
+            items {
+              id
+              content
+              votes
+            }
+          }
+          anonymous
+        }
+        userID
+        user {
+          id
+          photo
+          displayName
+        }
+        createdAt
+        updatedAt
+        userThoughtLikesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

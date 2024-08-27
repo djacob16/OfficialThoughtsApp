@@ -9,6 +9,7 @@ type User @model @auth(rules: [{ allow: public, operations: [create, read, updat
   about: String
   totalThoughts: Int!
   thoughts: [Thought] @hasMany
+  thoughtLikes: [ThoughtLike] @hasMany
   comments: [Comment] @hasMany
   replies: [Reply] @hasMany
   darkmode: Boolean
@@ -26,6 +27,7 @@ type Thought @model @auth(rules: [{ allow: public, operations: [create, read, up
   parked: Boolean!
   geohash: String! @index(name: "byGeohash", queryField: "thoughtsByGeoHash")
   likes: Int!
+  thoughtLikes: [ThoughtLike] @hasMany
   totalReplies: Int!
   poll: Boolean!
   anonymous: Boolean!
@@ -69,7 +71,9 @@ type Reply @model @auth(rules: [{ allow: public, operations: [create, read, upda
 
 type ThoughtLike @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
   thoughtID: ID! @primaryKey(sortKeyFields: ["userID"])
+  thought: Thought! @belongsTo(fields: ["thoughtID"])
   userID: ID!
+  user: User! @belongsTo(fields: ["userID"])
 }
 
 type CommentLike @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
