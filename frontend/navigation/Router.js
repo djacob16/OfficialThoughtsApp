@@ -22,6 +22,7 @@ import Search from "../screens/Search";
 import NewThoughtModal from "../modals/NewThoughtModal";
 import ConnectSpotify from "../modals/ConnectSpotify";
 import Activity from "../screens/Activity";
+import onCreateThoughtLike from "../subscriptions/subscribeToNewLike";
 
 
 const Stack = createNativeStackNavigator();
@@ -41,6 +42,7 @@ const Router = () => {
     useEffect(() => {
         onThought(dispatch)
         // onEditThought(dispatch)
+        onCreateThoughtLike(dispatch)
         onRemoveThought(dispatch)
         onUpdateUser(dispatch)
         dispatch(getOneUser())

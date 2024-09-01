@@ -33,6 +33,10 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      commentLikes {
+        nextToken
+        __typename
+      }
       comments {
         nextToken
         __typename
@@ -69,6 +73,10 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      commentLikes {
+        nextToken
+        __typename
+      }
       comments {
         nextToken
         __typename
@@ -102,6 +110,10 @@ export const deleteUser = /* GraphQL */ `
         __typename
       }
       thoughtLikes {
+        nextToken
+        __typename
+      }
+      commentLikes {
         nextToken
         __typename
       }
@@ -459,6 +471,10 @@ export const createComment = /* GraphQL */ `
       }
       content
       likes
+      commentLikes {
+        nextToken
+        __typename
+      }
       anonymous
       replies {
         nextToken
@@ -513,6 +529,10 @@ export const updateComment = /* GraphQL */ `
       }
       content
       likes
+      commentLikes {
+        nextToken
+        __typename
+      }
       anonymous
       replies {
         nextToken
@@ -567,6 +587,10 @@ export const deleteComment = /* GraphQL */ `
       }
       content
       likes
+      commentLikes {
+        nextToken
+        __typename
+      }
       anonymous
       replies {
         nextToken
@@ -751,6 +775,7 @@ export const createThoughtLike = /* GraphQL */ `
         updatedAt
         __typename
       }
+      originalAuthorID
       createdAt
       updatedAt
       userThoughtLikesId
@@ -798,6 +823,7 @@ export const updateThoughtLike = /* GraphQL */ `
         updatedAt
         __typename
       }
+      originalAuthorID
       createdAt
       updatedAt
       userThoughtLikesId
@@ -845,6 +871,7 @@ export const deleteThoughtLike = /* GraphQL */ `
         updatedAt
         __typename
       }
+      originalAuthorID
       createdAt
       updatedAt
       userThoughtLikesId
@@ -860,9 +887,37 @@ export const createCommentLike = /* GraphQL */ `
   ) {
     createCommentLike(input: $input, condition: $condition) {
       commentID
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
+      originalAuthorID
       createdAt
       updatedAt
+      userCommentLikesId
+      commentCommentLikesId
       __typename
     }
   }
@@ -874,9 +929,37 @@ export const updateCommentLike = /* GraphQL */ `
   ) {
     updateCommentLike(input: $input, condition: $condition) {
       commentID
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
+      originalAuthorID
       createdAt
       updatedAt
+      userCommentLikesId
+      commentCommentLikesId
       __typename
     }
   }
@@ -888,9 +971,37 @@ export const deleteCommentLike = /* GraphQL */ `
   ) {
     deleteCommentLike(input: $input, condition: $condition) {
       commentID
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
+      originalAuthorID
       createdAt
       updatedAt
+      userCommentLikesId
+      commentCommentLikesId
       __typename
     }
   }

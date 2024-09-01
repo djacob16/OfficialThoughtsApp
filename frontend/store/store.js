@@ -5,6 +5,7 @@ import getInactiveThoughtsSlice from '../slices/getInactiveThoughts';
 import getNearbyThoughtsSlice from '../slices/getNearbyThoughts';
 import getNearbyCommentsSlice from '../slices/getNearbyComments';
 import getNearbyRepliesSlice from '../slices/getNearbyReplies';
+import getNotificationsSlice from '../slices/getNotifications';
 
 export const store = configureStore({
     reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
         getNearbyThoughtsSlice: getNearbyThoughtsSlice,
         getNearbyCommentsSlice: getNearbyCommentsSlice,
         getNearbyRepliesSlice: getNearbyRepliesSlice,
+        getNotificationsSlice: getNotificationsSlice,
     },
 });

@@ -40,7 +40,9 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 20,
         paddingLeft: 20,
-        fontWeight: "500"
+        fontWeight: "500",
+        paddingTop: 30,
+        paddingBottom: 10
     }
 })
 

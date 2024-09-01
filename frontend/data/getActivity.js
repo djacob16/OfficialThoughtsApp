@@ -2,60 +2,88 @@ import { listThoughtLikes } from "../src/graphql/queries";
 import { listNearbyThoughtsWithAuthor } from "../utils/customQueries";
 import { generateClient } from "aws-amplify/api";
 import { getCurrentUser } from "@aws-amplify/auth";
-import { listThoughtLikesWithUser, listCommentsWithAuthor } from "../utils/customQueries";
-
-// try {
-//     const response = await client.graphql({
-//         query: listNearbyThoughtsWithAuthor,
-//         variables: {
-//             filter: {
-//                 authorID: { eq: userId },
-//                 and: {
-//                     active: { eq: true }
-//                 },
-//             }
-//         }
-//     });
-//     const thoughtsList = response.data.listThoughts.items;
-//     const sortedThoughts = thoughtsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-//     // console.log("active thoughts")
-//     return sortedThoughts;
-// } catch (error) {
-//     console.log(error);
-// }
+import { listThoughtLikesWithUser, listCommentsWithAuthor, listCommentLikesWithUser } from "../utils/customQueries";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getLikesForThought = async (thoughtId) => {
-    const { userId } = await getCurrentUser();
     const client = generateClient();
     try {
-        const likes = (await client.graphql({
+        let lastUpdatedTime = await AsyncStorage.getItem("lastUpdated");
+        if (!lastUpdatedTime) {
+            lastUpdatedTime = new Date(0).toISOString();
+        } else {
+            lastUpdatedTime = new Date(parseInt(lastUpdatedTime)).toISOString();
+        }
+
+        const thoughtLikes = (await client.graphql({
             query: listThoughtLikesWithUser,
             variables: {
                 filter: {
+                    createdAt: { gt: lastUpdatedTime },
                     thoughtID: { eq: thoughtId }
                 }
             }
-        })).data.listThoughtLikes.items
-        console.log(likes)
-        return likes
+        })).data.listThoughtLikes.items;
+        console.log("THOUGH LIKESSSSS: ", thoughtLikes)
+        return thoughtLikes;
+
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
+
     }
-}
+};
+
 
 export const getCommentsForThought = async (thoughtId) => {
     const client = generateClient();
     try {
+        let lastUpdatedTime = await AsyncStorage.getItem("lastUpdated");
+        if (!lastUpdatedTime) {
+            lastUpdatedTime = new Date(0).toISOString();
+        } else {
+            lastUpdatedTime = new Date(parseInt(lastUpdatedTime)).toISOString();
+        }
+        console.log("Last updated time: ", lastUpdatedTime);
+
         const comments = (await client.graphql({
             query: listCommentsWithAuthor,
             variables: {
                 filter: {
+                    createdAt: { gt: lastUpdatedTime },
                     thoughtCommentsId: { eq: thoughtId }
                 }
             }
-        })).data.listComments.items
-        return comments
+        })).data.listComments.items;
+        console.log("Fetched comments: ", comments);
+        return comments;
+
     } catch (error) {
-        console.log(error.message)
+        console.error("Error fetching comments:", error);
+        return [];
     }
-}
+};
+
+// export const getLikesForComment = async (commentId) => {
+//     const client = generateClient();
+//     let lastUpdatedTime = await AsyncStorage.getItem("lastUpdated");
+//     if (!lastUpdatedTime) {
+//         lastUpdatedTime = new Date(0).toISOString();
+//     } else {
+//         lastUpdatedTime = new Date(parseInt(lastUpdatedTime)).toISOString();
+//     }
+//     try {
+//         const commentLikes = (await client.graphql({
+//             query: listCommentLikesWithUser,
+//             variables: {
+//                 filter: {
+//                     createdAt: { gt: lastUpdatedTime },
+//                     commentID: { eq: commentId }
+//                 }
+//             }
+//         }))
+//     } catch (error) {
+//         console.log(error.message)
+//     } finally {
+//         await AsyncStorage.setItem("lastUpdated", Date.now().toString());
+//     }
+// }

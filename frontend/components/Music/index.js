@@ -249,8 +249,11 @@ const Music = ({ setTrack }) => {
         }
     }
     async function getTrendingTracks(accessToken) {
+        // American classics: 1hMWKgzWvIi5VZ8kOdIduH
+        // Top 50: 37i9dQZF1DXcBWIGoYBM5M
+        // 2000s pop: 6j4w1woXd7xzGCNQoKrpY9
         try {
-            const response = await fetch(`https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M/tracks`, {
+            const response = await fetch(`https://api.spotify.com/v1/playlists/6j4w1woXd7xzGCNQoKrpY9/tracks`, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }

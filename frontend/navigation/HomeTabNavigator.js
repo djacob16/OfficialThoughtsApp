@@ -14,6 +14,7 @@ import searchIcon from "../assets/search.png"
 import searchIconFocused from "../assets/searchFocused.png"
 import activityIcon from "../assets/activityIcon.png"
 import Activity from "../screens/Activity";
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator()
 

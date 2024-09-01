@@ -41,7 +41,7 @@ const CommentForum = () => {
     const [inputHeight, setInputHeight] = useState("auto");
     const [content, setContent] = useState("");
     const [parent, setParent] = useState(thought);
-    console.log(parent)
+    console.log("PARRENT: ", parent)
     const inputRef = useRef(null)
 
     const [sound, setSound] = useState(null);
@@ -97,9 +97,9 @@ const CommentForum = () => {
         isPlayingRef.current = isPlaying;
         trackRef.current = track;
         console.log(
-            "loop"
+            "check if looping"
         )
-    }, [sound, isPlaying, track]);
+    }, []);
 
     const playSound = useCallback(async () => {
         if (trackRef.current && trackRef.current.preview_url) {
@@ -155,7 +155,7 @@ const CommentForum = () => {
         if (track && track.preview_url) {
             playSound();
         }
-    }, [track, playSound]);
+    }, [track]);
 
     useFocusEffect(
         useCallback(() => {

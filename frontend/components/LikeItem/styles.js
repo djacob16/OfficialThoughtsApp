@@ -16,14 +16,12 @@ const styles = StyleSheet.create({
     profileContainer: {
         width: "11%",
         alignItems: "center",
-        // borderWidth: 1,
-        // borderColor: "blue"
     },
     midContainer: {
         width: "72%",
         // borderWidth: 1,
         // borderColor: "red",
-        paddingRight: 5,
+        paddingRight: 10,
         justifyContent: "center"
     },
     likedText: {
@@ -49,7 +47,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
     date: {
-        fontSize: 11,
+        fontSize: 12,
         color: Colors.grayFont,
         marginTop: 20
     }

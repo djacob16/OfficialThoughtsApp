@@ -18,6 +18,10 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      commentLikes {
+        nextToken
+        __typename
+      }
       comments {
         nextToken
         __typename
@@ -51,6 +55,10 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      commentLikes {
+        nextToken
+        __typename
+      }
       comments {
         nextToken
         __typename
@@ -81,6 +89,10 @@ export const onDeleteUser = /* GraphQL */ `
         __typename
       }
       thoughtLikes {
+        nextToken
+        __typename
+      }
+      commentLikes {
         nextToken
         __typename
       }
@@ -414,6 +426,10 @@ export const onCreateComment = /* GraphQL */ `
       }
       content
       likes
+      commentLikes {
+        nextToken
+        __typename
+      }
       anonymous
       replies {
         nextToken
@@ -465,6 +481,10 @@ export const onUpdateComment = /* GraphQL */ `
       }
       content
       likes
+      commentLikes {
+        nextToken
+        __typename
+      }
       anonymous
       replies {
         nextToken
@@ -516,6 +536,10 @@ export const onDeleteComment = /* GraphQL */ `
       }
       content
       likes
+      commentLikes {
+        nextToken
+        __typename
+      }
       anonymous
       replies {
         nextToken
@@ -690,6 +714,7 @@ export const onCreateThoughtLike = /* GraphQL */ `
         updatedAt
         __typename
       }
+      originalAuthorID
       createdAt
       updatedAt
       userThoughtLikesId
@@ -736,6 +761,7 @@ export const onUpdateThoughtLike = /* GraphQL */ `
         updatedAt
         __typename
       }
+      originalAuthorID
       createdAt
       updatedAt
       userThoughtLikesId
@@ -782,6 +808,7 @@ export const onDeleteThoughtLike = /* GraphQL */ `
         updatedAt
         __typename
       }
+      originalAuthorID
       createdAt
       updatedAt
       userThoughtLikesId
@@ -796,9 +823,37 @@ export const onCreateCommentLike = /* GraphQL */ `
   ) {
     onCreateCommentLike(filter: $filter) {
       commentID
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
+      originalAuthorID
       createdAt
       updatedAt
+      userCommentLikesId
+      commentCommentLikesId
       __typename
     }
   }
@@ -809,9 +864,37 @@ export const onUpdateCommentLike = /* GraphQL */ `
   ) {
     onUpdateCommentLike(filter: $filter) {
       commentID
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
+      originalAuthorID
       createdAt
       updatedAt
+      userCommentLikesId
+      commentCommentLikesId
       __typename
     }
   }
@@ -822,9 +905,37 @@ export const onDeleteCommentLike = /* GraphQL */ `
   ) {
     onDeleteCommentLike(filter: $filter) {
       commentID
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
+      originalAuthorID
       createdAt
       updatedAt
+      userCommentLikesId
+      commentCommentLikesId
       __typename
     }
   }

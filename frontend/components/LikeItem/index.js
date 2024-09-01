@@ -7,7 +7,7 @@ import logo from "../../assets/icon.png";
 import { refreshAccessToken } from "../../data/exchangeCodeForToken";
 import formatDate from "../../data/formatDate";
 
-const LikeItem = ({ item }) => {
+const LikeItem = ({ item, newNotif }) => {
     const [trackPic, setTrackPic] = useState("")
     const [spotifyAuth, setSpotifyAuth] = useState(true)
     const [loadingPic, setLoadingPic] = useState(false)
@@ -55,7 +55,7 @@ const LikeItem = ({ item }) => {
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
-                <FastImage source={{ uri: item?.user?.photo }} style={{ width: 40, height: 40, borderRadius: 20 }} />
+                <FastImage source={{ uri: item?.user?.photo }} style={{ width: 35, height: 35, borderRadius: 20 }} />
             </View>
             <View style={styles.midContainer}>
                 {item?.thought?.likes > 2 ? (
@@ -76,7 +76,7 @@ const LikeItem = ({ item }) => {
                         }
                     </Text>
                 )}
-                <Text style={styles.date}>{formatDate(item.createdAt)} ago</Text>
+                <Text style={styles.date}>{formatDate(item.createdAt)} ago {newNotif && <Text style={{ color: "yellow" }}>new</Text>}</Text>
             </View>
             <View style={styles.optionalPhotoContainer}>
                 {item?.thought?.music && trackPic ? (

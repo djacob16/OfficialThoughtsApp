@@ -153,9 +153,54 @@ export const listThoughtLikesWithUser = /* GraphQL */ `
           photo
           displayName
         }
+        originalAuthorID
         createdAt
         updatedAt
         userThoughtLikesId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+export const listCommentLikesWithUser = /* GraphQL */ `
+  query ListCommentLikes(
+    $commentID: ID
+    $userID: ModelIDKeyConditionInput
+    $filter: ModelCommentLikeFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listCommentLikes(
+      commentID: $commentID
+      userID: $userID
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        commentID
+        comment {
+          id
+          content
+          thought {
+            id
+          }
+          likes
+        }
+        userID
+        user {
+          id
+          photo
+          displayName
+        }
+        originalAuthorID
+        createdAt
+        updatedAt
         __typename
       }
       nextToken

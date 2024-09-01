@@ -18,6 +18,10 @@ export const getUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      commentLikes {
+        nextToken
+        __typename
+      }
       comments {
         nextToken
         __typename
@@ -268,6 +272,10 @@ export const getComment = /* GraphQL */ `
       }
       content
       likes
+      commentLikes {
+        nextToken
+        __typename
+      }
       anonymous
       replies {
         nextToken
@@ -406,6 +414,7 @@ export const getThoughtLike = /* GraphQL */ `
         updatedAt
         __typename
       }
+      originalAuthorID
       createdAt
       updatedAt
       userThoughtLikesId
@@ -434,6 +443,7 @@ export const listThoughtLikes = /* GraphQL */ `
       items {
         thoughtID
         userID
+        originalAuthorID
         createdAt
         updatedAt
         userThoughtLikesId
@@ -449,9 +459,37 @@ export const getCommentLike = /* GraphQL */ `
   query GetCommentLike($commentID: ID!, $userID: ID!) {
     getCommentLike(commentID: $commentID, userID: $userID) {
       commentID
+      comment {
+        id
+        authorID
+        content
+        likes
+        anonymous
+        createdAt
+        updatedAt
+        userCommentsId
+        thoughtCommentsId
+        __typename
+      }
       userID
+      user {
+        id
+        photo
+        name
+        displayName
+        about
+        totalThoughts
+        darkmode
+        reactions
+        createdAt
+        updatedAt
+        __typename
+      }
+      originalAuthorID
       createdAt
       updatedAt
+      userCommentLikesId
+      commentCommentLikesId
       __typename
     }
   }
@@ -476,8 +514,11 @@ export const listCommentLikes = /* GraphQL */ `
       items {
         commentID
         userID
+        originalAuthorID
         createdAt
         updatedAt
+        userCommentLikesId
+        commentCommentLikesId
         __typename
       }
       nextToken

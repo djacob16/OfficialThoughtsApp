@@ -10,6 +10,7 @@ type User @model @auth(rules: [{ allow: public, operations: [create, read, updat
   totalThoughts: Int!
   thoughts: [Thought] @hasMany
   thoughtLikes: [ThoughtLike] @hasMany
+  commentLikes: [CommentLike] @hasMany
   comments: [Comment] @hasMany
   replies: [Reply] @hasMany
   darkmode: Boolean
@@ -55,6 +56,7 @@ type Comment @model @auth(rules: [{ allow: public, operations: [create, read, up
   thought: Thought! @belongsTo
   content: String!
   likes: Int!
+  commentLikes: [CommentLike] @hasMany
   anonymous: Boolean!
   replies: [Reply] @hasMany
 }
@@ -74,11 +76,15 @@ type ThoughtLike @model @auth(rules: [{ allow: public, operations: [create, read
   thought: Thought! @belongsTo(fields: ["thoughtID"])
   userID: ID!
   user: User! @belongsTo(fields: ["userID"])
+  originalAuthorID: String!
 }
 
 type CommentLike @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
   commentID: ID! @primaryKey(sortKeyFields: ["userID"])
+  comment: Comment! @belongsTo(fields: ["commentID"])
   userID: ID!
+  user: User! @belongsTo(fields: ["userID"])
+  originalAuthorID: String!
 }
 
 type ReplyLike @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){

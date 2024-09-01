@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { Text, View, Image, TouchableOpacity, Animated, Dimensions, ScrollView } from "react-native";
 import styles from "./styles";
 import getActivity from "../../data/getActivity";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import LogoHeader from "../../components/LogoHeader";
 import { getLikesForThought, getCommentsForThought } from "../../data/getActivity";
 import LikeItem from "../../components/LikeItem";
+import { getNotifications } from "../../slices/getNotifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CommentItem from "../../components/CommentItem";
 
 const Activity = () => {
     // navigator
@@ -14,13 +17,58 @@ const Activity = () => {
     const [titleId, setTitleId] = useState("1");
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const borderColorAnim = useRef(new Animated.Value(0)).current;
-
     // activity
     const [allActivity, setAllActivity] = useState([]);
     const [todayActivity, setTodayActivity] = useState([]);
     const [yesterdayActivity, setYesterdayActivity] = useState([]);
     const [lastWeekActivity, setLastWeekActivity] = useState([]);
+    // dispatch
+    const dispatch = useDispatch()
+    const { notifications, loading } = useSelector((state) => state.getNotificationsSlice);
+    const [newNotifs, setNewNotifs] = useState([])
+    const [oldNotifs, setOldNotifs] = useState([])
+    // timestamps
+    const TODAY = new Date().toISOString().split('T')[0];
+    const YESTERDAY = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
+    const ONE_WEEK_AGO = new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().split('T')[0];
+    const isToday = (dateString) => dateString.startsWith(TODAY);
+    const isYesterday = (dateString) => dateString.startsWith(YESTERDAY);
+    const isLastWeek = (dateString) => {
+        return dateString >= ONE_WEEK_AGO && dateString < YESTERDAY;
+    };
+    console.log(TODAY)
 
+    // for init
+    useEffect(() => {
+        dispatch(getNotifications());
+    }, [])
+
+    // updated 
+    useEffect(() => {
+        const updateNotifications = async () => {
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            const sevenDaysAgoISO = sevenDaysAgo.toISOString();
+
+            setNewNotifs(notifications);
+
+            let storedNotifications = await AsyncStorage.getItem("storedNotifications")
+            console.log("storedNotifications: ", storedNotifications)
+            if (storedNotifications) {
+                console.log("getting here")
+                storedNotifications = JSON.parse(storedNotifications);
+                const validNotifications = storedNotifications.filter(
+                    notification => notification.createdAt >= sevenDaysAgoISO
+                );
+                setOldNotifs(storedNotifications)
+                const updatedNotifications = [...notifications, ...validNotifications];
+                await AsyncStorage.setItem("storedNotifications", JSON.stringify(updatedNotifications))
+            } else {
+                await AsyncStorage.setItem("storedNotifications", JSON.stringify(notifications))
+            }
+        }
+        updateNotifications()
+    }, [notifications])
 
     // Navigator and animations
     const titleIdFunc = (id, title) => {
@@ -46,82 +94,15 @@ const Activity = () => {
         ]
     };
     const activityCategories = [
-        {
-            id: "1",
-            title: "Notifications"
-        },
-        {
-            id: "2",
-            title: "Your replies"
-        },
-        {
-            id: "3",
-            title: "Requests"
-        }
+        { id: "1", title: "Notifications" },
+        { id: "2", title: "Your replies" },
+        { id: "3", title: "Requests" }
     ];
 
-    const { activeThoughts } = useSelector((state) => state.getActiveThoughtsSlice);
-    const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice);
-
-    // load data
     useEffect(() => {
-        const combinedThoughts = [...activeThoughts, ...inactiveThoughts];
+        console.log("NOTIFICATOJNSSSS:", notifications);
+    }, [loading]);
 
-        const fetchAllActivity = async () => {
-            const activityLikes = await Promise.all(
-                combinedThoughts.map(async (thought) => {
-                    const likes = await getLikesForThought(thought.id);
-                    return likes
-                })
-            );
-
-            const activityComments = await Promise.all(
-                combinedThoughts.map(async (thought) => {
-                    const comments = await getCommentsForThought(thought.id)
-                    return comments
-                })
-            )
-
-            const combinedActivity = [...activityLikes.flat(), ...activityComments.flat()];
-            const sortedActivity = combinedActivity.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-
-            const now = new Date();
-            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const yesterdayStart = new Date(todayStart);
-            yesterdayStart.setDate(yesterdayStart.getDate() - 1);
-            const lastWeekStart = new Date(todayStart);
-            lastWeekStart.setDate(lastWeekStart.getDate() - 7);
-
-            const todayTime = todayStart.getTime();
-            const yesterdayTime = yesterdayStart.getTime();
-            const lastWeekTime = lastWeekStart.getTime();
-
-            const groupedActivity = {
-                today: [],
-                yesterday: [],
-                lastWeek: []
-            };
-
-            for (const activity of sortedActivity) {
-                const activityTime = new Date(activity.createdAt).getTime();
-
-                if (activityTime >= todayTime) {
-                    groupedActivity.today.push(activity);
-                } else if (activityTime >= yesterdayTime) {
-                    groupedActivity.yesterday.push(activity);
-                } else if (activityTime >= lastWeekTime) {
-                    groupedActivity.lastWeek.push(activity);
-                } else {
-                    break; // Activities are sorted, so we can stop once we're past last week
-                }
-            }
-
-            setTodayActivity(groupedActivity.today);
-            setYesterdayActivity(groupedActivity.yesterday);
-            setLastWeekActivity(groupedActivity.lastWeek);
-        }
-        fetchAllActivity()
-    }, [activeThoughts, inactiveThoughts])
 
     return (
         <View style={styles.container}>
@@ -140,48 +121,122 @@ const Activity = () => {
                     </TouchableOpacity>
                 ))}
             </View>
-            {title == "Notifications" &&
-                <ScrollView style={{ paddingTop: 20 }}>
-                    <Text style={styles.timeHeader}>Today</Text>
-                    {todayActivity.map((item, index) => {
-                        if (item.__typename === "ThoughtLike") {
-                            return (
-                                <View key={index} style={{ flexDirection: "column", gap: 25 }}>
-                                    <LikeItem item={item} />
-                                </View>
-                            )
-                        } if (item.__typename === "Comment") {
-                            return <Text key={index}>Comments</Text>;
-                        } if (item.__typename === "Reply") {
-                            return <Text key={index}>Replies</Text>;
-                        }
-                    })}
-                    <Text style={styles.timeHeader}>Yesterday</Text>
-                    {yesterdayActivity.map((item, index) => {
-                        if (item.__typename === "ThoughtLike") {
-                            return (
-                                <LikeItem item={item} key={index} />
-                            )
-                        } if (item.__typename === "Comment") {
-                            return <Text key={index}>Comments</Text>;
-                        } if (item.__typename === "Reply") {
-                            return <Text key={index}>Replies</Text>;
-                        }
-                    })}
-                    <Text style={styles.timeHeader}>This last week</Text>
-                    {lastWeekActivity.map((item, index) => {
-                        if (item.__typename === "ThoughtLike") {
-                            return (
-                                <LikeItem item={item} key={index} />
-                            )
-                        } if (item.__typename === "Comment") {
-                            return <Text key={index}>Comments</Text>;
-                        } if (item.__typename === "Reply") {
-                            return <Text key={index}>Replies</Text>;
-                        }
-                    })}
-                </ScrollView>
-            }
+            <View>
+                {title == "Notifications" &&
+                    <ScrollView>
+                        <Text style={styles.timeHeader}>Today</Text>
+                        {loading === "succeeded" && newNotifs.filter((notif) => isToday(notif.createdAt)).map((item, index) => {
+                            if (item.__typename === "ThoughtLike") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <LikeItem item={item} newNotif={true} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Comment" && isToday(item.createdAt)) {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <CommentItem item={item} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Reply" && isToday(item.createdAt)) {
+                                return <Text key={index}>Replies</Text>;
+                            }
+                        })}
+                        {loading === "succeeded" && oldNotifs.filter((notif) => isToday(notif.createdAt)).map((item, index) => {
+                            if (item.__typename === "ThoughtLike" && isToday(item.createdAt)) {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <LikeItem item={item} new={false} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Comment" && isToday(item.createdAt)) {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <CommentItem item={item} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Reply" && isToday(item.createdAt)) {
+                                return <Text key={index}>Replies</Text>;
+                            }
+                        })}
+
+
+                        <Text style={styles.timeHeader}>Yesterday</Text>
+                        {loading === "succeeded" && newNotifs.filter((notif) => isYesterday(notif.createdAt)).map((item, index) => {
+                            if (item.__typename === "ThoughtLike") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <LikeItem item={item} new={true} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Comment") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <CommentItem item={item} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Reply") {
+                                return <Text key={index}>Replies</Text>;
+                            }
+                        })}
+                        {loading === "succeeded" && oldNotifs.filter((notif) => isYesterday(notif.createdAt)).map((item, index) => {
+                            if (item.__typename === "ThoughtLike") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <LikeItem item={item} new={false} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Comment") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <CommentItem item={item} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Reply") {
+                                return <Text key={index}>Replies</Text>;
+                            }
+                        })}
+
+
+                        <Text style={styles.timeHeader}>This last week</Text>
+                        {loading === "succeeded" && newNotifs.filter((notif) => isLastWeek(notif.createdAt)).map((item, index) => {
+                            if (item.__typename === "ThoughtLike") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <LikeItem item={item} new={false} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Comment") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <CommentItem item={item} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Reply") {
+                                return <Text key={index}>Replies</Text>;
+                            }
+                        })}
+                        {loading === "succeeded" && oldNotifs.filter((notif) => isLastWeek(notif.createdAt)).map((item, index) => {
+                            if (item.__typename === "ThoughtLike") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <LikeItem item={item} new={false} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Comment") {
+                                return (
+                                    <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                                        <CommentItem item={item} />
+                                    </View>
+                                )
+                            } if (item.__typename === "Reply") {
+                                return <Text key={index}>Replies</Text>;
+                            }
+                        })}
+                        <View style={{ height: 100 }}></View>
+                    </ScrollView>
+                }
+            </View>
             {title == "Your replies" &&
                 <View>
                     <Text>Replies here</Text>
