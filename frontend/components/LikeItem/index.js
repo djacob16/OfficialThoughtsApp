@@ -58,16 +58,9 @@ const LikeItem = ({ item, newNotif }) => {
                 <FastImage source={{ uri: item?.user?.photo }} style={{ width: 35, height: 35, borderRadius: 20 }} />
             </View>
             <View style={styles.midContainer}>
-                {item?.thought?.likes > 2 ? (
-                    <Text style={styles.likedText}>
-                        <Text style={styles.likedTextBold}>{item?.user?.displayName}</Text> and {item?.thought?.likes - 1} others liked your thought
-                    </Text>
-                ) : (
-                    <Text style={styles.likedText}>
-                        <Text style={styles.likedTextBold}>{item?.user?.displayName}</Text> liked your thought
-
-                    </Text>
-                )}
+                <Text style={styles.likedText}>
+                    <Text style={styles.likedTextBold}>{item?.user?.displayName}</Text> liked your thought
+                </Text>
                 {item?.thought?.content && (
                     <Text style={styles.contentText}>
                         {item.thought.content.length > 50
@@ -84,7 +77,7 @@ const LikeItem = ({ item, newNotif }) => {
                 ) : item?.thought?.photo ? (
                     <Image source={{ uri: item?.thought?.photo }} style={{ width: 50, height: 50, borderRadius: 8 }} />
                 ) : (
-                    <Image source={logo} style={{ width: 50, height: 50, borderRadius: 8 }} />
+                    <></>
                 )}
             </View>
         </View>

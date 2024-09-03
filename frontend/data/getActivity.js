@@ -9,10 +9,16 @@ export const getLikesForThought = async (thoughtId) => {
     const client = generateClient();
     try {
         let lastUpdatedTime = await AsyncStorage.getItem("lastUpdated");
+        console.log("lastUpdatedTime: ", lastUpdatedTime)
+
         if (!lastUpdatedTime) {
+            // Use the Unix epoch time if no lastUpdatedTime is found
             lastUpdatedTime = new Date(0).toISOString();
+            console.log("DEFAULT DATE:", lastUpdatedTime);
         } else {
-            lastUpdatedTime = new Date(parseInt(lastUpdatedTime)).toISOString();
+            // Ensure lastUpdatedTime is a valid date
+            lastUpdatedTime = new Date(Number(lastUpdatedTime)).toISOString();
+            console.log("NEW DATE:", lastUpdatedTime);
         }
 
         const thoughtLikes = (await client.graphql({
@@ -24,26 +30,28 @@ export const getLikesForThought = async (thoughtId) => {
                 }
             }
         })).data.listThoughtLikes.items;
-        console.log("THOUGH LIKESSSSS: ", thoughtLikes)
         return thoughtLikes;
 
     } catch (error) {
-        console.log(error.message);
-
+        console.error("Error fetching likes:", error);
+        return [];
     }
 };
-
 
 export const getCommentsForThought = async (thoughtId) => {
     const client = generateClient();
     try {
         let lastUpdatedTime = await AsyncStorage.getItem("lastUpdated");
+
         if (!lastUpdatedTime) {
+            // Use the Unix epoch time if no lastUpdatedTime is found
             lastUpdatedTime = new Date(0).toISOString();
+            console.log("DEFAULT DATE:", lastUpdatedTime);
         } else {
-            lastUpdatedTime = new Date(parseInt(lastUpdatedTime)).toISOString();
+            // Ensure lastUpdatedTime is a valid date
+            lastUpdatedTime = new Date(Number(lastUpdatedTime)).toISOString();
+            console.log("NEW DATE:", lastUpdatedTime);
         }
-        console.log("Last updated time: ", lastUpdatedTime);
 
         const comments = (await client.graphql({
             query: listCommentsWithAuthor,
@@ -54,7 +62,6 @@ export const getCommentsForThought = async (thoughtId) => {
                 }
             }
         })).data.listComments.items;
-        console.log("Fetched comments: ", comments);
         return comments;
 
     } catch (error) {
@@ -62,6 +69,8 @@ export const getCommentsForThought = async (thoughtId) => {
         return [];
     }
 };
+
+
 
 // export const getLikesForComment = async (commentId) => {
 //     const client = generateClient();

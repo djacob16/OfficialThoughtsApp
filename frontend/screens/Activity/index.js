@@ -9,6 +9,8 @@ import LikeItem from "../../components/LikeItem";
 import { getNotifications } from "../../slices/getNotifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CommentItem from "../../components/CommentItem";
+import { getActiveThoughts } from "../../slices/getActiveThoughts";
+import { getInactiveThoughts } from "../../slices/getInactiveThoughts";
 
 const Activity = () => {
     // navigator
@@ -36,12 +38,33 @@ const Activity = () => {
     const isLastWeek = (dateString) => {
         return dateString >= ONE_WEEK_AGO && dateString < YESTERDAY;
     };
-    console.log(TODAY)
 
-    // for init
     useEffect(() => {
-        dispatch(getNotifications());
-    }, [])
+        const fetchData = async () => {
+            try {
+                // Wait for both active and inactive thoughts to be fetched
+                await Promise.all([
+                    dispatch(getActiveThoughts()).unwrap(),
+                    dispatch(getInactiveThoughts()).unwrap(),
+                    console.log("done")
+                ]);
+
+                // Once both are done, dispatch getNotifications
+                dispatch(getNotifications());
+            } catch (error) {
+                console.error("Error fetching thoughts or notifications:", error);
+            }
+        };
+
+        fetchData();
+    }, [dispatch]);
+
+    useEffect(() => {
+        console.log("Notifications from Redux:", notifications);
+        console.log("Loading state:", loading);
+    }, [notifications, loading]);
+
+
 
     // updated 
     useEffect(() => {
@@ -55,7 +78,6 @@ const Activity = () => {
             let storedNotifications = await AsyncStorage.getItem("storedNotifications")
             console.log("storedNotifications: ", storedNotifications)
             if (storedNotifications) {
-                console.log("getting here")
                 storedNotifications = JSON.parse(storedNotifications);
                 const validNotifications = storedNotifications.filter(
                     notification => notification.createdAt >= sevenDaysAgoISO
@@ -100,8 +122,9 @@ const Activity = () => {
     ];
 
     useEffect(() => {
-        console.log("NOTIFICATOJNSSSS:", notifications);
-    }, [loading]);
+        console.log("Notifications from Redux:", notifications);
+        console.log("Loading state:", loading);
+    }, [notifications, loading]);
 
 
     return (
@@ -132,13 +155,13 @@ const Activity = () => {
                                         <LikeItem item={item} newNotif={true} />
                                     </View>
                                 )
-                            } if (item.__typename === "Comment" && isToday(item.createdAt)) {
+                            } if (item.__typename === "Comment") {
                                 return (
                                     <View key={index} style={{ flexDirection: "column", gap: 25 }}>
                                         <CommentItem item={item} />
                                     </View>
                                 )
-                            } if (item.__typename === "Reply" && isToday(item.createdAt)) {
+                            } if (item.__typename === "Reply") {
                                 return <Text key={index}>Replies</Text>;
                             }
                         })}
@@ -149,13 +172,13 @@ const Activity = () => {
                                         <LikeItem item={item} new={false} />
                                     </View>
                                 )
-                            } if (item.__typename === "Comment" && isToday(item.createdAt)) {
+                            } if (item.__typename === "Comment") {
                                 return (
                                     <View key={index} style={{ flexDirection: "column", gap: 25 }}>
                                         <CommentItem item={item} />
                                     </View>
                                 )
-                            } if (item.__typename === "Reply" && isToday(item.createdAt)) {
+                            } if (item.__typename === "Reply") {
                                 return <Text key={index}>Replies</Text>;
                             }
                         })}

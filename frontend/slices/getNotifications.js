@@ -10,6 +10,7 @@ export const getNotifications = createAsyncThunk(
             const { activeThoughts } = getState().getActiveThoughtsSlice;
             const { inactiveThoughts } = getState().getInactiveThoughtsSlice;
             const combinedThoughts = [...activeThoughts, ...inactiveThoughts];
+            console.log('Combined thoughts: ', combinedThoughts)
 
             const activityLikes = await Promise.all(
                 combinedThoughts.map(async (thought) => {
@@ -21,11 +22,9 @@ export const getNotifications = createAsyncThunk(
             const activityComments = await Promise.all(
                 combinedThoughts.map(async (thought) => {
                     const comments = await getCommentsForThought(thought.id);
-                    console.log(comments)
                     return comments;
                 })
             )
-            console.log("Comments: ", activityComments)
             const combinedActivity = [...activityLikes, ...activityComments].flat();
             const sortedActivity = combinedActivity.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             await AsyncStorage.setItem("lastUpdated", Date.now().toString());

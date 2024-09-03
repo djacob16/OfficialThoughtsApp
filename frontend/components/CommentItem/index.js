@@ -29,9 +29,9 @@ const CommentItem = ({ item }) => {
                 )}
                 <Text style={styles.date}>{formatDate(item.createdAt)} ago</Text>
             </View>
-            <View style={styles.optionalPhotoContainer}>
+            {/* <View style={styles.optionalPhotoContainer}>
                 <Image source={logo} style={{ width: 50, height: 50, borderRadius: 8 }} />
-            </View>
+            </View> */}
         </View>
     );
 };

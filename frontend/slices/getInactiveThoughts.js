@@ -21,6 +21,7 @@ export const getInactiveThoughts = createAsyncThunk("data/getInactiveThoughts", 
         });
         const thoughtsList = response.data.listThoughts.items;
         const sortedThoughts = thoughtsList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        console.log("inactive thoughts dispatched")
         return sortedThoughts;
     } catch (error) {
         console.log(error)

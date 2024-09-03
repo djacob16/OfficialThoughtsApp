@@ -23,6 +23,9 @@ import NewThoughtModal from "../modals/NewThoughtModal";
 import ConnectSpotify from "../modals/ConnectSpotify";
 import Activity from "../screens/Activity";
 import onCreateThoughtLike from "../subscriptions/subscribeToNewLike";
+import { getNotifications } from "../slices/getNotifications";
+import { getActiveThoughts } from "../slices/getActiveThoughts";
+import { getInactiveThoughts } from "../slices/getInactiveThoughts";
 
 
 const Stack = createNativeStackNavigator();
@@ -46,6 +49,7 @@ const Router = () => {
         onRemoveThought(dispatch)
         onUpdateUser(dispatch)
         dispatch(getOneUser())
+        // dispatch(getNotifications())
     }, [dispatch])
 
     return (
