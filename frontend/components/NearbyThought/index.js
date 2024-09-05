@@ -256,19 +256,21 @@ const NearbyThought = ({ thought }) => {
                                     </>
                                 }
                             </>
+                        ) : thought.music ? (
+
+                            <TouchableOpacity style={styles.trackContainerHighlighted} onPress={() => navigation.navigate("ConnectSpotify")}>
+                                <View style={styles.albumImageContianer}>
+                                    <View style={{ width: 55, height: 55, borderRadius: 5, backgroundColor: Colors.lightGray, justifyContent: "center", alignItems: "center" }}>
+                                        <Image source={spotifyLogo} style={{ width: 25, height: 25, opacity: 0.5 }} />
+                                    </View>
+                                </View>
+                                <View style={styles.trackInfoContainer}>
+                                    <Text style={{ color: "white" }}>To expienece music on our app, connect to spotify </Text>
+                                </View>
+                            </TouchableOpacity>
+
                         ) : (
-                            <>
-                                <TouchableOpacity style={styles.trackContainerHighlighted} onPress={() => navigation.navigate("ConnectSpotify")}>
-                                    <View style={styles.albumImageContianer}>
-                                        <View style={{ width: 55, height: 55, borderRadius: 5, backgroundColor: Colors.lightGray, justifyContent: "center", alignItems: "center" }}>
-                                            <Image source={spotifyLogo} style={{ width: 25, height: 25, opacity: 0.5 }} />
-                                        </View>
-                                    </View>
-                                    <View style={styles.trackInfoContainer}>
-                                        <Text style={{ color: "white" }}>To expienece music on our app, connect to spotify </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </>
+                            <></>
                         )}
 
                         {thought.poll && (

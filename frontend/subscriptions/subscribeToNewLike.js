@@ -17,7 +17,9 @@ const onCreateThoughtLike = async (dispatch) => {
     }).subscribe({
         next: async (payload) => {
             const newLike = payload.data.onCreateThoughtLike;
-            await dispatch(getNotifications())
+            if (newLike) {
+                await dispatch(getNotifications())
+            }
             console.log("subscription worked and notifications were dispatched")
         },
         error: (error) => console.warn('Error in onCreateThoughtLike subscription:', error)

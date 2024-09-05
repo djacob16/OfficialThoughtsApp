@@ -160,29 +160,33 @@ const EditThought = () => {
                                     <Video source={{ uri: activeThought.photo }} resizeMode="contain" controls={true} style={styles.video} />
                                 }
                             </View>
-                            <View style={{ marginBottom: 20, gap: 10 }}>
-                                {optionsArray.map((option, index) => (
-                                    <View key={index} style={styles.inputContainer}>
-                                        <TextInput
-                                            placeholder={`Option ${index + 1}`}
-                                            value={option}
-                                            onChangeText={(text) => editOption(text, index)}
-                                            style={styles.inputOption}
-                                            placeholderTextColor={Colors.grayFont}
-                                        ></TextInput>
-                                        <TouchableOpacity onPress={optionsArray.length > 2 ? () => removeOption(index) : () => navigation.goBack()}>
-                                            <Image source={x} style={{ width: 20, height: 20 }} />
-                                        </TouchableOpacity>
+                            {activeThought?.poll &&
+                                <>
+                                    <View style={{ marginBottom: 20, gap: 10 }}>
+                                        {optionsArray.map((option, index) => (
+                                            <View key={index} style={styles.inputContainer}>
+                                                <TextInput
+                                                    placeholder={`Option ${index + 1}`}
+                                                    value={option}
+                                                    onChangeText={(text) => editOption(text, index)}
+                                                    style={styles.inputOption}
+                                                    placeholderTextColor={Colors.grayFont}
+                                                ></TextInput>
+                                                <TouchableOpacity onPress={optionsArray.length > 2 ? () => removeOption(index) : () => navigation.goBack()}>
+                                                    <Image source={x} style={{ width: 20, height: 20 }} />
+                                                </TouchableOpacity>
+                                            </View>
+                                        ))}
                                     </View>
-                                ))}
-                            </View>
-                            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                                {optionsArray.length < 5 &&
-                                    <TouchableOpacity style={styles.addOptionsContainer} onPress={addOption}>
-                                        <Text style={styles.addOptionText}>Add option</Text>
-                                    </TouchableOpacity>
-                                }
-                            </View>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                                        {optionsArray.length < 5 &&
+                                            <TouchableOpacity style={styles.addOptionsContainer} onPress={addOption}>
+                                                <Text style={styles.addOptionText}>Add option</Text>
+                                            </TouchableOpacity>
+                                        }
+                                    </View>
+                                </>
+                            }
                         </View>
                     </View>
                 </ScrollView>
