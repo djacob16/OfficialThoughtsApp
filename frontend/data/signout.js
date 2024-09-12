@@ -26,7 +26,9 @@ const useSignOut = () => {
             await AsyncStorage.setItem("spotiyRefreshToken", "");
             await AsyncStorage.setItem('spotifyRefreshToken', "");
             await AsyncStorage.removeItem('lastUpdated')
+            await AsyncStorage.removeItem('repliesLastUpdatedTime')
             await AsyncStorage.setItem('storedNotifications', "")
+            await AsyncStorage.setItem('storedReplies', "")
             console.log("last updated after signout:", await AsyncStorage.getItem("lastUpdated"))
             await stopLocationSubscription()
 

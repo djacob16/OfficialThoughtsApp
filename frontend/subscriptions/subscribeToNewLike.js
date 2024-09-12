@@ -1,33 +1,32 @@
 import { generateClient } from "aws-amplify/api";
 import { useDispatch } from "react-redux";
 import { getNotifications } from "../slices/getNotifications";
-import * as subscroptions from "../src/graphql/subscriptions"
-import { onCreateThoughtLikeForAuthor } from "../utils/customSubscriptions";
-import { getCurrentUser } from "@aws-amplify/auth";
+import * as subscriptions from "../src/graphql/subscriptions"; // Ensure you're importing the correct subscription query
+import { getCurrentUser } from "@aws-amplify/auth"; // Handles authentication and gets the current user's details
 
-const client = generateClient()
+const client = generateClient();
 
 const onCreateThoughtLike = async (dispatch) => {
-    const { userId } = await getCurrentUser()
-    const thoughtLikeSubscription = client.graphql({
-        query: onCreateThoughtLikeForAuthor,
-        variables: {
-            authorID: userId
-        }
-    }).subscribe({
-        next: async (payload) => {
-            const newLike = payload.data.onCreateThoughtLike;
-            if (newLike) {
-                await dispatch(getNotifications())
+    try {
+        const { userId } = await getCurrentUser();
+        const thoughtLikeSubscription = client.graphql({
+            query: subscriptions.onCreateThoughtLike,
+        }).subscribe({
+            next: async () => {
+                await dispatch(getNotifications());
+            },
+            error: (error) => {
+                console.warn("Error in onCreateThoughtLike subscription:", error);
             }
-            console.log("subscription worked and notifications were dispatched")
-        },
-        error: (error) => console.warn('Error in onCreateThoughtLike subscription:', error)
-    });
+        });
 
-    return () => {
-        thoughtLikeSubscription.unsubscribe();
-    };
-}
+        // Return a cleanup function to unsubscribe
+        return () => {
+            thoughtLikeSubscription.unsubscribe();
+        };
+    } catch (error) {
+        console.error("Error setting up the subscription:", error);
+    }
+};
 
-export default onCreateThoughtLike
+export default onCreateThoughtLike;

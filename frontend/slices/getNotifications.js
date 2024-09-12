@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { listThoughtLikesWithUser } from "../utils/customQueries";
 import { generateClient } from "aws-amplify/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getCommentsForThought, getLikesForThought } from "../data/getActivity";
+import { getCommentsForThought, getLikesForThought, getUsersReplies } from "../data/getActivity";
 
 export const getNotifications = createAsyncThunk(
     "data/notifications", async (_, { getState, rejectWithValue }) => {
@@ -25,6 +25,7 @@ export const getNotifications = createAsyncThunk(
                     return comments;
                 })
             )
+
             const combinedActivity = [...activityLikes, ...activityComments].flat();
             const sortedActivity = combinedActivity.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
             await AsyncStorage.setItem("lastUpdated", Date.now().toString());

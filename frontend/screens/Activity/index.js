@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Text, View, Image, TouchableOpacity, Animated, Dimensions, ScrollView } from "react-native";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Text, View, Image, TouchableOpacity, Animated, Dimensions, ScrollView, RefreshControl } from "react-native";
 import styles from "./styles";
 import getActivity from "../../data/getActivity";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,6 +11,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CommentItem from "../../components/CommentItem";
 import { getActiveThoughts } from "../../slices/getActiveThoughts";
 import { getInactiveThoughts } from "../../slices/getInactiveThoughts";
+import { getUsersReplies } from "../../data/getActivity";
+import onCreateThoughtLike from "../../subscriptions/subscribeToNewLike";
+import { getUserReplies } from "../../slices/getUserReplies";
+import ReplyItem from "../../components/ReplyItem";
+import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
 
 const Activity = () => {
     // navigator
@@ -26,9 +31,11 @@ const Activity = () => {
     const [lastWeekActivity, setLastWeekActivity] = useState([]);
     // dispatch
     const dispatch = useDispatch()
-    const { notifications, loading } = useSelector((state) => state.getNotificationsSlice);
+    const { notifications, loading: loadingNotifs } = useSelector((state) => state.getNotificationsSlice);
+    const { userReplies, loading: loadingReplies } = useSelector((state) => state.getUserRepliesSlice)
     const [newNotifs, setNewNotifs] = useState([])
     const [oldNotifs, setOldNotifs] = useState([])
+    const [replies, setReplies] = useState([])
     // timestamps
     const TODAY = new Date().toISOString().split('T')[0];
     const YESTERDAY = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
@@ -38,6 +45,8 @@ const Activity = () => {
     const isLastWeek = (dateString) => {
         return dateString >= ONE_WEEK_AGO && dateString < YESTERDAY;
     };
+    //refresh
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,6 +60,7 @@ const Activity = () => {
 
                 // Once both are done, dispatch getNotifications
                 dispatch(getNotifications());
+                dispatch(getUserReplies())
             } catch (error) {
                 console.error("Error fetching thoughts or notifications:", error);
             }
@@ -60,9 +70,10 @@ const Activity = () => {
     }, [dispatch]);
 
     useEffect(() => {
+        onCreateThoughtLike(dispatch)
         console.log("Notifications from Redux:", notifications);
-        console.log("Loading state:", loading);
-    }, [notifications, loading]);
+        console.log("Loading state:", loadingReplies);
+    }, [notifications, loadingReplies]);
 
 
 
@@ -89,8 +100,25 @@ const Activity = () => {
                 await AsyncStorage.setItem("storedNotifications", JSON.stringify(notifications))
             }
         }
+
+        const updateReplies = async () => {
+            let storedReplies = await AsyncStorage.getItem("storedReplies");
+            console.log("Stored replies: ", storedReplies);
+
+            if (storedReplies) {
+                storedReplies = JSON.parse(storedReplies); // Ensure it's parsed
+                setReplies([...userReplies, ...storedReplies]); // Merge replies properly
+                const updatedReplies = [...userReplies, ...storedReplies];
+                await AsyncStorage.setItem("storedReplies", JSON.stringify(updatedReplies))
+            } else {
+                await AsyncStorage.setItem("storedReplies", JSON.stringify(userReplies)); // Save new replies
+                setReplies(userReplies);
+            }
+        };
+
+        updateReplies()
         updateNotifications()
-    }, [notifications])
+    }, [notifications, userReplies])
 
     // Navigator and animations
     const titleIdFunc = (id, title) => {
@@ -123,8 +151,35 @@ const Activity = () => {
 
     useEffect(() => {
         console.log("Notifications from Redux:", notifications);
-        console.log("Loading state:", loading);
-    }, [notifications, loading]);
+        console.log("Loading state:", loadingNotifs);
+    }, [notifications, loadingNotifs]);
+
+    const onRefresh = useCallback(async (slice) => {
+        if (slice == "notifications") {
+            dispatch(getNotifications());
+        } else {
+            dispatch(getUserReplies())
+        }
+    }, []);
+
+    const renderRepliesSection = (header, filterFunc) => {
+        const filteredReplies = replies.filter(filterFunc);
+
+        if (loadingReplies === "succeeded" && filteredReplies.length > 0) {
+            return (
+                <>
+                    <Text style={styles.timeHeader}>{header}</Text>
+                    {filteredReplies.map((item, index) => (
+                        <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                            <ReplyItem item={item} />
+                        </View>
+                    ))}
+                </>
+            );
+        }
+
+        return null;
+    };
 
 
     return (
@@ -146,9 +201,35 @@ const Activity = () => {
             </View>
             <View>
                 {title == "Notifications" &&
-                    <ScrollView>
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={() => onRefresh("notifications")}
+                                tintColor="#ffffff"
+                                colors={["#1E1E1E"]}
+                            />
+                        }>
+                        {loadingNotifs === "loading" && (
+                            Array.from({ length: 6 }).map((_, index) => (
+                                <View key={index} style={styles.contentLoaderContainer}>
+                                    <ContentLoader
+                                        height={75}
+                                        speed={1}
+                                        backgroundColor={'#333'}
+                                        foregroundColor={'#211F1F'}
+                                        viewBox="0 0 380 70"
+                                    >
+                                        <Circle cx="30" cy="30" r="30" />
+                                        <Rect x="80" y="17" rx="4" ry="4" width="300" height="13" />
+                                        <Rect x="80" y="40" rx="3" ry="3" width="250" height="10" />
+                                    </ContentLoader>
+                                </View>
+                            ))
+                        )}
+                        {loadingNotifs === "failed" && <Text style={styles.errorText}>Failed to load replies, try again</Text>}
                         <Text style={styles.timeHeader}>Today</Text>
-                        {loading === "succeeded" && newNotifs.filter((notif) => isToday(notif.createdAt)).map((item, index) => {
+                        {loadingNotifs === "succeeded" && newNotifs.filter((notif) => isToday(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike") {
                                 return (
                                     <View key={index} style={{ flexDirection: "column", gap: 25 }}>
@@ -165,7 +246,7 @@ const Activity = () => {
                                 return <Text key={index}>Replies</Text>;
                             }
                         })}
-                        {loading === "succeeded" && oldNotifs.filter((notif) => isToday(notif.createdAt)).map((item, index) => {
+                        {loadingNotifs === "succeeded" && oldNotifs.filter((notif) => isToday(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike" && isToday(item.createdAt)) {
                                 return (
                                     <View key={index} style={{ flexDirection: "column", gap: 25 }}>
@@ -185,7 +266,7 @@ const Activity = () => {
 
 
                         <Text style={styles.timeHeader}>Yesterday</Text>
-                        {loading === "succeeded" && newNotifs.filter((notif) => isYesterday(notif.createdAt)).map((item, index) => {
+                        {loadingNotifs === "succeeded" && newNotifs.filter((notif) => isYesterday(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike") {
                                 return (
                                     <View key={index} style={{ flexDirection: "column", gap: 25 }}>
@@ -202,7 +283,7 @@ const Activity = () => {
                                 return <Text key={index}>Replies</Text>;
                             }
                         })}
-                        {loading === "succeeded" && oldNotifs.filter((notif) => isYesterday(notif.createdAt)).map((item, index) => {
+                        {loadingNotifs === "succeeded" && oldNotifs.filter((notif) => isYesterday(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike") {
                                 return (
                                     <View key={index} style={{ flexDirection: "column", gap: 25 }}>
@@ -222,7 +303,7 @@ const Activity = () => {
 
 
                         <Text style={styles.timeHeader}>This last week</Text>
-                        {loading === "succeeded" && newNotifs.filter((notif) => isLastWeek(notif.createdAt)).map((item, index) => {
+                        {loadingNotifs === "succeeded" && newNotifs.filter((notif) => isLastWeek(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike") {
                                 return (
                                     <View key={index} style={{ flexDirection: "column", gap: 25 }}>
@@ -239,7 +320,7 @@ const Activity = () => {
                                 return <Text key={index}>Replies</Text>;
                             }
                         })}
-                        {loading === "succeeded" && oldNotifs.filter((notif) => isLastWeek(notif.createdAt)).map((item, index) => {
+                        {loadingNotifs === "succeeded" && oldNotifs.filter((notif) => isLastWeek(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike") {
                                 return (
                                     <View key={index} style={{ flexDirection: "column", gap: 25 }}>
@@ -260,10 +341,46 @@ const Activity = () => {
                     </ScrollView>
                 }
             </View>
+
             {title == "Your replies" &&
-                <View>
-                    <Text>Replies here</Text>
-                </View>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={() => onRefresh("replies")}
+                            tintColor="#ffffff"
+                            colors={["#1E1E1E"]}
+                        />
+                    }
+                >
+                    {loadingReplies === "loading" && (
+                        Array.from({ length: 6 }).map((_, index) => (
+                            <View key={index} style={styles.contentLoaderContainer}>
+                                <ContentLoader
+                                    height={75}
+                                    speed={1}
+                                    backgroundColor={'#333'}
+                                    foregroundColor={'#211F1F'}
+                                    viewBox="0 0 380 70"
+                                >
+                                    <Circle cx="30" cy="30" r="30" />
+                                    <Rect x="80" y="17" rx="4" ry="4" width="300" height="13" />
+                                    <Rect x="80" y="40" rx="3" ry="3" width="250" height="10" />
+                                </ContentLoader>
+                            </View>
+                        ))
+                    )}
+                    {loadingReplies === "failed" && <Text style={styles.errorText}>Failed to load replies, try again</Text>}
+
+                    {renderRepliesSection("Today", (reply) => isToday(reply.createdAt))}
+                    {renderRepliesSection("Yesterday", (reply) => isYesterday(reply.createdAt))}
+                    {renderRepliesSection("Last 7 days", (reply) => isLastWeek(reply.createdAt))}
+
+                    {loadingReplies === "succeeded" && replies.length === 0 && (
+                        <Text style={styles.noRepliesText}>No replies yet! Reply to thoughts near you to see your replies listed here</Text>
+                    )}
+                    <View style={{ height: 100 }}></View>
+                </ScrollView>
             }
             {title == "Requests" &&
                 <View>

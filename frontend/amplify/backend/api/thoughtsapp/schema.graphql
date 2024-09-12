@@ -53,7 +53,7 @@ type Comment @model @auth(rules: [{ allow: public, operations: [create, read, up
   id: ID!
   authorID: ID!
   author: User! @belongsTo(fields: ["authorID"])
-  thought: Thought! @belongsTo
+  thought: Thought @belongsTo
   content: String!
   likes: Int!
   commentLikes: [CommentLike] @hasMany
@@ -65,7 +65,7 @@ type Reply @model @auth(rules: [{ allow: public, operations: [create, read, upda
   id: ID!
   authorID: ID!
   author: User! @belongsTo(fields: ["authorID"])
-  comment: Comment! @belongsTo
+  comment: Comment @belongsTo
   content: String!
   likes: Int!
   anonymous: Boolean!

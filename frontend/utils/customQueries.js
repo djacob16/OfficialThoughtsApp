@@ -41,7 +41,7 @@ export const listNearbyThoughtsWithAuthor = /* GraphQL */ `
   }
 `;
 
-
+// PURPOSE: To be able to fetch the id, photo, and displayName of the author all in one call
 export const listCommentsWithAuthor = /* GraphQL */ `
   query listCommentsWithAuthor(
     $filter: ModelCommentFilterInput
@@ -56,6 +56,13 @@ export const listCommentsWithAuthor = /* GraphQL */ `
           id
           photo
           displayName
+        }
+        thought {
+          id
+          author {
+            displayName
+            photo
+          }
         }
         content
         replies {
@@ -77,6 +84,7 @@ export const listCommentsWithAuthor = /* GraphQL */ `
   }
 `;
 
+// PURPOSE: To be able to fetch the id, photo, and displayName of the author all in one call
 export const listRepliesWithAuthor = /* GraphQL */ `
   query listRepliesWithAuthor(
     $filter: ModelReplyFilterInput
@@ -92,6 +100,13 @@ export const listRepliesWithAuthor = /* GraphQL */ `
           photo
           displayName
         }
+        comment {
+          id
+          author {
+            displayName
+            photo
+          }
+        }
         content
         likes
         anonymous
@@ -106,7 +121,7 @@ export const listRepliesWithAuthor = /* GraphQL */ `
     }
   }
 `;
-
+// PURPOSE: To be able to fetch the id, photo, and displayName of the author all in one call
 export const listThoughtLikesWithUser = /* GraphQL */ `
   query ListThoughtLikes(
     $thoughtID: ID
@@ -164,7 +179,7 @@ export const listThoughtLikesWithUser = /* GraphQL */ `
     }
   }
 `;
-
+// PURPOSE: To be able to fetch the id, photo, and displayName of the author all in one call
 export const listCommentLikesWithUser = /* GraphQL */ `
   query ListCommentLikes(
     $commentID: ID
@@ -199,6 +214,38 @@ export const listCommentLikesWithUser = /* GraphQL */ `
           displayName
         }
         originalAuthorID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+
+// PURPOSE: List users with their comments and replies
+export const listUsersWithCommentsAndReplies = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        photo
+        displayName
+        comments {
+          items {
+            content
+          }
+        }
+        replies {
+          items {
+            content
+          }
+        }
         createdAt
         updatedAt
         __typename

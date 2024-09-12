@@ -43,6 +43,23 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         paddingTop: 30,
         paddingBottom: 10
+    },
+    contentLoaderContainer: {
+        paddingHorizontal: 16,
+        marginTop: 20,
+        flex: 1,
+    },
+    errorText: {
+        textAlign: "center",
+        color: Colors.grayFont,
+        marginTop: 40,
+        fontSize: 15
+    },
+    noRepliesText: {
+        textAlign: "center",
+        color: Colors.whiteFont,
+        marginTop: 40,
+        fontSize: 15
     }
 })
 

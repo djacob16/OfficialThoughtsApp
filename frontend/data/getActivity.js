@@ -1,5 +1,5 @@
-import { listThoughtLikes } from "../src/graphql/queries";
-import { listNearbyThoughtsWithAuthor } from "../utils/customQueries";
+import { listComments, listReplies, listThoughtLikes } from "../src/graphql/queries";
+import { listUsersWithCommentsAndReplies } from "../utils/customQueries";
 import { generateClient } from "aws-amplify/api";
 import { getCurrentUser } from "@aws-amplify/auth";
 import { listThoughtLikesWithUser, listCommentsWithAuthor, listCommentLikesWithUser } from "../utils/customQueries";
@@ -96,3 +96,49 @@ export const getCommentsForThought = async (thoughtId) => {
 //         await AsyncStorage.setItem("lastUpdated", Date.now().toString());
 //     }
 // }
+
+
+// FOR REPLIES SECTION
+
+export const getUsersReplies = async () => {
+    const client = generateClient();
+    const { userId } = await getCurrentUser()
+    try {
+        let lastUpdatedTime = await AsyncStorage.getItem("lastUpdated");
+
+        if (!lastUpdatedTime) {
+            // Use the Unix epoch time if no lastUpdatedTime is found
+            lastUpdatedTime = new Date(0).toISOString();
+            console.log("DEFAULT DATE:", lastUpdatedTime);
+        } else {
+            // Ensure lastUpdatedTime is a valid date
+            lastUpdatedTime = new Date(Number(lastUpdatedTime)).toISOString();
+            console.log("NEW DATE:", lastUpdatedTime);
+        }
+
+        const comments = (await client.graphql({
+            query: listComments,
+            variables: {
+                filter: {
+                    createdAt: { gt: lastUpdatedTime },
+                    authorID: { eq: userId }
+                }
+            }
+        })).data.listComments.items
+        const replies = (await client.graphql({
+            query: listReplies,
+            variables: {
+                filter: {
+                    createdAt: { gt: lastUpdatedTime },
+                    authorID: { eq: userId }
+                },
+            }
+        })).data.listReplies.items
+
+        const response = [...comments, ...replies]
+        console.log("REPLIES: ", response)
+        return response
+    } catch (error) {
+        console.log(error)
+    }
+}

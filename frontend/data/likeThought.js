@@ -32,7 +32,9 @@ export const likeThought = async (thought, like) => {
                 variables: {
                     input: {
                         thoughtID: thought.id,
+                        thoughtThoughtLikesId: thought.id,
                         userID: userId,
+                        userThoughtLikesId: userId,
                         originalAuthorID: thought?.author?.id
                     }
                 }

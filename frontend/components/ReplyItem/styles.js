@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
         width: "100%",
         // borderWidth: 1,
         // borderColor: "white",
-        paddingVertical: 15,
+        paddingTop: 20,
+        paddingBottom: 10,
         paddingHorizontal: 16,
         flexDirection: "row",
         gap: 10,
@@ -49,7 +50,17 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 12,
         color: Colors.grayFont,
-        marginTop: 20
+        marginTop: 10
+    },
+    subText: {
+        fontSize: 13,
+        color: Colors.grayFont,
+        marginTop: -10,
+        paddingBottom: 2
+    },
+    content: {
+        paddingTop: 10,
+        color: "white"
     }
 })
 
