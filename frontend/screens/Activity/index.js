@@ -16,6 +16,7 @@ import onCreateThoughtLike from "../../subscriptions/subscribeToNewLike";
 import { getUserReplies } from "../../slices/getUserReplies";
 import ReplyItem from "../../components/ReplyItem";
 import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
+import { useNavigation } from "@react-navigation/native";
 
 const Activity = () => {
     // navigator
@@ -24,6 +25,7 @@ const Activity = () => {
     const [titleId, setTitleId] = useState("1");
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const borderColorAnim = useRef(new Animated.Value(0)).current;
+    const navigation = useNavigation()
     // activity
     const [allActivity, setAllActivity] = useState([]);
     const [todayActivity, setTodayActivity] = useState([]);
@@ -70,7 +72,7 @@ const Activity = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        onCreateThoughtLike(dispatch)
+        // onCreateThoughtLike(dispatch)
         console.log("Notifications from Redux:", notifications);
         console.log("Loading state:", loadingReplies);
     }, [notifications, loadingReplies]);
@@ -116,7 +118,7 @@ const Activity = () => {
             }
         };
 
-        updateReplies()
+        // updateReplies()
         updateNotifications()
     }, [notifications, userReplies])
 
@@ -162,22 +164,35 @@ const Activity = () => {
         }
     }, []);
 
+    const openThoughtForum = (item) => {
+        let thoughtId
+        if (item.__typename == "Comment") {
+            thoughtId = item?.thought?.id
+            navigation.navigate("ThoughtForum", { id: thoughtId })
+        } else {
+            thoughtId = item?.comment?.thought?.id
+            navigation.navigate("ThoughtForum", { id: thoughtId })
+        }
+    }
+
     const renderRepliesSection = (header, filterFunc) => {
         const filteredReplies = replies.filter(filterFunc);
-
         if (loadingReplies === "succeeded" && filteredReplies.length > 0) {
             return (
                 <>
                     <Text style={styles.timeHeader}>{header}</Text>
                     {filteredReplies.map((item, index) => (
-                        <View key={index} style={{ flexDirection: "column", gap: 25 }}>
+                        <TouchableOpacity
+                            key={index}
+                            style={{ flexDirection: "column", gap: 25 }}
+                            onPress={() => openThoughtForum(item)}
+                        >
                             <ReplyItem item={item} />
-                        </View>
+                        </TouchableOpacity>
                     ))}
                 </>
             );
         }
-
         return null;
     };
 
@@ -185,7 +200,7 @@ const Activity = () => {
     return (
         <View style={styles.container}>
             {/* <LogoHeader /> */}
-            <View style={styles.navigator}>
+            {/* <View style={styles.navigator}>
                 <Animated.View style={[styles.highlight, highlightStyle]} />
                 {activityCategories.map((data, index) => (
                     <TouchableOpacity
@@ -198,7 +213,8 @@ const Activity = () => {
                         </Text>
                     </TouchableOpacity>
                 ))}
-            </View>
+            </View> */}
+            <Text style={{ color: "white", paddingHorizontal: 16, fontSize: 24, fontWeight: "600", paddingBottom: 10, marginTop: -10 }}>Notifications</Text>
             <View>
                 {title == "Notifications" &&
                     <ScrollView
@@ -228,7 +244,7 @@ const Activity = () => {
                             ))
                         )}
                         {loadingNotifs === "failed" && <Text style={styles.errorText}>Failed to load replies, try again</Text>}
-                        <Text style={styles.timeHeader}>Today</Text>
+                        {(newNotifs.filter((notif) => isToday(notif.createdAt)).length > 0 || oldNotifs.filter((notif) => isToday(notif.createdAt)).length > 0) && loadingNotifs === "succeeded" && <Text style={styles.timeHeader}>Today</Text>}
                         {loadingNotifs === "succeeded" && newNotifs.filter((notif) => isToday(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike") {
                                 return (
@@ -265,7 +281,7 @@ const Activity = () => {
                         })}
 
 
-                        <Text style={styles.timeHeader}>Yesterday</Text>
+                        {(newNotifs.filter((notif) => isYesterday(notif.createdAt)).length > 0 || oldNotifs.filter((notif) => isYesterday(notif.createdAt)).length > 0) && loadingNotifs === "succeeded" && <Text style={styles.timeHeader}>Yesterday</Text>}
                         {loadingNotifs === "succeeded" && newNotifs.filter((notif) => isYesterday(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike") {
                                 return (
@@ -302,7 +318,7 @@ const Activity = () => {
                         })}
 
 
-                        <Text style={styles.timeHeader}>This last week</Text>
+                        {(newNotifs.filter((notif) => isLastWeek(notif.createdAt)).length > 0 || oldNotifs.filter((notif) => isLastWeek(notif.createdAt)).length > 0) && loadingNotifs === "succeeded" && <Text style={styles.timeHeader}>This last week</Text>}
                         {loadingNotifs === "succeeded" && newNotifs.filter((notif) => isLastWeek(notif.createdAt)).map((item, index) => {
                             if (item.__typename === "ThoughtLike") {
                                 return (
@@ -342,7 +358,8 @@ const Activity = () => {
                 }
             </View>
 
-            {title == "Your replies" &&
+            {
+                title == "Your replies" &&
                 <ScrollView
                     refreshControl={
                         <RefreshControl
@@ -382,12 +399,13 @@ const Activity = () => {
                     <View style={{ height: 100 }}></View>
                 </ScrollView>
             }
-            {title == "Requests" &&
+            {
+                title == "Requests" &&
                 <View>
                     <Text>Requests here</Text>
                 </View>
             }
-        </View>
+        </View >
     )
 }
 

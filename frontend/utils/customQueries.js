@@ -41,6 +41,41 @@ export const listNearbyThoughtsWithAuthor = /* GraphQL */ `
   }
 `;
 
+export const getThoughtWithDetails = /* GraphQL */ `
+  query GetThought($id: ID!) {
+    getThought(id: $id) {
+      id
+      authorID
+      author {
+        id
+        photo
+        displayName
+      }
+      content
+      photo
+      music
+      active
+      parked
+      geohash
+      likes
+      totalReplies
+      poll
+      anonymous
+      options {
+            items {
+              id
+              content
+              votes
+            }
+          }
+      createdAt
+      updatedAt
+      userThoughtsId
+      __typename
+    }
+  }
+`;
+
 // PURPOSE: To be able to fetch the id, photo, and displayName of the author all in one call
 export const listCommentsWithAuthor = /* GraphQL */ `
   query listCommentsWithAuthor(
@@ -105,6 +140,9 @@ export const listRepliesWithAuthor = /* GraphQL */ `
           author {
             displayName
             photo
+          }
+          thought {
+            id
           }
         }
         content

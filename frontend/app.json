@@ -11,6 +11,11 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": {
+      "icon": "./path/to/your/icon.png",
+      "color": "#ffffff",
+      "iosDisplayInForeground": true
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "thoughts.app.com",

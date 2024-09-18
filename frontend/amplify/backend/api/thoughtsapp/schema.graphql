@@ -103,3 +103,7 @@ type SpotifyTokenResponse {
   tokenType: String
   error: String
 }
+
+type Mutation {
+  createSnsEndpoint(deviceToken: String!): String
+}

@@ -33,24 +33,28 @@ const ThoughtForumThought = ({ thought,
     handleLike, commentCount, setParent,
     answered, setAnswered, localVoteCount,
     setLocalVoteCount, answeredOption, setAnsweredOption,
-    togglePlayPause, isPlaying, track, progress }) => {
+    togglePlayPause, isPlaying, track, progress, loadingSong, setLoadingSong }) => {
 
-    const [localLiked, setLocalLiked] = useState(liked);
-    const [localLikeCount, setlocalLikeCount] = useState(likeCount);
+    const [localLiked, setLocalLiked] = useState(false);
+    const [localLikeCount, setlocalLikeCount] = useState(0);
     const [imageLoading, setImageLoading] = useState(true);
 
 
-    const [localAnswered, setLocalAnswered] = useState(answered);
-    const [localLocalVoteCount, setLocalLocalVoteCount] = useState(localVoteCount)
-    const [localAnsweredOption, setLocalAnsweredOption] = useState(answeredOption);
+    const [localAnswered, setLocalAnswered] = useState(false);
+    const [localLocalVoteCount, setLocalLocalVoteCount] = useState(0)
+    const [localAnsweredOption, setLocalAnsweredOption] = useState("");
 
     const [spotifyAuth, setSpotifyAuth] = useState(true)
-    const [loadingSong, setLoadingSong] = useState(false)
 
     const navigation = useNavigation()
 
     useEffect(() => {
         const init = async () => {
+            setLocalAnswered(answered)
+            setLocalLocalVoteCount(localVoteCount)
+            setLocalAnsweredOption(answeredOption)
+            setLocalLiked(liked)
+            setlocalLikeCount(likeCount)
             const spotifyAuth = await AsyncStorage.getItem("spotifyAuth")
             if (spotifyAuth !== "true") {
                 setSpotifyAuth(false)
@@ -88,6 +92,10 @@ const ThoughtForumThought = ({ thought,
         setAnswered(true)
         setLocalAnswered(true)
     }
+
+    console.log("TRACK: ", track)
+    console.log("PROGRESS: ", progress)
+    console.log("IS PLAYING: ", isPlaying)
 
     console.log(thought);
     return (
@@ -147,37 +155,51 @@ const ThoughtForumThought = ({ thought,
                             <>
                                 {thought?.music && track &&
                                     <>
-                                        <TouchableOpacity style={styles.trackContainerHighlighted} onPress={togglePlayPause}>
-                                            <View style={styles.albumImageContianer}>
-                                                <Image source={{ uri: track?.album?.images[0]?.url }} resizeMode="cover" style={{ width: 55, height: 55, borderRadius: 5 }} />
-                                            </View>
-                                            <View style={styles.trackInfoContainer}>
-                                                <Text style={styles.trackTitle}>{track.name}</Text>
-                                                <Text style={styles.artistTitle}>- {track.artists.map(artist => artist.name).join(', ')}</Text>
-                                            </View>
-                                            {track.preview_url ? (
-                                                <View style={styles.playButtonContainer}>
-                                                    <DancingBars />
-                                                    <TouchableOpacity onPress={togglePlayPause}>
-                                                        <Progress.Circle
-                                                            size={20}
-                                                            progress={progress}
-                                                            color={Colors.whiteFont}
-                                                            unfilledColor={Colors.lightGray}
-                                                            thickness={2.5}
-                                                            borderWidth={0}
-                                                        />
-                                                    </TouchableOpacity>
+                                        {loadingSong ? (
+                                            <View style={styles.trackContainerHighlighted}>
+                                                <View style={styles.albumImageContianer}>
+                                                    <View style={{ width: 55, height: 55, borderRadius: 5, backgroundColor: Colors.lightGray }} />
                                                 </View>
-                                            ) : (
-                                                <View style={styles.playButtonContainer}>
-                                                    <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flex: 1, borderRadius: 50 }}>
-                                                        <Image source={spotifyLogo} style={{ width: 25, height: 25, opacity: 0.5 }} />
-                                                    </TouchableOpacity>
+                                                <View style={styles.trackInfoContainer}>
+                                                    <View style={{ width: 145, height: 15, borderRadius: 5, backgroundColor: Colors.lightGray }}></View>
+                                                    <View style={{ width: 55, height: 15, borderRadius: 5, backgroundColor: Colors.lightGray }}></View>
                                                 </View>
-                                            )}
-                                        </TouchableOpacity>
-
+                                                <View style={styles.playButtonContainer}>
+                                                    <Image source={spotifyLogo} style={{ width: 25, height: 25, opacity: 0.5 }} />
+                                                </View>
+                                            </View>
+                                        ) : (
+                                            <TouchableOpacity style={styles.trackContainerHighlighted} onPress={togglePlayPause}>
+                                                <View style={styles.albumImageContianer}>
+                                                    <Image source={{ uri: track?.album?.images[0]?.url }} resizeMode="cover" style={{ width: 55, height: 55, borderRadius: 5 }} />
+                                                </View>
+                                                <View style={styles.trackInfoContainer}>
+                                                    <Text style={styles.trackTitle}>{track.name}</Text>
+                                                    <Text style={styles.artistTitle}>- {track.artists.map(artist => artist.name).join(', ')}</Text>
+                                                </View>
+                                                {track.preview_url ? (
+                                                    <View style={styles.playButtonContainer}>
+                                                        <DancingBars />
+                                                        <TouchableOpacity onPress={togglePlayPause}>
+                                                            <Progress.Circle
+                                                                size={20}
+                                                                progress={progress}
+                                                                color={Colors.whiteFont}
+                                                                unfilledColor={Colors.lightGray}
+                                                                thickness={2.5}
+                                                                borderWidth={0}
+                                                            />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                ) : (
+                                                    <View style={styles.playButtonContainer}>
+                                                        <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flex: 1, borderRadius: 50 }}>
+                                                            <Image source={spotifyLogo} style={{ width: 25, height: 25, opacity: 0.5 }} />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                )}
+                                            </TouchableOpacity>
+                                        )}
                                     </>
                                 }
                             </>
@@ -198,9 +220,9 @@ const ThoughtForumThought = ({ thought,
                         {thought.poll && (
                             <View style={styles.optionsContainer}>
                                 {thought.options.items.map((option, index) => (
-                                    <TouchableOpacity key={index} style={localAnsweredOption == option.id ? styles.optionContainerHighlighted : styles.optionContainer} onPress={localAnswered ? () => { } : () => onVote(option, thought)}>
+                                    <TouchableOpacity key={index} style={answeredOption == option.id ? styles.optionContainerHighlighted : styles.optionContainer} onPress={answered ? () => { } : () => onVote(option, thought)}>
                                         <Text style={styles.optionText}>{option.content}</Text>
-                                        {localAnswered && <Text style={styles.optionText}>{localAnsweredOption == option.id ? localLocalVoteCount : option.votes}</Text>}
+                                        {answered && <Text style={styles.optionText}>{answeredOption == option.id ? localVoteCount : option.votes}</Text>}
                                     </TouchableOpacity>
                                 ))}
                             </View>

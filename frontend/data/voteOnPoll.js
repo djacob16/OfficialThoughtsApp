@@ -65,17 +65,21 @@ export const vote = async (thought, option) => {
 export const checkAnswered = async (thought) => {
     const { userId } = await getCurrentUser();
     try {
-        const answer = (await client.graphql({
+        const result = await client.graphql({
             query: getPollAnswers,
             variables: {
                 userID: userId,
                 thoughtID: thought.id,
             }
-        })).data.getPollAnswers
-        if (answer) {
-            return answer.optionID
+        })
+
+        const answer = result.data.getPollAnswers;
+
+        if (answer && answer.optionID) {
+            return answer.optionID;
+        } else {
+            return null;
         }
-        return null
     } catch (error) {
         console.log(error)
         return false;

@@ -42,10 +42,8 @@ export const getUserReplies = createAsyncThunk("data/userReplies", async (_, { r
 
         const response = [...comments, ...replies];
         const sortedReplies = response.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-
         console.log("repliesLastUpdatedTime: ", repliesLastUpdatedTime);
-        console.log("USER REPLIES: ", sortedReplies);
+        console.log("USER REPLIES: ", replies);
 
 
         await AsyncStorage.setItem("repliesLastUpdatedTime", Date.now().toString());

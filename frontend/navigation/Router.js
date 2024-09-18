@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeTabNavigator from "./HomeTabNavigator";
 import Signin from "../screens/Signin";
 import CommentForum from "../modals/CommentForum";
-import ThoughtForum from "../screens/ThoughtForum"
+import ThoughtForum from "../modals/ThoughtForum";
 import Signup from "../screens/Signup";
 import Verify from "../screens/Verify";
 import Profile from "../screens/Profile";
@@ -65,7 +65,7 @@ const Router = () => {
                 <Stack.Screen name={"CommentForum"} component={CommentForum} options={{ presentation: 'modal', headerShown: false }} />
                 <Stack.Screen name={"ConnectSpotify"} component={ConnectSpotify} options={{ presentation: 'modal', headerShown: false }} />
                 <Stack.Screen name={"NewThoughtModal"} component={NewThoughtModal} options={{ presentation: 'modal', headerShown: false }} />
-                <Stack.Screen name={"ThoughtForum"} component={ThoughtForum} options={{ headerShown: false }} />
+                <Stack.Screen name={"ThoughtForum"} component={ThoughtForum} options={{ presentation: 'modal', headerShown: false }} />
                 <Stack.Screen name={"Profile"} component={Profile} options={{ headerShown: false }} />
                 <Stack.Screen name={"Search"} component={Search} options={{ headerShown: false }} />
                 <Stack.Screen name={"Activity"} component={Activity} options={{ headerShown: false }} />

@@ -78,7 +78,6 @@ export const checkLiked = async (thought) => {
             variables: {
                 userID: userId,
                 thoughtID: thought.id,
-                originalAuthorID: thought?.author?.id
             }
         });
         const like = response.data.getThoughtLike;
