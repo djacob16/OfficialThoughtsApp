@@ -94,6 +94,7 @@ type ReplyLike @model @auth(rules: [{ allow: public, operations: [create, read, 
 
 type Mutation {
   exchangeSpotifyCodeForToken(code: String, refreshToken: String): SpotifyTokenResponse
+  createSnsEndpoint(deviceToken: String!): String
 }
 
 type SpotifyTokenResponse {
@@ -102,8 +103,4 @@ type SpotifyTokenResponse {
   expiresIn: Int
   tokenType: String
   error: String
-}
-
-type Mutation {
-  createSnsEndpoint(deviceToken: String!): String
 }
