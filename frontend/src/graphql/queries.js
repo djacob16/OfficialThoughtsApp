@@ -32,6 +32,7 @@ export const getUser = /* GraphQL */ `
       }
       darkmode
       reactions
+      deviceToken
       createdAt
       updatedAt
       __typename
@@ -54,6 +55,7 @@ export const listUsers = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -77,6 +79,7 @@ export const getThought = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -248,6 +251,7 @@ export const getComment = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -327,6 +331,7 @@ export const getReply = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -410,6 +415,7 @@ export const getThoughtLike = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -481,6 +487,7 @@ export const getCommentLike = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename

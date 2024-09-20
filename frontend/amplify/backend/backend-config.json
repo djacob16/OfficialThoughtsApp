@@ -49,10 +49,49 @@
     }
   },
   "function": {
+    "addSnsEndpoint": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "spotifyTokenExchange": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_addSnsEndpoint_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "addSnsEndpoint"
+        }
+      ]
+    },
+    "AMPLIFY_function_addSnsEndpoint_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "addSnsEndpoint"
+        }
+      ]
+    },
+    "AMPLIFY_function_spotifyTokenExchange_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "spotifyTokenExchange"
+        }
+      ]
+    },
+    "AMPLIFY_function_spotifyTokenExchange_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "spotifyTokenExchange"
+        }
+      ]
     }
   },
   "storage": {

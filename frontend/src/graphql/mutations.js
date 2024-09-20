@@ -13,6 +13,11 @@ export const exchangeSpotifyCodeForToken = /* GraphQL */ `
     }
   }
 `;
+export const addSnsEndpoint = /* GraphQL */ `
+  mutation AddSnsEndpoint($deviceToken: String!) {
+    addSnsEndpoint(deviceToken: $deviceToken)
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -47,6 +52,7 @@ export const createUser = /* GraphQL */ `
       }
       darkmode
       reactions
+      deviceToken
       createdAt
       updatedAt
       __typename
@@ -87,6 +93,7 @@ export const updateUser = /* GraphQL */ `
       }
       darkmode
       reactions
+      deviceToken
       createdAt
       updatedAt
       __typename
@@ -127,6 +134,7 @@ export const deleteUser = /* GraphQL */ `
       }
       darkmode
       reactions
+      deviceToken
       createdAt
       updatedAt
       __typename
@@ -150,6 +158,7 @@ export const createThought = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -200,6 +209,7 @@ export const updateThought = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -250,6 +260,7 @@ export const deleteThought = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -447,6 +458,7 @@ export const createComment = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -505,6 +517,7 @@ export const updateComment = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -563,6 +576,7 @@ export const deleteComment = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -621,6 +635,7 @@ export const createReply = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -665,6 +680,7 @@ export const updateReply = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -709,6 +725,7 @@ export const deleteReply = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -771,6 +788,7 @@ export const createThoughtLike = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -819,6 +837,7 @@ export const updateThoughtLike = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -867,6 +886,7 @@ export const deleteThoughtLike = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -909,6 +929,7 @@ export const createCommentLike = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -951,6 +972,7 @@ export const updateCommentLike = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename
@@ -993,6 +1015,7 @@ export const deleteCommentLike = /* GraphQL */ `
         totalThoughts
         darkmode
         reactions
+        deviceToken
         createdAt
         updatedAt
         __typename

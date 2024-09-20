@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { getNearbyThoughts } from "../../slices/getNearbyThoughts";
 import { getActiveThoughts } from "../../slices/getActiveThoughts";
 import { getInactiveThoughts } from "../../slices/getInactiveThoughts";
+import spotifyThumbnail from "../../assets/spotifyThumbnail.png";
 
 const ConnectSpotify = () => {
     const navigation = useNavigation();
@@ -82,12 +83,12 @@ const ConnectSpotify = () => {
             </View>
 
             <View style={styles.bodyContainer}>
-                <Image source={spotifyLogo} style={{ width: 65, height: 65 }} />
-                <Image source={art} style={styles.image} resizeMode="contain" />
-                <Text style={styles.bodyText}>Connect your Spotify account to discover and share new music with people around you!</Text>
-                <TouchableOpacity style={styles.connectButton} onPress={spotifyAuth ? () => { } : connectToSpotify}>
-                    <Text style={styles.connectButtonText}>{spotifyAuth ? "Connected" : "Connect to Spotify"}</Text>
-                </TouchableOpacity>
+                <Image source={spotifyThumbnail} style={styles.image} resizeMode="contain" />
+                <Text style={styles.titleText}>{spotifyAuth ? "Connected" : "Connect your Spotify"}</Text>
+                <Text style={styles.bodyText}>{spotifyAuth ? "If you experience any trouble with this feature, please sign out and sign back in." : "Discover and share music with people around you!"}</Text>
+                {!spotifyAuth && <TouchableOpacity style={styles.connectButton} onPress={spotifyAuth ? () => { } : connectToSpotify}>
+                    <Text style={styles.connectButtonText}>Connect to Spotify</Text>
+                </TouchableOpacity>}
             </View>
         </View>
     );

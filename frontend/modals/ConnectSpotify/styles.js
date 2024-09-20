@@ -33,8 +33,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
     },
     bodyText: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: "500",
+        marginBottom: 20,
+        color: "white",
+        textAlign: "center"
+    },
+    titleText: {
+        fontSize: 35,
+        fontWeight: "700",
         marginBottom: 20,
         color: "white",
         textAlign: "center"
@@ -55,7 +62,8 @@ const styles = StyleSheet.create({
     },
     image: {
         width: "100%",
-        height: 275
+        height: 295,
+        marginBottom: 25
     },
 })
 

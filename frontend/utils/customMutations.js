@@ -11,3 +11,9 @@ export const exchangeSpotifyCodeForToken = gql`
         }
     }
 `;
+
+export const addSnsEndpoint = gql`
+  mutation addSnsEndpoint($deviceToken: String!) {
+    addSnsEndpoint(deviceToken: $deviceToken)
+  }
+`;

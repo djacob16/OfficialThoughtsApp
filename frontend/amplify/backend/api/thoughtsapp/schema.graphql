@@ -15,6 +15,7 @@ type User @model @auth(rules: [{ allow: public, operations: [create, read, updat
   replies: [Reply] @hasMany
   darkmode: Boolean
   reactions: Int
+  deviceToken: String
 }
 
 type Thought @model @auth(rules: [{ allow: public, operations: [create, read, update, delete] }]){
@@ -94,7 +95,7 @@ type ReplyLike @model @auth(rules: [{ allow: public, operations: [create, read, 
 
 type Mutation {
   exchangeSpotifyCodeForToken(code: String, refreshToken: String): SpotifyTokenResponse
-  createSnsEndpoint(deviceToken: String!): String
+  addSnsEndpoint(deviceToken: String!): String
 }
 
 type SpotifyTokenResponse {

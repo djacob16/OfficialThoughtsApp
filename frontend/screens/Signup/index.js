@@ -6,12 +6,12 @@ import { signUp } from 'aws-amplify/auth';
 import LogoHeader from "../../components/LogoHeader";
 
 const Signup = () => {
-    const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
-    const [familyName, setFamilyName] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("hoopermaster2@gmail.com");
+    const [name, setName] = useState("j");
+    const [familyName, setFamilyName] = useState("d");
+    const [password, setPassword] = useState("test1234");
+    const [confirmPassword, setConfirmPassword] = useState("test1234");
+    const [username, setUsername] = useState("jd");
     const [error, setError] = useState(false);
     const navigation = useNavigation();
 
