@@ -6,6 +6,8 @@ import Signin from "../screens/Signin";
 import CommentForum from "../modals/CommentForum";
 import ThoughtForum from "../modals/ThoughtForum";
 import Signup from "../screens/Signup";
+import EmailScreen from "../screens/EmailScreen";
+import PasswordScreen from "../screens/PasswordScreen";
 import Verify from "../screens/Verify";
 import Profile from "../screens/Profile";
 import AllowLocation from "../screens/AllowLocation";
@@ -55,7 +57,9 @@ const Router = () => {
         <NavigationContainer linking={linking}>
             <Stack.Navigator>
                 <Stack.Screen name={"Signin"} component={Signin} options={{ headerShown: false }} />
-                <Stack.Screen name={"Signup"} component={Signup} options={{ headerShown: false }} />
+                {/* <Stack.Screen name={"Signup"} component={Signup} options={{ headerShown: false }} /> */}
+                <Stack.Screen name={"EmailScreen"} component={EmailScreen} options={{ headerShown: false }} />
+                <Stack.Screen name={"PasswordScreen"} component={PasswordScreen} options={{ headerShown: false }} />
                 <Stack.Screen name={"Verify"} component={Verify} options={{ headerShown: false }} />
                 <Stack.Screen name={"AllowLocation"} component={AllowLocation} options={{ headerShown: false }} />
                 <Stack.Screen name={"ForgotPassword"} component={ForgotPassword} options={{ headerShown: false }} />

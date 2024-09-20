@@ -139,7 +139,7 @@ const Signin = () => {
                     <Text style={styles.orText}>or</Text>
                     <View style={styles.line}></View>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate("Signup")} style={styles.createAccountContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate("EmailScreen")} style={styles.createAccountContainer}>
                     <Text style={styles.createAccountText}>Create an account</Text>
                 </TouchableOpacity>
             </Animated.View>
