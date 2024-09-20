@@ -6,8 +6,22 @@ const styles = StyleSheet.create({
         flex: 1,
         zIndex: 0,
     },
+    title: {
+        fontSize: 25,
+        color: "white",
+        fontWeight: "700",
+        paddingTop: 20,
+        paddingBottom: 20,
+    },
+    subTitle: {
+        fontSize: 15,
+        color: "white",
+        fontWeight: "400",
+        paddingBottom: 10,
+        paddingLeft: 5
+    },
     black: {
-        backgroundColor: "black"
+        backgroundColor: "black",
     },
     video: {
         zIndex: -1,
@@ -21,13 +35,10 @@ const styles = StyleSheet.create({
         fontWeight: "700",
     },
     signinContainer: {
-        position: "absolute",
-        top: 50,
-        zIndex: 20,
-        height: 1000,
+        flex: 1,
         width: "100%",
-        paddingTop: 30,
-        paddingHorizontal: 15,
+        paddingTop: 60,
+        paddingHorizontal: 20,
         borderRadius: 25,
         backgroundColor: Colors.backgroundColor,
     },
@@ -51,14 +62,16 @@ const styles = StyleSheet.create({
     inputContainer: {
         width: "100%",
         height: 55,
-        borderRadius: 10,
+        borderRadius: 22,
         borderWidth: 1,
-        borderColor: Colors.grayFont,
+        borderColor: Colors.whiteFont,
         color: Colors.whiteFont,
         marginBottom: 15,
         alignItems: "center",
-        paddingLeft: 15,
-        justifyContent: "center"
+        paddingHorizontal: 30,
+        justifyContent: "center",
+        flexDirection: "row",
+        gap: 5
     },
     inputContainerTwo: {
         width: "100%",
@@ -120,6 +133,10 @@ const styles = StyleSheet.create({
         width: 40,
         height: 33,
     },
+    icon: {
+        width: 25,
+        height: 25
+    }
 })
 
 export default styles;
