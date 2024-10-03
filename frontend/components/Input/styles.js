@@ -8,7 +8,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 1,
         paddingLeft: 10,
-        borderColor: Colors.whiteFont
+        borderColor: Colors.whiteFont,
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5
     },
     textInput: {
         height: 55,
@@ -17,8 +20,8 @@ const styles = StyleSheet.create({
     },
     confirmText: {
         fontSize: 25,
-        fontWeight: "600",
-        marginTop: 20,
+        fontWeight: "700",
+        marginTop: 30,
         color: Colors.whiteFont,
         marginBottom: 20
     },
@@ -26,7 +29,11 @@ const styles = StyleSheet.create({
         color: Colors.redFont,
         fontSize: 12,
         marginTop: 8
-    }
+    },
+    icon: {
+        width: 20,
+        height: 20
+    },
 })
 
 export default styles;

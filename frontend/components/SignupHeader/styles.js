@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 25,
-        fontWeight: "600",
+        fontWeight: "700",
         color: Colors.whiteFont
     },
     headerContainer: {

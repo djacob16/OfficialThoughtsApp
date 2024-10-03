@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import emailIcon from "../../assets/Envelope.png";
 import eyeClose from "../../assets/Eye-closed.png";
 import eyeOpen from "../../assets/eye.png"
+import { Colors } from "../../constants/colors";
 
 const Signin = () => {
     const [email, setEmail] = useState("");
@@ -87,7 +88,7 @@ const Signin = () => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.container}>
-            <Animated.View style={styles.signinContainer}>
+            <View style={styles.signinContainer}>
                 {/* <View style={styles.logoContainer}>
                         <Image source={logo} style={styles.logo} />
                         <Text style={styles.welcomeTitle}>Welcome to Thoughts</Text>
@@ -122,13 +123,14 @@ const Signin = () => {
                     </TouchableOpacity>
                 </View>
                 {error && <Text style={styles.error}>{error}</Text>}
+                <View style={{ height: 10 }}></View>
                 {loadingSignin ? (
-                    <TouchableOpacity style={styles.inputContainer}>
-                        <Text style={styles.buttonText}>Signing in...</Text>
+                    <TouchableOpacity style={styles.signinButton}>
+                        <Text style={styles.signinButtonText}>Signing in...</Text>
                     </TouchableOpacity>
                 ) : (
-                    <TouchableOpacity onPress={login} style={styles.inputContainer}>
-                        <Text style={styles.buttonText}>Sign in</Text>
+                    <TouchableOpacity onPress={login} style={styles.signinButton}>
+                        <Text style={styles.signinButtonText}>Sign in</Text>
                     </TouchableOpacity>
                 )}
                 <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.navigate("ForgotPassword")}>
@@ -140,9 +142,13 @@ const Signin = () => {
                     <View style={styles.line}></View>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate("EmailScreen")} style={styles.createAccountContainer}>
-                    <Text style={styles.createAccountText}>Create an account</Text>
+                    <Text style={styles.createAccountText}>Sign up</Text>
                 </TouchableOpacity>
-            </Animated.View>
+                <View style={styles.logoBottomContainer}>
+                    <Image source={logo} style={styles.logo} />
+                    <Text style={{ color: "white" }}>Created by a buch of 19 year olds</Text>
+                </View>
+            </View>
         </TouchableWithoutFeedback >
     );
 };

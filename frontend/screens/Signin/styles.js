@@ -73,6 +73,22 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 5
     },
+    signinButton: {
+        width: "100%",
+        height: 45,
+        borderRadius: 22,
+        borderWidth: 1,
+        marginBottom: 15,
+        alignItems: "center",
+        paddingHorizontal: 30,
+        justifyContent: "center",
+        flexDirection: "row",
+        gap: 5,
+        backgroundColor: Colors.yellowBackground
+    },
+    signinButtonText: {
+        color: 'black',
+    },
     inputContainerTwo: {
         width: "100%",
         height: 55,
@@ -89,13 +105,15 @@ const styles = StyleSheet.create({
     },
     line: {
         width: "45%",
-        borderColor: Colors.lightGray,
-        borderWidth: 1,
+        borderColor: Colors.whiteFont,
+        borderWidth: .5,
     },
     error: {
         color: Colors.redFont,
         fontSize: 12,
-        marginBottom: 8
+        marginTop: -10,
+        marginBottom: 8,
+        marginLeft: 5,
     },
     forgotPasswordContainer: {
         marginBottom: 10,
@@ -109,8 +127,8 @@ const styles = StyleSheet.create({
     },
     createAccountContainer: {
         width: "100%",
-        height: 55,
-        borderRadius: 10,
+        height: 45,
+        borderRadius: 25,
         borderWidth: 2,
         borderColor: Colors.yellowFont,
         color: Colors.whiteFont,
@@ -120,7 +138,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     createAccountText: {
-        color: Colors.yellowFont,
+        color: "white",
     },
     logoContainer: {
         width: "100%",
@@ -134,8 +152,17 @@ const styles = StyleSheet.create({
         height: 33,
     },
     icon: {
-        width: 25,
-        height: 25
+        width: 20,
+        height: 20
+    },
+    logoBottomContainer: {
+        position: 'absolute',
+        bottom: 25,
+        alignSelf: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 10
     }
 })
 

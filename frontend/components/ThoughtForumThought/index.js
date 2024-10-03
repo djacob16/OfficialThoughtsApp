@@ -147,6 +147,7 @@ const ThoughtForumThought = ({ thought,
                                         onError={(error) => console.log('Video Error:', error)}
                                         onLoadStart={() => console.log('Video Loading Started')}
                                         onBuffer={() => console.log('Video Buffering')}
+                                        muted={true}
                                     />
                                 )}
                             </>

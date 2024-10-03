@@ -26,7 +26,7 @@ const SignupHeader = ({ title }) => {
 
     return (
         <View style={styles.container}>
-            <View style={{ marginBottom: 20, justifyContent: "center" }}>
+            <View style={{ marginBottom: 30, justifyContent: "center" }}>
                 <TouchableOpacity onPress={toScreen} style={styles.backArrowContainer}>
                     <Image source={backArrow} style={styles.backArrow} />
                 </TouchableOpacity>
