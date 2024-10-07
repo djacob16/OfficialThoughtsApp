@@ -7,6 +7,7 @@ export const getUser = /* GraphQL */ `
       id
       photo
       name
+      email
       displayName
       about
       totalThoughts
@@ -50,6 +51,7 @@ export const listUsers = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -74,6 +76,7 @@ export const getThought = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -246,6 +249,7 @@ export const getComment = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -326,6 +330,7 @@ export const getReply = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -410,6 +415,7 @@ export const getThoughtLike = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -482,6 +488,7 @@ export const getCommentLike = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts

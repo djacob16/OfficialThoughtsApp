@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { Colors } from "../../constants/colors";
 
 const styles = StyleSheet.create({
-    container: {
+    nextButton: {
         marginTop: 20,
         backgroundColor: Colors.yellowBackground,
         width: "100%",

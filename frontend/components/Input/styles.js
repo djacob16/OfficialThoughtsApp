@@ -15,15 +15,17 @@ const styles = StyleSheet.create({
     },
     textInput: {
         height: 55,
-        width: "100%",
+        width: "88%",
         color: Colors.whiteFont,
+        // borderWidth: 1,
+        // borderColor: "red"
     },
     confirmText: {
         fontSize: 25,
         fontWeight: "700",
-        marginTop: 30,
+        marginTop: 20,
         color: Colors.whiteFont,
-        marginBottom: 20
+        marginBottom: 10
     },
     error: {
         color: Colors.redFont,
@@ -34,6 +36,15 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20
     },
+    usernameInputContianer: {
+        height: 55,
+        marginLeft: 5,
+        width: "74%",
+        color: Colors.whiteFont,
+    },
+    profilePicContainer: {
+        width: "10%"
+    }
 })
 
 export default styles;

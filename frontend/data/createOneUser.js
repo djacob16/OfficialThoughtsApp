@@ -3,7 +3,7 @@ import { createUser } from "../src/graphql/mutations"
 import { getCurrentUser } from "@aws-amplify/auth";
 import { fetchUserAttributes } from "@aws-amplify/auth";
 
-const createOneUser = async (username) => {
+const createOneUser = async (username, email) => {
     const { userId } = await getCurrentUser()
     const userAttributes = await fetchUserAttributes();
     const client = generateClient();
@@ -16,8 +16,9 @@ const createOneUser = async (username) => {
                         id: userId,
                         photo: "https://thoughtsapp8fd738644ed04b61a716a9444c7fe4fb83473-staging.s3.us-east-2.amazonaws.com/public/profilePictures/1724096951336-photo.jpg",
                         name: userAttributes.name + " " + userAttributes.family_name,
+                        email: email,
                         displayName: username,
-                        about: "",
+                        about: "Just your avg thinker",
                         totalThoughts: 0,
                         darkmode: true,
                     }

@@ -11,8 +11,9 @@ import { useKeyboardHeight } from "../../customHooks/keyBoardHeight";
 
 const EmailScreen = () => {
     const [email, setEmail] = useState("");
-    const [validEmail, setValidEmail] = useState(true);
+    const [validEmail, setValidEmail] = useState(false);
     const [exists, setExists] = useState(false);
+    const [emailError, setEmailError] = useState("")
     const client = generateClient();
     const keyboardHeight = useKeyboardHeight();
 
@@ -24,7 +25,7 @@ const EmailScreen = () => {
                 })).data.listUsers.items;
                 let found = false;
                 for (const user of response) {
-                    if (user.name.toLowerCase() === email) {
+                    if (user?.email?.toLowerCase() === email) {
                         found = true;
                         setExists(true);
                         break;
@@ -45,6 +46,8 @@ const EmailScreen = () => {
         const emailRegexValid = emailRegex.test(email);
         if (email.length > 0) {
             setValidEmail(emailRegexValid);
+        } else {
+            setEmailError("")
         }
     }, [email]);
 
@@ -57,14 +60,14 @@ const EmailScreen = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <View style={styles.innerContainer}>
                     <SignupHeader title={"Email"} />
-                    <Input title={"Email"} setEmail={setEmail} />
-                    <SignUpError title={"Email"} exists={exists} validEmail={validEmail} email={email} />
+                    <Input title={"Email"} setEmail={setEmail} exists={exists} validEmail={validEmail} />
+                    <SignUpError title={"Email"} emailError={emailError} />
                 </View>
             </TouchableWithoutFeedback>
 
             {/* Animate the bottom positioning of the NextButton */}
             <Animated.View style={[styles.nextButtonContainer, { bottom: keyboardHeight }]}>
-                <NextButton title={"Email"} exists={exists} validEmail={validEmail} email={email} />
+                <NextButton title={"Email"} email={email} exists={exists} validEmail={validEmail} setEmailError={setEmailError} />
             </Animated.View>
         </KeyboardAvoidingView>
     )

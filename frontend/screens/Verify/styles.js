@@ -4,33 +4,57 @@ import { Colors } from "../../constants/colors"
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 16,
-        paddingTop: 70,
         backgroundColor: Colors.backgroundColor,
+    },
+    innerContainer: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingTop: 70,
+        position: "relative"
     },
     buttonText: {
         color: Colors.whiteFont,
     },
     inputContainer: {
         width: "100%",
-        height: 55,
+        height: 75,
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: Colors.whiteFont,
         color: Colors.whiteFont,
         marginBottom: 15,
         alignItems: "center",
-        paddingLeft: 15,
-        justifyContent: "center"
+        justifyContent: "space-between",
+        flexDirection: "row",
+        paddingRight: 10
     },
     input: {
-        width: "100%",
-        height: 55,
+        width: "14%",
+        height: 70,
+        borderRadius: 16,
         color: Colors.whiteFont,
+        textAlign: "center",
+        fontSize: 20,
+        borderWidth: 2,
+        borderColor: "gray",
     },
-    resendContianer: {
-        marginTop: -10,
-        marginBottom: 15
+    subTitle: {
+        color: Colors.whiteFont,
+        textAlign: "center",
+        fontSize: 15
+    },
+    resend: {
+        color: Colors.whiteFont,
+        textAlign: "center",
+        fontSize: 15,
+        textDecorationLine: true
+    },
+    loadingContainer: {
+        position: "absolute",
+        width: 95,
+        height: 55,
+        top: 350,
+        alignSelf: "center",
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
 

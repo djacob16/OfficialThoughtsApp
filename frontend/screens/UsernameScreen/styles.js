@@ -1,15 +1,15 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "../../constants/colors"
+import { Colors } from "../../constants/colors";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: Colors.backgroundColor,
+        flex: 1,
     },
     innerContainer: {
         flex: 1,
-        paddingTop: 70,
         paddingHorizontal: 20,
+        paddingTop: 70
     },
     nextButtonContainer: {
         position: 'absolute',
@@ -19,6 +19,15 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         backgroundColor: Colors.backgroundColor,
     },
+    loadingContainer: {
+        position: "absolute",
+        width: 95,
+        height: 55,
+        top: 350,
+        alignSelf: "center",
+        justifyContent: "center",
+        alignItems: "center"
+    }
 })
 
-export default styles;
+export default styles

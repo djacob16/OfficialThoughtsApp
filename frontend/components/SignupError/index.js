@@ -1,12 +1,13 @@
 import { View, Text } from "react-native";
 import styles from "./styles";
 
-const SignupError = ({ title, exists, validEmail, email, passwordsAreTheSame }) => {
+const SignupError = ({ title, emailError, passwordError, nameError, usernameError }) => {
     return (
         <View>
-            {title === "Email" && exists && <Text style={styles.error}>Email already exists</Text>}
-            {title === "Email" && !validEmail && email.length > 0 && !exists && <Text style={styles.error}>Email is invalid</Text>}
-            {title === "Password" && !passwordsAreTheSame && <Text style={styles.error}>Passwords are not the same</Text>}
+            {title === "Email" && <Text style={styles.error}>{emailError}</Text>}
+            {title === "Password" && <Text style={styles.error}>{passwordError}</Text>}
+            {title === "Name" && <Text style={styles.error}>{nameError}</Text>}
+            {title === "Username" && <Text style={styles.error}>{usernameError}</Text>}
         </View>
     )
 }

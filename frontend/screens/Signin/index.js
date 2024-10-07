@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Animated, Easing, ActivityIndicator } from "react-native";
 import styles from "./styles";
+import { signInWithRedirect, signUp, getCurrentUser, signIn, resendSignUpCode, signOut } from "aws-amplify/auth";
 import Video from "react-native-video";
 // import bgVid from "../../assets/shortBgVid.mp4";
-import { signIn } from "@aws-amplify/auth";
 import logo from "../../assets/logo.png"
-import { getCurrentUser } from "@aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
 import emailIcon from "../../assets/Envelope.png";
 import eyeClose from "../../assets/Eye-closed.png";
 import eyeOpen from "../../assets/eye.png"
 import { Colors } from "../../constants/colors";
+import { getUserById } from "../../data/getUserById";
 
 const Signin = () => {
     const [email, setEmail] = useState("");
@@ -23,46 +23,26 @@ const Signin = () => {
     const [secureTextEntryStatus, setSecureTextEntryStatus] = useState(true)
     const [emailFocus, setEmailFocus] = useState(false)
 
-    const containerHeight = useRef(new Animated.Value(50)).current;
-
-    useEffect(() => {
-        const keyboardWillShowListener = Keyboard.addListener("keyboardWillShow", () => {
-            animateContainerHeight(50);
-        });
-        const keyboardWillHideListener = Keyboard.addListener("keyboardWillHide", () => {
-            animateContainerHeight(50);
-        });
-
-        return () => {
-            keyboardWillHideListener.remove();
-            keyboardWillShowListener.remove();
-        };
-    }, []);
-
-    const animateContainerHeight = (toValue) => {
-        Animated.timing(containerHeight, {
-            toValue,
-            duration: 200,
-            easing: Easing.out(Easing.ease),
-            useNativeDriver: false,
-        }).start();
-    };
-
     const login = async () => {
         setError("");
         setLoadingSignin(true)
         try {
             const { isSignedIn, nextStep } = await signIn({ username: email, password });
-            if (isSignedIn) {
-                navigation.navigate("Main");
-            }
-            setLoadingSignin(false)
-            setEmail("");
-            setPassword("");
             if (nextStep?.signInStep === "CONFIRM_SIGN_UP") {
                 resendSignUpCode({ username: email });
                 navigation.navigate("Verify", { email });
             }
+            const { userId } = await getCurrentUser();
+            console.log("userID: ", userId)
+            const user = await getUserById(userId);
+            if (isSignedIn && user) {
+                navigation.navigate("Main");
+            } else {
+                navigation.navigate("UsernameScreen", { email })
+            }
+            setLoadingSignin(false)
+            setEmail("");
+            setPassword("");
         } catch (err) {
             console.log(err);
             setError(err.message);
@@ -75,9 +55,13 @@ const Signin = () => {
         const checkLoggedin = async () => {
             try {
                 const { userId } = await getCurrentUser();
-                console.log("user id: ", userId);
                 if (userId) {
-                    navigation.navigate("Main");
+                    const user = await getUserById(userId);
+                    if (user) {
+                        navigation.navigate("Main");
+                    } else {
+                        await signOut();
+                    }
                 }
             } catch (err) {
                 console.log(err.message);
@@ -90,9 +74,9 @@ const Signin = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.container}>
             <View style={styles.signinContainer}>
                 {/* <View style={styles.logoContainer}>
-                        <Image source={logo} style={styles.logo} />
-                        <Text style={styles.welcomeTitle}>Welcome to Thoughts</Text>
-                    </View> */}
+                    <Image source={logo} style={styles.logo} />
+                    <Text style={styles.welcomeTitle}>Welcome to Thoughts</Text>
+                </View> */}
                 <Text style={styles.title}>Sign in</Text>
                 <Text style={styles.subTitle}>Email</Text>
                 <View style={styles.inputContainer}>
@@ -100,7 +84,7 @@ const Signin = () => {
                     <TextInput
                         autoCapitalize={"none"}
                         style={styles.input}
-                        placeholder="example123@gmail.com"
+                        placeholder="example.com"
                         onChangeText={setEmail}
                         onFocus={() => setEmailFocus(!emailFocus)}
                         value={email}

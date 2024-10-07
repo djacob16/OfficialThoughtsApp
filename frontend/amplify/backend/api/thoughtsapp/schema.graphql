@@ -5,6 +5,7 @@ type User @model @auth(rules: [{ allow: public, operations: [create, read, updat
   id: ID!
   photo: String
   name: String!
+  email: String
   displayName: String!
   about: String
   totalThoughts: Int!

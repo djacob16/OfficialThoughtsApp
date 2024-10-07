@@ -28,6 +28,9 @@ import onCreateThoughtLike from "../subscriptions/subscribeToNewLike";
 import { getNotifications } from "../slices/getNotifications";
 import { getActiveThoughts } from "../slices/getActiveThoughts";
 import { getInactiveThoughts } from "../slices/getInactiveThoughts";
+import NameScreen from "../screens/NameScreen";
+import PreVerify from "../screens/PreVerify";
+import UsernameScreen from "../screens/UsernameScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -60,7 +63,10 @@ const Router = () => {
                 {/* <Stack.Screen name={"Signup"} component={Signup} options={{ headerShown: false }} /> */}
                 <Stack.Screen name={"EmailScreen"} component={EmailScreen} options={{ headerShown: false }} />
                 <Stack.Screen name={"PasswordScreen"} component={PasswordScreen} options={{ headerShown: false }} />
+                <Stack.Screen name={"NameScreen"} component={NameScreen} options={{ headerShown: false }} />
+                <Stack.Screen name={"PreVerify"} component={PreVerify} options={{ headerShown: false }} />
                 <Stack.Screen name={"Verify"} component={Verify} options={{ headerShown: false }} />
+                <Stack.Screen name={"UsernameScreen"} component={UsernameScreen} options={{ headerShown: false }} />
                 <Stack.Screen name={"AllowLocation"} component={AllowLocation} options={{ headerShown: false }} />
                 <Stack.Screen name={"ForgotPassword"} component={ForgotPassword} options={{ headerShown: false }} />
                 <Stack.Screen name={"ResetPassword"} component={ResetPassword} options={{ headerShown: false }} />

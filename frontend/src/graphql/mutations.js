@@ -27,6 +27,7 @@ export const createUser = /* GraphQL */ `
       id
       photo
       name
+      email
       displayName
       about
       totalThoughts
@@ -68,6 +69,7 @@ export const updateUser = /* GraphQL */ `
       id
       photo
       name
+      email
       displayName
       about
       totalThoughts
@@ -109,6 +111,7 @@ export const deleteUser = /* GraphQL */ `
       id
       photo
       name
+      email
       displayName
       about
       totalThoughts
@@ -153,6 +156,7 @@ export const createThought = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -204,6 +208,7 @@ export const updateThought = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -255,6 +260,7 @@ export const deleteThought = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -453,6 +459,7 @@ export const createComment = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -512,6 +519,7 @@ export const updateComment = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -571,6 +579,7 @@ export const deleteComment = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -630,6 +639,7 @@ export const createReply = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -675,6 +685,7 @@ export const updateReply = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -720,6 +731,7 @@ export const deleteReply = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -783,6 +795,7 @@ export const createThoughtLike = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -832,6 +845,7 @@ export const updateThoughtLike = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -881,6 +895,7 @@ export const deleteThoughtLike = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -924,6 +939,7 @@ export const createCommentLike = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -967,6 +983,7 @@ export const updateCommentLike = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
@@ -1010,6 +1027,7 @@ export const deleteCommentLike = /* GraphQL */ `
         id
         photo
         name
+        email
         displayName
         about
         totalThoughts
