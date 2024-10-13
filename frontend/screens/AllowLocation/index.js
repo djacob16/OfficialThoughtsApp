@@ -8,6 +8,8 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addSnsEndpoint, updateUser } from "../../src/graphql/mutations";
 import { generateClient } from "aws-amplify/api";
+import ladyPin from "../../assets/ladyPin.png";
+import SignupHeader from "../../components/SignupHeader";
 
 const AllowLocation = () => {
     const [loading, setLoading] = useState(false)
@@ -23,20 +25,23 @@ const AllowLocation = () => {
                 PushNotificationIOS.addEventListener('register', async (token) => {
                     console.log('APNS Device Token:', token)
                     await AsyncStorage.setItem("deviceToken", token);
+                    try {
+                        await client.graphql({
+                            query: updateUser,
+                            variables: {
+                                deviceToken: token
+                            }
+                        })
 
-                    await client.graphql({
-                        query: updateUser,
-                        variables: {
-                            deviceToken: token
-                        }
-                    })
-
-                    await client.graphql({
-                        query: addSnsEndpoint,
-                        variables: {
-                            deviceToken: token
-                        }
-                    })
+                        await client.graphql({
+                            query: addSnsEndpoint,
+                            variables: {
+                                deviceToken: token
+                            }
+                        })
+                    } catch (error) {
+                        console.log("error getting location/notificatoin: ", error)
+                    }
                 });
             } else {
                 console.log('Push notification permission not granted.');
@@ -64,11 +69,13 @@ const AllowLocation = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Image source={art} style={styles.image} resizeMode="contain" />
-            <Text style={styles.text}>In order to get the most out of this app you need to allow location</Text>
-            <TouchableOpacity style={styles.locationButton} onPress={handleLocation}>
-                <Text style={styles.buttonText}>{loading ? "Getting location..." : "Allow location"}</Text>
+        <View style={styles.container} >
+            <SignupHeader title={"Permissions"} />
+            <Text style={styles.title}>Allow location & notifications</Text>
+            <Image source={ladyPin} style={styles.art} />
+            <Text style={styles.subTitle}>In order to get the most out of this app you should to allow location and notifications!</Text>
+            <TouchableOpacity style={styles.nextButton} onPress={handleLocation}>
+                <Text style={styles.next}>Continue</Text>
             </TouchableOpacity>
         </View>
     )

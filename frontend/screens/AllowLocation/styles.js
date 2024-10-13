@@ -3,32 +3,45 @@ import { Colors } from "../../constants/colors";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 250,
         backgroundColor: Colors.backgroundColor,
-        alignItems: "center",
-        paddingHorizontal: 16
+        flex: 1,
+        paddingTop: 70,
+        paddingHorizontal: 20,
     },
-    image: {
-        width: "100%",
-        height: 275
-    },
-    text: {
+    title: {
+        fontSize: 30,
+        paddingHorizontal: 30,
+        fontWeight: "700",
         color: Colors.whiteFont,
-        marginBottom: 200,
         textAlign: "center",
-        fontSize: 16
+        marginBottom: 10
     },
-    locationButton: {
-        backgroundColor: Colors.yellowFont,
-        width: "90%",
-        height: 40,
-        borderRadius: 15,
+    art: {
+        alignSelf: "center",
+        marginLeft: 30,
+        width: 300.51,
+        height: 402,
+        marginBottom: 20
+    },
+    subTitle: {
+        fontSize: 20,
+        paddingHorizontal: 10,
+        fontWeight: "400",
+        color: Colors.whiteFont,
+        textAlign: "center",
+        marginBottom: 30
+    },
+    nextButton: {
+        marginTop: 20,
+        backgroundColor: Colors.yellowBackground,
+        width: "100%",
+        borderRadius: 20,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        height: 40
     },
-    buttonText: {
-        color: "black"
+    next: {
+        fontWeight: "600"
     }
 })
 

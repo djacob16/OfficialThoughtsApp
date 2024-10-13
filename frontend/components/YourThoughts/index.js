@@ -20,7 +20,7 @@ const YourThoughts = () => {
     const { inactiveThoughts } = useSelector((state) => state.getInactiveThoughtsSlice);
 
     useEffect(() => {
-        console.log("ACTIVE THOUGHTS: ", activeThoughts)
+        console.log("ACTIVE THOUGHTS: ", activeThoughts);
     }, [activeThoughts])
 
 

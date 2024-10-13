@@ -192,6 +192,15 @@ const NewThought = ({ hash }) => {
         }
     };
 
+    const toMusic = async () => {
+        const spotifyAuth = await AsyncStorage.getItem("spotifyAuth")
+        if (spotifyAuth && spotifyAuth == "true") {
+            toNewThoughtModal("music")
+        } else {
+            navigation.navigate("ConnectSpotify")
+        }
+    }
+
     return (
         <View style={styles.container}>
             {loading &&
@@ -255,7 +264,7 @@ const NewThought = ({ hash }) => {
                     {!track && <TouchableOpacity onPress={toS3}>
                         <Image source={picIcon} style={styles.icon} />
                     </TouchableOpacity>}
-                    {!imgData && <TouchableOpacity onPress={() => toNewThoughtModal("music")}>
+                    {!imgData && <TouchableOpacity onPress={toMusic}>
                         <Image source={musicIcon} style={styles.icon} />
                     </TouchableOpacity>}
                     {!track && !imgData && <TouchableOpacity onPress={() => toNewThoughtModal("gif")}>

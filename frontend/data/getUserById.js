@@ -11,7 +11,7 @@ export const getUserById = async (userId) => {
             }
         })
         const user = response.data.getUser;
-        return !!user;
+        return user;
     } catch (error) {
         console.log("error getting user by id: ", error)
     }

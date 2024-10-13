@@ -26,9 +26,9 @@ const NewThoughtModal = () => {
                 <Text>        </Text>
             </View>
             <View style={styles.bodyContainer}>
-                {(type == "camera" || type == "media") && <Text>media</Text>}
+                {(type == "camera" || type == "media") && <Text style={{ flex: 1, alignSelf: "center", marginTop: 300, color: "white", fontSize: 20 }}>built in camera coming soon!</Text>}
                 {type == "music" && <Music setTrack={setTrack} />}
-                {type == "gif" && <Text>gif</Text>}
+                {type == "gif" && <Text style={{ flex: 1, alignSelf: "center", marginTop: 300, color: "white", fontSize: 20 }}>gifs coming soon!</Text>}
                 {type == "poll" && <Poll />}
             </View>
         </KeyboardAvoidingView>

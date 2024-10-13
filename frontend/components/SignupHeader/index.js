@@ -16,7 +16,7 @@ const SignupHeader = ({ title }) => {
     return (
         <View style={styles.container}>
             <View style={{ marginBottom: 30, justifyContent: "center" }}>
-                {title !== "Username" && <TouchableOpacity onPress={toScreen} style={styles.backArrowContainer}>
+                {title !== "Username" && title !== "Permissions" && <TouchableOpacity onPress={toScreen} style={styles.backArrowContainer}>
                     <Image source={backArrow} style={styles.backArrow} />
                 </TouchableOpacity>}
                 <View style={styles.createAccountContainer}>

@@ -254,12 +254,9 @@ const ThoughtForumThought = ({ thought,
                         <Image source={commentIcon} style={styles.icon} />
                         <Text style={styles.number}>{commentCount}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity>
                         <Image source={shareIcon} style={styles.icon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image source={threeDots} style={styles.threeDotsIcon} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
             <View style={styles.parkedDistanceContainer}>

@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     profileContainer: {
-        width: "9%"
+        width: "15%",
     },
     thoughtBody: {
-        width: "80%",
+        width: "85%",
         flexDirection: "column"
     },
     userInfo: {

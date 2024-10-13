@@ -11,10 +11,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     profileContainer: {
-        width: "9%",
+        width: "15%",
     },
     thoughtBody: {
-        width: "80%",
+        width: "85%",
         flexDirection: "column",
     },
     photo: {
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     },
     thoughtInteractions: {
         flexDirection: "row",
-        gap: 15
+        gap: 15,
+        alignItems: "center"
     },
     icon: {
         width: 22,
@@ -182,6 +183,10 @@ const styles = StyleSheet.create({
         color: Colors.redFont,
         fontSize: 10,
         fontWeight: "500"
+    },
+    threeDotsIcon: {
+        width: 17,
+        height: 4
     },
 })
 
