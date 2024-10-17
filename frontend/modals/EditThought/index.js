@@ -169,6 +169,7 @@ const EditThought = () => {
                         .filter(option => option.trim()) // Ensure no empty or whitespace-only options
                         .map(option => createNewOption(option, activeThought.id))
                 );
+                dispatch(getActiveThoughts())
             } else {
                 // Update thought if it's not a poll
                 await editOneThought(activeThought.id, content, active, parked, anonymous);
