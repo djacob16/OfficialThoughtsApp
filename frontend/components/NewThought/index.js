@@ -267,9 +267,9 @@ const NewThought = ({ hash }) => {
                     {!imgData && <TouchableOpacity onPress={toMusic}>
                         <Image source={musicIcon} style={styles.icon} />
                     </TouchableOpacity>}
-                    {!track && !imgData && <TouchableOpacity onPress={() => toNewThoughtModal("gif")}>
+                    {/* {!track && !imgData && <TouchableOpacity onPress={() => toNewThoughtModal("gif")}>
                         <Image source={giphyIcon} style={styles.icon} />
-                    </TouchableOpacity>}
+                    </TouchableOpacity>} */}
                     {!track && !imgData && <TouchableOpacity onPress={() => toNewThoughtModal("poll")}>
                         <Image source={pollIcon} style={styles.icon} />
                     </TouchableOpacity>}

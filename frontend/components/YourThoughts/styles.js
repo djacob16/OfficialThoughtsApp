@@ -4,12 +4,21 @@ import { Colors } from "../../constants/colors";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingVertical: 8,
+        paddingTop: 8,
         flexDirection: "column",
         width: "100%",
         paddingHorizontal: 8,
         paddingBottom: 100,
-        zIndex: -1
+        zIndex: -1,
+        position: "relative"
+    },
+    modalOverlay: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        alignItems: "center",
     },
     activeTitle: {
         color: Colors.whiteFont,
@@ -46,6 +55,26 @@ const styles = StyleSheet.create({
         color: Colors.grayFont,
         paddingHorizontal: 42,
         textAlign: "center"
+    },
+    optionsHeaderContainer: {
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "space-between",
+        marginBottom: 25,
+    },
+    optionsContainer: {
+        width: "100%",
+        backgroundColor: Colors.backgroundColor,
+        borderRadius: 10,
+    },
+    option: {
+        width: "100%",
+        padding: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingVertical: 18,
+        borderBottomWidth: .2,
+        borderBottomColor: Colors.grayFont
     }
 })
 

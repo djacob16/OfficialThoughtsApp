@@ -18,6 +18,7 @@ const NearYou = () => {
     useEffect(() => {
         const fetchData = async () => {
             const storedHash = await AsyncStorage.getItem('@hash');
+            console.log("USER HASH: ", storedHash)
             if (!storedHash) {
                 await getLocation();
                 const newStoredHash = await AsyncStorage.getItem('@hash');

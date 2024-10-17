@@ -34,6 +34,7 @@ const Home = () => {
     const highlightPosition = useRef(new Animated.Value(0)).current;
     const paddingTop = useRef(new Animated.Value(60)).current;
     const logoOpacity = useRef(new Animated.Value(1)).current;
+    const [scrollY, setScrollY] = useState(0);
     // app state
     const appState = useRef(AppState.currentState);
 
@@ -139,6 +140,7 @@ const Home = () => {
     // animations 
     const onScroll = (event) => {
         const scrollY = event.nativeEvent.contentOffset.y;
+        setScrollY(scrollY);
         // Fade the logo
         Animated.timing(logoOpacity, {
             toValue: scrollY > 20 ? 0 : 1,
@@ -213,7 +215,7 @@ const Home = () => {
                             <NewThought hash={hash} />
                             {!locationPermission && <Text style={{ color: "red", textAlign: "center" }}>Cannot show nearby thoughts because location was not allowed.</Text>}
                             {title === "Near You" && <NearYou />}
-                            {title === "Your Thoughts" && <YourThoughts />}
+                            {title === "Your Thoughts" && <YourThoughts scrollY={scrollY} />}
                         </>
                     )}
                     refreshControl={
@@ -222,13 +224,11 @@ const Home = () => {
                             onRefresh={onRefresh}
                             tintColor="#ffffff"
                             colors={["#1E1E1E"]}
-
-
                         />
                     }
                     keyExtractor={() => "key"}
                     onScroll={onScroll}
-                    scrollEventThrottle={5}
+                    scrollEventThrottle={2}
                 />
                 {/* <Text>{hash}</Text> */}
             </View>

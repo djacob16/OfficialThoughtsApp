@@ -43,6 +43,7 @@ const NearbyThought = ({ thought }) => {
     const [track, setTrack] = useState(null)
     const [spotifyAuth, setSpotifyAuth] = useState(true)
     const [loadingSong, setLoadingSong] = useState(false)
+    const [totalVotes, setTotalVotes] = useState(thought?.poll ? thought.options.items.reduce((sum, option) => sum + option.votes, 0) : 0)
 
     useEffect(() => {
         const init = async () => {
@@ -275,12 +276,35 @@ const NearbyThought = ({ thought }) => {
 
                         {thought.poll && (
                             <View style={styles.optionsContainer}>
-                                {thought.options.items.map((option, index) => (
-                                    <TouchableOpacity key={index} style={answeredOption == option.id ? styles.optionContainerHighlighted : styles.optionContainer} onPress={answered ? () => { } : () => onVote(option, thought)}>
-                                        <Text style={styles.optionText}>{option.content}</Text>
-                                        {answered && <Text style={styles.optionText}>{answeredOption == option.id ? localVoteCount : option.votes}</Text>}
-                                    </TouchableOpacity>
-                                ))}
+                                {thought.options.items.map((option, index) => {
+                                    const votePercentage = totalVotes > 0 ? (option.votes / totalVotes) * 100 : 0;
+
+                                    return (
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={[
+                                                styles.optionContainer,
+                                                answeredOption == option.id && styles.optionContainerHighlighted,
+                                            ]}
+                                            onPress={answered ? () => { } : () => onVote(option, thought)}
+                                        >
+                                            {/* Render the vote background only if answered */}
+                                            {answered && (
+                                                <View style={[styles.voteBackground, { width: `${votePercentage}%` }]} />
+                                            )}
+
+                                            {/* Option Text */}
+                                            <Text style={styles.optionText}>{option.content}</Text>
+
+                                            {/* Render the vote count only if answered */}
+                                            {answered && (
+                                                <Text style={styles.optionText}>
+                                                    {answeredOption == option.id ? localVoteCount : option.votes}
+                                                </Text>
+                                            )}
+                                        </TouchableOpacity>
+                                    );
+                                })}
                             </View>
                         )}
                     </View>
@@ -330,7 +354,6 @@ const NearbyThought = ({ thought }) => {
                 {thought.parked && (
                     <View style={styles.parkedDistance}>
                         <FastImage style={styles.parkedIcon} source={parkedIcon} />
-                        <Text style={styles.parkedText}>15</Text>
                     </View>
                 )}
             </View>
@@ -342,7 +365,7 @@ const NearbyThought = ({ thought }) => {
             >
                 <View style={styles.modalContainer}>
                     <TouchableOpacity onPress={closeImage} style={styles.closeButton}>
-                        <Image style={styles.closeButton} source={xmark} />
+                        <Image source={xmark} />
                     </TouchableOpacity>
                     <FastImage source={{ uri: thought.photo }} style={styles.fullScreenImage} resizeMode="contain" />
                 </View>

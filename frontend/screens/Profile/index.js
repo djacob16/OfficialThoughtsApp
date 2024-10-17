@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator, Dimensions, Animated } from "react-native";
+import { ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator, Dimensions, Animated, Modal } from "react-native";
 import styles from "./styles";
 import { useRoute } from "@react-navigation/native";
 import BackArrow from "../../components/BackArrow";
@@ -9,7 +9,6 @@ import listThoughtsByAuthor from "../../data/listThoughtsByAuthor";
 import defaultProfilePic from "../../assets/defaultprofilepic.png";
 import mappinGreen from "../../assets/mappinGreen.png";
 import verifiedIcon from "../../assets/verifiedIcon.png";
-import background from "../../assets/profileBackground.png";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import list from "../../assets/list.png"
 import listFocused from "../../assets/listFocused.png"
@@ -19,7 +18,10 @@ import NearbyThought from "../../components/NearbyThought";
 import profileAura from "../../assets/profileAura.png"
 import { useNavigation } from "@react-navigation/native";
 import backArrow from "../../assets/chevron-left.png"
+import background from "../../assets/profileBackground.png"
+import FastImage from "react-native-fast-image";
 import ContentLoader, { Circle, Rect } from 'react-content-loader/native';
+import xmark from "../../assets/xmark.png"
 
 const Profile = () => {
     const route = useRoute();
@@ -31,6 +33,7 @@ const Profile = () => {
     const [titleId, setTitleId] = useState("1");
     const windowWidth = Dimensions.get('window').width;
     const [view, setView] = useState("list");
+    const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation()
 
     const highlightPosition = useRef(new Animated.Value(0)).current;
@@ -135,10 +138,10 @@ const Profile = () => {
             <TouchableOpacity style={styles.backArrowContainer} onPress={() => navigation.goBack()}>
                 <Image source={backArrow} style={styles.backArrowIcon} />
             </TouchableOpacity>
-            <Image source={profileAura} style={styles.backgroundImage} />
-            <TouchableOpacity style={styles.profileImage}>
+            <Image source={background} style={styles.backgroundImage} />
+            <TouchableOpacity style={styles.profileImage} onPress={() => setModalVisible(true)}>
                 <Image
-                    source={{ uri: user.photo }}
+                    source={{ uri: user?.photo }}
                     style={{
                         objectFit: "cover",
                         width: 160.346,
@@ -151,13 +154,13 @@ const Profile = () => {
                 {/* <BackArrow /> */}
                 <View style={styles.verifiedContainer}>
                     <Text style={styles.name}>{user.name}</Text>
-                    <Image source={verifiedIcon} style={styles.verifiedIcon} />
+                    {/* <Image source={verifiedIcon} style={styles.verifiedIcon} /> */}
                 </View>
                 <Text style={styles.joinedText}>Joined {formatDateToMonthYear(user.createdAt)}</Text>
                 <Text style={styles.description}>Just your average thought reader</Text>
-                <TouchableOpacity style={styles.friendsContainer}>
+                {/* <TouchableOpacity style={styles.friendsContainer}>
                     <Text style={styles.friendsText}>Friends feature coming soon</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 {/* <View style={styles.profileData}>
                     <TouchableOpacity style={styles.data}>
                         <Text style={styles.number}>{user.totalThoughts}</Text>
@@ -228,6 +231,19 @@ const Profile = () => {
                     </Text>
                 )}
             </View>
+            <Modal
+                visible={modalVisible}
+                transparent={true}
+                animationType="fade"
+            // onRequestClose={closeImage}
+            >
+                <View style={styles.modalContainer}>
+                    <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+                        <Image source={xmark} />
+                    </TouchableOpacity>
+                    <Image source={{ uri: user?.photo }} style={styles.fullScreenImage} resizeMode="contain" />
+                </View>
+            </Modal>
         </ScrollView >
     );
 };

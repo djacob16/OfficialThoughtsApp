@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image, Animated, Easing, FastImage, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Animated, Easing, FastImage, Alert, Dimensions } from 'react-native';
 import styles from "./styles";
 import formatDate from "../../data/formatDate";
 import heartIcon from "../../assets/heart.png";
@@ -34,21 +34,22 @@ import SwipeActions from "../SwipeActions";
 import threeDots from "../../assets/threeDots.png"
 
 
-const YourActiveThought = ({ activeThought }) => {
+const YourActiveThought = ({ activeThought, openOptionsModal }) => {
     const navigation = useNavigation();
     const user = useSelector((state) => state.userSlice.user);
     const [animatedValue] = useState(new Animated.Value(0));
     const [likeCount, setLikeCount] = useState(activeThought.likes || 0);
     const [liked, setLiked] = useState(false);
-    const [commentCount, setCommentCount] = useState(0)
-    const dispatch = useDispatch()
-    const [userHash, setUserHash] = useState("")
+    const [commentCount, setCommentCount] = useState(0);
+    const dispatch = useDispatch();
+    const [userHash, setUserHash] = useState("");
     const [answered, setAnswered] = useState(false);
-    const [localVoteCount, setLocalVoteCount] = useState(0)
+    const [localVoteCount, setLocalVoteCount] = useState(0);
     const [answeredOption, setAnsweredOption] = useState("");
-    const [track, setTrack] = useState(null)
-    const [spotifyAuth, setSpotifyAuth] = useState(true)
-    const [loadingSong, setLoadingSong] = useState(false)
+    const [track, setTrack] = useState(null);
+    const [spotifyAuth, setSpotifyAuth] = useState(true);
+    const [loadingSong, setLoadingSong] = useState(false);
+    const [totalVotes, setTotalVotes] = useState(activeThought?.poll ? activeThought.options.items.reduce((sum, option) => sum + option.votes, 0) : 0)
 
     useEffect(() => {
         const init = async () => {
@@ -58,13 +59,13 @@ const YourActiveThought = ({ activeThought }) => {
             setLiked(isLiked);
             const answerId = await checkAnswered(activeThought);
             if (answerId) {
+                setAnsweredOption(answerId)
+                setAnswered(true)
                 for (option of activeThought.options.items) {
                     if (option.id == answerId) {
                         setLocalVoteCount(option.votes)
                     }
                 }
-                setAnsweredOption(answerId)
-                setAnswered(true)
             }
             setUserHash(await AsyncStorage.getItem('@hash'))
         }
@@ -73,10 +74,10 @@ const YourActiveThought = ({ activeThought }) => {
     }, [activeThought]);
 
     const getSong = async () => {
-        const spotifyAuth = await AsyncStorage.getItem("spotifyAuth")
+        const spotifyAuth = await AsyncStorage.getItem("spotifyAuth");
         if (spotifyAuth && spotifyAuth == "true") {
-            setSpotifyAuth(true)
-            setLoadingSong(true)
+            setSpotifyAuth(true);
+            setLoadingSong(true);
             const expiryString = await AsyncStorage.getItem('spotifyTokenExpiry');
             const expiryTime = new Date(expiryString);
             const currentTime = new Date();
@@ -308,7 +309,7 @@ const YourActiveThought = ({ activeThought }) => {
                                         </>
                                     }
                                 </>
-                            ) : activeThought.music ? (
+                            ) : activeThought?.music ? (
 
                                 <TouchableOpacity style={styles.trackContainerHighlighted} onPress={() => navigation.navigate("ConnectSpotify")}>
                                     <View style={styles.albumImageContianer}>
@@ -326,12 +327,34 @@ const YourActiveThought = ({ activeThought }) => {
                             )}
                             {activeThought.poll && (
                                 <View style={styles.optionsContainer}>
-                                    {activeThought.options.items.map((option, index) => (
-                                        <TouchableOpacity key={index} style={answeredOption == option.id ? styles.optionContainerHighlighted : styles.optionContainer} onPress={answered ? () => { } : () => onVote(option, activeThought)}>
-                                            <Text style={styles.optionText}>{option.content}</Text>
-                                            {answered && <Text style={styles.optionText}>{answeredOption == option.id ? localVoteCount : option.votes}</Text>}
-                                        </TouchableOpacity>
-                                    ))}
+                                    {activeThought?.options?.items.map((option, index) => {
+                                        const votePercentage = totalVotes > 0 ? (option.votes / totalVotes) * 100 : 0;
+
+                                        return (
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={[
+                                                    styles.optionContainer,
+                                                    answeredOption == option.id && styles.optionContainerHighlighted,
+                                                ]}
+                                                onPress={answered ? () => { } : () => onVote(option, thought)}
+                                            >
+                                                {/* Render the vote background only if answered */}
+                                                {answered && (
+                                                    <View style={[styles.voteBackground, { width: `${votePercentage}%` }]} />
+                                                )}
+
+                                                <Text style={styles.optionText}>{option.content}</Text>
+
+                                                {/* Render the vote count only if answered */}
+                                                {answered && (
+                                                    <Text style={styles.optionText}>
+                                                        {answeredOption == option.id ? localVoteCount : option.votes}
+                                                    </Text>
+                                                )}
+                                            </TouchableOpacity>
+                                        );
+                                    })}
                                 </View>
                             )}
                         </View>
@@ -359,26 +382,21 @@ const YourActiveThought = ({ activeThought }) => {
                                 <Image source={commentIcon} style={styles.icon} />
                                 <Text style={styles.number}>{commentCount}</Text>
                             </View>
-                            {activeThought.parked &&
+                            {/* {activeThought.parked &&
                                 <View style={styles.parkedDistance}>
                                     <Image style={styles.parkedIcon} source={parkedIcon} />
                                 </View>}
                             <TouchableOpacity style={styles.interactionNumber} onPress={edit}>
                                 <Image source={pencilIcon} style={styles.pencilIcon} />
-                            </TouchableOpacity>
-                            <TouchableOpacity>
+                            </TouchableOpacity> */}
+                            <TouchableOpacity onPress={() => openOptionsModal(activeThought)} style={styles.interactionNumber}>
                                 <Image source={threeDots} style={styles.threeDotsIcon} />
                             </TouchableOpacity>
                         </View>
                     </View>
-                    {/* <View style={styles.thoughtControllers}>
-                        <TouchableOpacity onPress={toggleActiveStatus}>
-                            <Image source={lightBulbFillIcon} style={styles.controllerIcons} />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={deleteFunc}>
-                            <Image source={trasIcon} style={styles.controllerIcons} />
-                        </TouchableOpacity>
-                    </View> */}
+                    <View style={styles.thoughtControllers}>
+                        {activeThought.parked && <Image style={styles.parkedIcon} source={parkedIcon} />}
+                    </View>
                 </TouchableOpacity>
             </Animated.View>
         </Swipeable>

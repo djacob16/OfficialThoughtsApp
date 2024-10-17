@@ -182,22 +182,34 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         flexDirection: "row",
         justifyContent: "space-between",
-        gap: 10
+        alignItems: "center",
+        overflow: "hidden", // This ensures the background overlay doesn't exceed the container
+        position: "relative"
     },
     optionContainerHighlighted: {
         width: "100%",
         borderWidth: 1,
         borderRadius: 12,
-        backgroundColor: Colors.sectionGrey,
         borderColor: Colors.whiteFont,
         paddingVertical: 8,
         paddingHorizontal: 16,
         flexDirection: "row",
         justifyContent: "space-between",
-        gap: 10
+        alignItems: "center",
+        overflow: "hidden", // This ensures the background overlay doesn't exceed the container
+        position: "relative"
+    },
+    voteBackground: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        zIndex: -1,
+        backgroundColor: Colors.sectionGrey, // Replace with your highlight color
     },
     optionText: {
-        color: Colors.whiteFont
+        color: Colors.whiteFont,
+        zIndex: 1, // Ensures the text appears above the background overlay
     },
     trackContainer: {
         width: "100%",

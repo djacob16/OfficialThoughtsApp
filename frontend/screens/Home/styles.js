@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        marginBottom: 10
     },
     navigator: {
         display: "flex",
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 15,
+        paddingVertical: 14,
     },
 })
 

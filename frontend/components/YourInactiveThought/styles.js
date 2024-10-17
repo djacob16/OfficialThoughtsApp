@@ -4,18 +4,19 @@ import { Colors } from "../../constants/colors";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingVertical: 8,
-        borderBottomWidth: .5,
+        paddingVertical: 15,
+        borderBottomWidth: .2,
         borderBottomColor: Colors.grayFont,
         flexDirection: "row",
         width: "100%",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        paddingHorizontal: 16,
     },
     profileContainer: {
-        width: "15%",
+        width: "12%",
     },
     thoughtBody: {
-        width: "85%",
+        width: "83%",
         flexDirection: "column"
     },
     userInfo: {
@@ -32,7 +33,8 @@ const styles = StyleSheet.create({
         fontSize: 10
     },
     thoughtContent: {
-        paddingVertical: 10
+        paddingTop: 10,
+        width: "100%"
     },
     content: {
         color: Colors.grayFont
@@ -62,8 +64,7 @@ const styles = StyleSheet.create({
     },
     thoughtInteractions: {
         flexDirection: "row",
-        marginTop: 12,
-        gap: 15
+        alignItems: "center",
     },
     icon: {
         width: 22,
@@ -71,7 +72,10 @@ const styles = StyleSheet.create({
     },
     interactionNumber: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        paddingTop: 15,
+        paddingBottom: 5,
+        paddingRight: 16
     },
     number: {
         color: Colors.grayFont,
@@ -115,22 +119,34 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         flexDirection: "row",
         justifyContent: "space-between",
-        gap: 10
+        alignItems: "center",
+        overflow: "hidden", // This ensures the background overlay doesn't exceed the container
+        position: "relative"
     },
     optionContainerHighlighted: {
         width: "100%",
         borderWidth: 1,
         borderRadius: 12,
-        backgroundColor: Colors.sectionGrey,
-        borderColor: Colors.whiteFont,
+        borderColor: Colors.grayFont,
         paddingVertical: 8,
         paddingHorizontal: 16,
         flexDirection: "row",
         justifyContent: "space-between",
-        gap: 10
+        alignItems: "center",
+        overflow: "hidden", // This ensures the background overlay doesn't exceed the container
+        position: "relative"
+    },
+    voteBackground: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        zIndex: -1,
+        backgroundColor: Colors.lightGray, // Replace with your highlight color
     },
     optionText: {
-        color: Colors.whiteFont
+        color: Colors.whiteFont,
+        zIndex: 1, // Ensures the text appears above the background overlay
     },
     trackContainer: {
         width: "100%",
@@ -152,6 +168,7 @@ const styles = StyleSheet.create({
         gap: 8,
         alignItems: "flex-start",
         paddingVertical: 10,
+        marginTop: 10,
         backgroundColor: Colors.lightGray,
     },
     albumImageContianer: {
@@ -185,6 +202,10 @@ const styles = StyleSheet.create({
         color: Colors.redFont,
         fontSize: 10,
         fontWeight: "500"
+    },
+    threeDotsIcon: {
+        width: 17,
+        height: 4
     },
 })
 

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         alignItems: "baseline",
         width: "50%",
         marginBottom: 12,
-        justifyContent: "space-between",
+        gap: 20,
         alignItems: "flex-start"
     },
     inputBottomRightContainer: {

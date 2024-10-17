@@ -43,6 +43,7 @@ const ThoughtForumThought = ({ thought,
     const [localAnswered, setLocalAnswered] = useState(false);
     const [localLocalVoteCount, setLocalLocalVoteCount] = useState(0)
     const [localAnsweredOption, setLocalAnsweredOption] = useState("");
+    const [totalVotes, setTotalVotes] = useState(thought?.poll ? thought?.options?.items.reduce((sum, option) => sum + option.votes, 0) : 0)
 
     const [spotifyAuth, setSpotifyAuth] = useState(true)
 
@@ -218,14 +219,36 @@ const ThoughtForumThought = ({ thought,
                                 </TouchableOpacity>
                             </>
                         )}
-                        {thought.poll && (
+                        {thought?.poll && (
                             <View style={styles.optionsContainer}>
-                                {thought.options.items.map((option, index) => (
-                                    <TouchableOpacity key={index} style={answeredOption == option.id ? styles.optionContainerHighlighted : styles.optionContainer} onPress={answered ? () => { } : () => onVote(option, thought)}>
-                                        <Text style={styles.optionText}>{option.content}</Text>
-                                        {answered && <Text style={styles.optionText}>{answeredOption == option.id ? localVoteCount : option.votes}</Text>}
-                                    </TouchableOpacity>
-                                ))}
+                                {thought?.options?.items.map((option, index) => {
+                                    const votePercentage = totalVotes > 0 ? (option.votes / totalVotes) * 100 : 0;
+
+                                    return (
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={[
+                                                styles.optionContainer,
+                                                answeredOption == option.id && styles.optionContainerHighlighted,
+                                            ]}
+                                            onPress={answered ? () => { } : () => onVote(option, thought)}
+                                        >
+                                            {/* Render the vote background only if answered */}
+                                            {localAnswered && (
+                                                <View style={[styles.voteBackground, { width: `${votePercentage}%` }]} />
+                                            )}
+
+                                            <Text style={styles.optionText}>{option.content}</Text>
+
+                                            {/* Render the vote count only if answered */}
+                                            {localAnswered && (
+                                                <Text style={styles.optionText}>
+                                                    {localAnsweredOption == option.id ? localLocalVoteCount : option.votes}
+                                                </Text>
+                                            )}
+                                        </TouchableOpacity>
+                                    );
+                                })}
                             </View>
                         )}
                     </View>

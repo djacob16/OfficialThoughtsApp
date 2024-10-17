@@ -59,14 +59,12 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     saveButtonContainer: {
-        flexDirection: "row",
-        alignItems: "baseline",
-        width: "100%",
-        marginTop: 5,
-        marginBottom: 75,
-        justifyContent: "flex-end",
-        alignItems: "center",
-        paddingHorizontal: 16
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        backgroundColor: Colors.backgroundColor,
     },
     icon: {
         width: 18,
@@ -97,15 +95,6 @@ const styles = StyleSheet.create({
     notAnonymous: {
         color: Colors.whiteFont
     },
-    saveButton: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 80,
-        height: 30,
-        backgroundColor: "white",
-        borderRadius: 25
-    },
     inputContainer: {
         height: 35,
         width: "100%",
@@ -121,24 +110,24 @@ const styles = StyleSheet.create({
         color: Colors.whiteFont
     },
     saveButton: {
-        display: "flex",
-        justifyContent: "center",
+        marginTop: 20,
+        backgroundColor: Colors.yellowBackground,
+        width: "100%",
+        borderRadius: 20,
         alignItems: "center",
-        width: 80,
-        height: 30,
-        backgroundColor: "white",
-        borderRadius: 25,
+        justifyContent: "center",
+        height: 40
     },
     invalidSaveButton: {
-        display: "flex",
-        justifyContent: "center",
+        marginTop: 20,
+        width: "100%",
+        borderRadius: 20,
         alignItems: "center",
-        width: 80,
-        height: 30,
+        justifyContent: "center",
+        height: 40,
         backgroundColor: Colors.sectionGrey,
         borderWidth: 1,
         borderColor: Colors.whiteFont,
-        borderRadius: 25,
     },
     saveText: {
         color: "black"
@@ -159,8 +148,60 @@ const styles = StyleSheet.create({
         color: Colors.whiteFont,
         fontSize: 14,
     },
-
-
+    trackContainer: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        gap: 8,
+        alignItems: "flex-start",
+        paddingVertical: 10
+    },
+    trackContainerHighlighted: {
+        width: "100%",
+        paddingHorizontal: 8,
+        borderRadius: 12,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        gap: 8,
+        alignItems: "flex-start",
+        paddingVertical: 10,
+        backgroundColor: Colors.sectionGrey,
+    },
+    albumImageContianer: {
+        width: "25%",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    trackInfoContainer: {
+        width: "60%",
+        gap: 5,
+    },
+    playButtonContainer: {
+        width: "10%",
+        height: 55,
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        paddingTop: 5,
+    },
+    trackTitle: {
+        color: "white",
+        fontSize: 14,
+        fontWeight: "500"
+    },
+    artistTitle: {
+        color: Colors.grayFont,
+        fontSize: 13,
+        fontWeight: "500"
+    },
+    notSupported: {
+        color: Colors.redFont,
+        fontSize: 10,
+        fontWeight: "500"
+    },
 })
 
 export default styles;
