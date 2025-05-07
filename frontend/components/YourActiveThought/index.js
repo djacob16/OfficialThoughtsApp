@@ -32,7 +32,10 @@ import { refreshAccessToken } from "../../data/exchangeCodeForToken";
 import { Swipeable } from 'react-native-gesture-handler';
 import SwipeActions from "../SwipeActions";
 import threeDots from "../../assets/threeDots.png"
-
+import ngeohash from 'ngeohash';
+import { reverseGeocode } from "../../data/reverseGeocode";
+const geolib = require('geolib');
+import { getDistance } from "../../data/getDistance";
 
 const YourActiveThought = ({ activeThought, openOptionsModal }) => {
     const navigation = useNavigation();
@@ -49,10 +52,14 @@ const YourActiveThought = ({ activeThought, openOptionsModal }) => {
     const [track, setTrack] = useState(null);
     const [spotifyAuth, setSpotifyAuth] = useState(true);
     const [loadingSong, setLoadingSong] = useState(false);
+    const [thoughtHash, setThoughtHash] = useState();
+    const [pinnedLocation, setPinnedLocation] = useState("");
+    const [pinnedDistance, setPinnedDistance] = useState(0);
     const [totalVotes, setTotalVotes] = useState(activeThought?.poll ? activeThought.options.items.reduce((sum, option) => sum + option.votes, 0) : 0)
 
     useEffect(() => {
         const init = async () => {
+            setThoughtHash(activeThought?.geohash);
             setCommentCount(activeThought.totalReplies)
             setLikeCount(activeThought.likes);
             const isLiked = await checkLiked(activeThought);
@@ -67,7 +74,10 @@ const YourActiveThought = ({ activeThought, openOptionsModal }) => {
                     }
                 }
             }
-            setUserHash(await AsyncStorage.getItem('@hash'))
+            setUserHash(await AsyncStorage.getItem('@hash'));
+            if (activeThought?.parked) {
+                setPinnedDistance(await getDistance(activeThought?.geohash))
+            }
         }
         init();
         getSong();
@@ -120,6 +130,8 @@ const YourActiveThought = ({ activeThought, openOptionsModal }) => {
     };
 
     const handleDislike = async (activeThought) => {
+        // const { latitude, longitude } = ngeohash.decode(thoughtHash);
+        // const locString = await reverseGeocode(latitude, longitude);
         setLiked(false);
         setLikeCount(prevLikeCount => prevLikeCount - 1);
         await likeThought(activeThought, false);
@@ -395,7 +407,12 @@ const YourActiveThought = ({ activeThought, openOptionsModal }) => {
                         </View>
                     </View>
                     <View style={styles.thoughtControllers}>
-                        {activeThought.parked && <Image style={styles.parkedIcon} source={parkedIcon} />}
+                        {activeThought.parked &&
+                            <View>
+                                <Image style={styles.parkedIcon} source={parkedIcon} />
+                                <Text>{pinnedDistance} meters</Text>
+                            </View>
+                        }
                     </View>
                 </TouchableOpacity>
             </Animated.View>
